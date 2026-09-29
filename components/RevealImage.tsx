@@ -29,8 +29,8 @@ export default function RevealImage(props: ImageProps) {
       style={{
         position: "absolute",
         inset: 0,
-        transform: visible ? "scale(1)" : "scale(1.12)",
-        transition: "transform 3.4s cubic-bezier(.16,1,.3,1)",
+        transform: visible ? "scale(1)" : "scale(1.08)",
+        transition: "transform 8s ease-in-out",
       }}
     >
       <Image {...props} />
