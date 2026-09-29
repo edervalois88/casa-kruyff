@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+:root {
+  --ck-ivory: #f4f0e6;
+  --ck-ink: #36281f;
+  --ck-brown-deep: #36281f;
+  --ck-brown-mid: #4e3b2f;
+  --ck-gold: #8e7125;
+  --ck-gold-soft: #7a6114;
+  --ck-gold-light: #c9a961;
+  --ck-muted: #73685f;
+  --ck-muted-2: #675c53;
+  --ck-sand: #e1d9ce;
+  --ck-sand-light: #efe9dc;
+  --ck-ivory-dim: #bfac94;
+  --font-serif: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-lato), system-ui, sans-serif;
+  --font-label: var(--font-montserrat), system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--ck-ivory);
+  color: var(--ck-ink);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--ck-ink);
+  text-decoration: none;
+}
+
+input,
+textarea,
+select {
+  font-family: var(--font-sans);
+  font-weight: 300;
+}
+
+::placeholder {
+  color: var(--ck-muted);
+}
+
+.ck-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  animation: ck-reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes ck-reveal {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ck-reveal {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.ck-hover-gold:hover {
+  color: var(--ck-gold-soft);
+}
+
+.ck-field {
+  transition: border-color 0.2s ease;
+}
+
+.ck-field:focus-visible {
+  outline: none;
+  border-bottom-color: var(--ck-gold) !important;
+  border-bottom-width: 2px !important;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--ck-gold);
+  outline-offset: 2px;
+}
