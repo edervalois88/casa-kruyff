@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useLanguage } from "@/lib/language-context";
 import { HERO_A, HERO_INTERIOR, IMG, ROOMS, langIndex } from "@/lib/site-data";
 import Reveal from "@/components/Reveal";
+import RevealImage from "@/components/RevealImage";
 
 export default function HomePage() {
   const { lang, t } = useLanguage();
@@ -13,7 +14,7 @@ export default function HomePage() {
   return (
     <>
       <section style={{ position: "relative", height: "100vh", minHeight: 640, background: "var(--ck-brown-deep)", overflow: "hidden" }}>
-        <Image src={HERO_A.src} alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
+        <RevealImage src={HERO_A.src} alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
         <div
           aria-hidden
           style={{
@@ -89,7 +90,7 @@ export default function HomePage() {
         const img = IMG[id];
         return (
           <section key={id} style={{ position: "relative", height: "88vh", minHeight: 560, background: "var(--ck-brown-mid)", marginBottom: 6, overflow: "hidden" }}>
-            <Image src={img.src} alt={[esName, enName][L]} fill sizes="100vw" style={{ objectFit: "cover" }} />
+            <RevealImage src={img.src} alt={[esName, enName][L]} fill sizes="100vw" style={{ objectFit: "cover" }} />
             <div
               aria-hidden
               style={{ position: "absolute", inset: "auto 0 0 0", height: "65%", background: "linear-gradient(180deg,rgba(20,17,16,0),rgba(20,17,16,.68))" }}
@@ -124,7 +125,7 @@ export default function HomePage() {
 
       <section style={{ background: "var(--ck-brown-deep)", color: "var(--ck-ivory)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))" }}>
         <div style={{ position: "relative", minHeight: 640 }}>
-          <Image src={HERO_INTERIOR.src} alt="" fill sizes="50vw" style={{ objectFit: "cover" }} />
+          <RevealImage src={HERO_INTERIOR.src} alt="" fill sizes="50vw" style={{ objectFit: "cover" }} />
         </div>
         <div style={{ padding: "clamp(56px,8vw,128px)", display: "flex", flexDirection: "column", justifyContent: "center", gap: 20 }}>
           <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.26em", textTransform: "uppercase", color: "var(--ck-gold-light)" }}>
