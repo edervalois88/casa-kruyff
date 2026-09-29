@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useLanguage } from "@/lib/language-context";
 import { HERO_CASA } from "@/lib/site-data";
 import Reveal from "@/components/Reveal";
+import RevealImage from "@/components/RevealImage";
 
 export default function LaCasaPage() {
   const { t } = useLanguage();
@@ -19,7 +20,7 @@ export default function LaCasaPage() {
       </section>
 
       <section style={{ position: "relative", height: "72vh", minHeight: 480, background: "var(--ck-brown-mid)", overflow: "hidden" }}>
-        <Image src={HERO_CASA.src} alt="Showroom · Lomas de Chapultepec" fill sizes="100vw" style={{ objectFit: "cover" }} />
+        <RevealImage src={HERO_CASA.src} alt="Showroom · Lomas de Chapultepec" fill sizes="100vw" style={{ objectFit: "cover" }} />
       </section>
 
       <section style={{ padding: "clamp(80px,10vw,160px) clamp(24px,5vw,88px)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "clamp(40px,5vw,80px)" }}>

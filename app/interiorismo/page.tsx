@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useLanguage } from "@/lib/language-context";
 import { HERO_INT, IMG, PROJECTS, langIndex } from "@/lib/site-data";
 import Reveal from "@/components/Reveal";
+import RevealImage from "@/components/RevealImage";
 
 export default function InteriorismoPage() {
   const { lang, t } = useLanguage();
@@ -12,7 +13,7 @@ export default function InteriorismoPage() {
   return (
     <>
       <section style={{ position: "relative", height: "78vh", minHeight: 520, background: "var(--ck-brown-deep)", overflow: "hidden" }}>
-        <Image src={HERO_INT.src} alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
+        <RevealImage src={HERO_INT.src} alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} />
         <div aria-hidden style={{ position: "absolute", inset: "auto 0 0 0", height: "70%", background: "linear-gradient(180deg,rgba(20,17,16,0),rgba(20,17,16,.7))" }} />
         <div style={{ position: "absolute", left: "clamp(24px,5vw,88px)", bottom: "clamp(40px,6vw,88px)", display: "flex", flexDirection: "column", gap: 18, color: "var(--ck-ivory)" }}>
           <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.26em", textTransform: "uppercase" }}>
