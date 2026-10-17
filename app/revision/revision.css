@@ -1,0 +1,83 @@
+.rv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: clamp(16px, 2vw, 28px);
+  align-items: start;
+  justify-items: center;
+}
+
+.rv-figure {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.rv-media {
+  will-change: transform, opacity, filter, clip-path;
+}
+
+.rv-calido .rv-media {
+  transform: scale(1.08);
+  transition: transform 8s ease-in-out;
+}
+
+.rv-dramatico .rv-media {
+  opacity: 0;
+  filter: brightness(0.4);
+  transition: opacity 2.4s cubic-bezier(0.25, 0.1, 0.1, 1), filter 2.4s cubic-bezier(0.25, 0.1, 0.1, 1);
+}
+
+.rv-contemporaneo .rv-media {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.6s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.rv-figure.is-visible .rv-media {
+  transform: none;
+  opacity: 1;
+  filter: none;
+  clip-path: none;
+}
+
+.rv-caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 48px 16px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s, transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s;
+}
+
+.rv-figure.is-visible .rv-caption {
+  opacity: 1;
+  transform: none;
+}
+
+.rv-oscuro .rv-caption {
+  color: var(--ck-ivory);
+  background: linear-gradient(180deg, rgba(20, 17, 16, 0) 0%, rgba(20, 17, 16, 0.72) 45%);
+}
+
+.rv-claro .rv-caption {
+  color: var(--ck-ink);
+  background: linear-gradient(180deg, rgba(244, 240, 230, 0) 0%, rgba(244, 240, 230, 0.88) 45%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-figure .rv-media,
+  .rv-figure .rv-caption {
+    transform: none;
+    opacity: 1;
+    filter: none;
+    clip-path: none;
+    transition: none;
+  }
+}
