@@ -53,6 +53,11 @@ export const COPY = {
       ["a2", "Interiorismo", "Cómo componer una sala alrededor de una sola pieza"],
       ["a3", "Procedencia", "El tapete anudado a mano, nudo por nudo"],
     ] as [string, string, string][],
+    revisionTitle: "Propuesta de ambientes",
+    revisionNote: "Imágenes de referencia para revisión. No son fotografías de Casa Kruyff.",
+    ambienteCalido: "Cálido y artesanal",
+    ambienteDramatico: "Dramático",
+    ambienteContemporaneo: "Contemporáneo",
   },
   en: {
     menu: "Menu", close: "Close", introducing: "Introducing", by: "By",
@@ -106,6 +111,11 @@ export const COPY = {
       ["a2", "Interiors", "Composing a living room around a single piece"],
       ["a3", "Provenance", "The hand-knotted rug, knot by knot"],
     ] as [string, string, string][],
+    revisionTitle: "Proposed atmospheres",
+    revisionNote: "Reference images for review. These are not Casa Kruyff photographs.",
+    ambienteCalido: "Warm and handcrafted",
+    ambienteDramatico: "Dramatic",
+    ambienteContemporaneo: "Contemporary",
   },
 } satisfies Record<Lang, unknown>;
 
