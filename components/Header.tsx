@@ -80,9 +80,9 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
           borderBottom: overlay ? "none" : "1px solid rgba(54,40,31,.14)",
           padding: overlay ? "28px clamp(20px,4vw,64px)" : "24px clamp(20px,4vw,64px)",
           display: "grid",
-          gridTemplateColumns: "minmax(0,1fr) auto minmax(0,1fr)",
+          gridTemplateColumns: narrow ? "auto minmax(0,1fr) auto" : "minmax(0,1fr) auto minmax(0,1fr)",
           alignItems: "center",
-          gap: 24,
+          gap: narrow ? 12 : 24,
           color: ivoryText ? "var(--ck-ivory)" : "var(--ck-ink)",
           transition: "background .4s ease, border-color .4s ease",
         }}
@@ -107,7 +107,14 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
         </nav>
 
         <Link href="/" style={{ display: "flex", justifyContent: "center" }}>
-          <Image src={wordmarkSrc} alt="Casa Kruyff" height={26} width={220} style={{ height: 26, width: "auto" }} priority />
+          <Image
+            src={wordmarkSrc}
+            alt="Casa Kruyff"
+            height={narrow ? 20 : 26}
+            width={narrow ? 170 : 220}
+            style={{ height: narrow ? 20 : 26, width: "auto" }}
+            priority
+          />
         </Link>
 
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", alignItems: "center", gap: 20 }}>
@@ -140,6 +147,7 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
               color: "inherit",
               borderBottom: `1px solid ${ivoryText ? "#C9A961" : "var(--ck-gold)"}`,
               paddingBottom: 3,
+              ...(narrow ? { whiteSpace: "normal", textAlign: "center", lineHeight: 1.5 } : {}),
             }}
           >
             {t.quote} ({quote.length})

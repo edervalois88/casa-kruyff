@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="es"
+      lang="en"
       className={`${cormorant.variable} ${lato.variable} ${montserrat.variable}`}
     >
       <body>
