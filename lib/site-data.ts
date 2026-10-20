@@ -72,11 +72,11 @@ export const PIECES: Piece[] = [
   { id: "p9", name: "Cuenco Basalto", cat: "obj", designer: "Taller Ocre", origin: "México", mat: ["Piedra volcánica", "Volcanic stone"], dim: "Ø 40 × 14 cm" },
 ];
 
-export const ROOMS: [string, string, string][] = [
-  ["sala", "La Sala", "The Living Room"],
-  ["comedor", "El Comedor", "The Dining Room"],
-  ["recamara", "La Recámara", "The Bedroom"],
-  ["estudio", "El Estudio", "The Study"],
+export const FEATURED: [string, string][] = [
+  ["sala", "mob"],
+  ["comedor", "ilu"],
+  ["recamara", "tex"],
+  ["estudio", "arte"],
 ];
 
 export interface ProjectItem {

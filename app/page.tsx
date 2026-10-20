@@ -3,13 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/lib/language-context";
-import { HERO_A, HERO_INTERIOR, IMG, ROOMS, langIndex } from "@/lib/site-data";
+import { FEATURED, HERO_A, HERO_INTERIOR, IMG, catName } from "@/lib/site-data";
 import Reveal from "@/components/Reveal";
 import RevealImage from "@/components/RevealImage";
 
 export default function HomePage() {
   const { lang, t } = useLanguage();
-  const L = langIndex(lang);
 
   return (
     <>
@@ -86,11 +85,12 @@ export default function HomePage() {
         </Reveal>
       </section>
 
-      {ROOMS.map(([id, esName, enName], i) => {
-        const img = IMG[id];
+      {FEATURED.map(([photo, cat], i) => {
+        const img = IMG[photo];
+        const name = catName(lang, cat, "");
         return (
-          <section key={id} style={{ position: "relative", height: "88vh", minHeight: 560, background: "var(--ck-brown-mid)", marginBottom: 6, overflow: "hidden" }}>
-            <RevealImage src={img.src} alt={[esName, enName][L]} fill sizes="100vw" style={{ objectFit: "cover" }} />
+          <section key={photo} style={{ position: "relative", height: "88vh", minHeight: 560, background: "var(--ck-brown-mid)", marginBottom: 6, overflow: "hidden" }}>
+            <RevealImage src={img.src} alt={name} fill sizes="100vw" style={{ objectFit: "cover" }} />
             <div
               aria-hidden
               style={{ position: "absolute", inset: "auto 0 0 0", height: "65%", background: "linear-gradient(180deg,rgba(20,17,16,0),rgba(20,17,16,.68))" }}
@@ -99,9 +99,9 @@ export default function HomePage() {
               <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.26em", textTransform: "uppercase" }}>
                 0{i + 1}
               </span>
-              <h2 style={{ margin: 0, fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(44px,5.5vw,88px)", lineHeight: 1 }}>{[esName, enName][L]}</h2>
+              <h2 style={{ margin: 0, fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(44px,5.5vw,88px)", lineHeight: 1 }}>{name}</h2>
               <Link
-                href="/colecciones"
+                href={`/colecciones?cat=${cat}`}
                 className="font-[family-name:var(--font-label)]"
                 style={{
                   pointerEvents: "auto",
