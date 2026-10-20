@@ -11,10 +11,10 @@ function unsplash(id: string, name: string, handle: string) {
 }
 
 export const IMG: Record<string, { src: string; credit: string; href: string }> = {
-  sala: unsplash("1618221195710-dd6b41faaea6", "Spacejoy", "spacejoy"),
-  comedor: unsplash("1690489965043-ec15758cce71", "Francesco Liotti", "francesco_liotti"),
-  recamara: unsplash("1616594039964-ae9021a400a0", "Spacejoy", "spacejoy"),
-  estudio: unsplash("1598928506311-c55ded91a20c", "Lotus Design N Print", "lotusdnp"),
+  sala: unsplash("1763827513396-5917fc6c84f3", "Clay Banks", "claybanks"),
+  comedor: unsplash("1764076327046-fe35f955cba1", "Clay Banks", "claybanks"),
+  recamara: unsplash("1784318519037-7ee0b1668e95", "Clay Banks", "claybanks"),
+  estudio: unsplash("1777896193454-8b4863264f0b", "Clay Banks", "claybanks"),
   p1: unsplash("1564078516393-cf04bd966897", "Roberto Nickson", "rpnickson"),
   p2: unsplash("1667312939978-64cf31718a6e", "Karolina Grabowska", "kaboompics"),
   p3: unsplash("1616046229478-9901c5536a45", "Spacejoy", "spacejoy"),
@@ -34,7 +34,7 @@ export const IMG: Record<string, { src: string; credit: string; href: string }> 
 };
 
 export const HERO_A = unsplash("1615874694520-474822394e73", "Spacejoy", "spacejoy");
-export const HERO_INTERIOR = unsplash("1600210491892-03d54c0aaf87", "Collov Home Design", "collovhome");
+export const HERO_INTERIOR = unsplash("1763827513396-5917fc6c84f3", "Clay Banks", "claybanks");
 export const HERO_B = unsplash("1616047006789-b7af5afb8c20", "Spacejoy", "spacejoy");
 export const HERO_B_CAT = unsplash("1572048572872-2394404cf1f3", "Angela Bailey", "angelabaileyy");
 export const HERO_INT = unsplash("1615873968403-89e068629265", "Spacejoy", "spacejoy");
