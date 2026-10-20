@@ -33,7 +33,7 @@ export const IMG: Record<string, { src: string; credit: string; href: string }> 
   a3: unsplash("1505693416388-ac5ce068fe85", "Quilia", "heyquilia"),
 };
 
-export const HERO_A = unsplash("1615874694520-474822394e73", "Spacejoy", "spacejoy");
+export const HERO_A = unsplash("1791342327631-b5d1578dc3de", "Clay Banks", "claybanks");
 export const HERO_INTERIOR = unsplash("1763827513396-5917fc6c84f3", "Clay Banks", "claybanks");
 export const HERO_B = unsplash("1616047006789-b7af5afb8c20", "Spacejoy", "spacejoy");
 export const HERO_B_CAT = unsplash("1572048572872-2394404cf1f3", "Angela Bailey", "angelabaileyy");
