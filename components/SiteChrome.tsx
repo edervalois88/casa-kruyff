@@ -25,6 +25,8 @@ export default function SiteChrome({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  if (pathname.startsWith("/admin")) return <>{children}</>;
+
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "var(--ck-ivory)" }}>
       <div

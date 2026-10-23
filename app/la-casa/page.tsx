@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import { useLanguage } from "@/lib/language-context";
-import { HERO_CASA } from "@/lib/site-data";
+import { useSiteData } from "@/lib/site-content-context";
 import Reveal from "@/components/Reveal";
 import RevealImage from "@/components/RevealImage";
 
 export default function LaCasaPage() {
   const { t } = useLanguage();
+  const { HERO_CASA } = useSiteData();
 
   return (
     <>
@@ -20,10 +21,10 @@ export default function LaCasaPage() {
       </section>
 
       <section style={{ position: "relative", height: "72vh", minHeight: 480, background: "var(--ck-brown-mid)", overflow: "hidden" }}>
-        <RevealImage src={HERO_CASA.src} alt="Showroom · Lomas de Chapultepec" fill sizes="100vw" style={{ objectFit: "cover" }} />
+        <RevealImage src={HERO_CASA.src} alt="Showroom · The Woodlands" fill sizes="100vw" style={{ objectFit: "cover" }} />
       </section>
 
-      <section style={{ padding: "clamp(80px,10vw,160px) clamp(24px,5vw,88px)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))", gap: "clamp(40px,5vw,80px)" }}>
+      <section style={{ padding: "clamp(80px,10vw,160px) clamp(24px,5vw,88px)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,300px),1fr))", gap: "clamp(40px,5vw,80px)" }}>
         {t.pillars.map(([k, v]) => (
           <div key={k} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.26em", textTransform: "uppercase", color: "var(--ck-gold-soft)" }}>
@@ -38,7 +39,7 @@ export default function LaCasaPage() {
         <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.26em", textTransform: "uppercase", color: "#C9A961" }}>
           {t.values}
         </span>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: "48px clamp(32px,4vw,64px)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,260px),1fr))", gap: "48px clamp(32px,4vw,64px)" }}>
           {t.valuesList.map(([k, v], i) => (
             <Reveal key={k} delay={i * 60} style={{ display: "flex", flexDirection: "column", gap: 14, borderTop: "1px solid rgba(201,169,97,.4)", paddingTop: 22 }}>
               <span style={{ fontFamily: "var(--font-serif)", fontSize: 34, lineHeight: 1 }}>{k}</span>

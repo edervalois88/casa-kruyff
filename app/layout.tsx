@@ -4,6 +4,9 @@ import "./globals.css";
 import { LanguageProvider } from "@/lib/language-context";
 import { QuoteProvider } from "@/lib/quote-context";
 import SiteChrome from "@/components/SiteChrome";
+import { connection } from "next/server";
+import { getPublicContent } from "@/lib/server/cms-store";
+import { SiteContentProvider } from "@/lib/site-content-context";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -25,23 +28,27 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Casa Kruyff — Casa de diseño y curaduría de interiores",
+  title: "Casa Kruyff — A house of design and interior curation",
   description:
-    "Casa Kruyff reúne piezas excepcionales, talento internacional y una mirada estética atemporal para crear espacios con identidad. Lomas de Chapultepec, Ciudad de México.",
+    "Curated objects for timeless interiors. Exclusive pieces, international design and interior curation in The Woodlands, Texas.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  await connection();
+  const content = await getPublicContent();
   return (
     <html
-      lang="en"
+      lang={content.settings.defaultLanguage}
       className={`${cormorant.variable} ${lato.variable} ${montserrat.variable}`}
     >
       <body>
+        <SiteContentProvider initial={content}>
         <LanguageProvider>
           <QuoteProvider>
             <SiteChrome>{children}</SiteChrome>
           </QuoteProvider>
         </LanguageProvider>
+        </SiteContentProvider>
       </body>
     </html>
   );

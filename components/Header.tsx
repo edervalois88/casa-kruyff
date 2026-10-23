@@ -17,7 +17,8 @@ const resetButton: React.CSSProperties = {
   border: 0,
   padding: 0,
   margin: 0,
-  font: "inherit",
+  fontFamily: "inherit",
+  fontSize: "inherit",
   cursor: "pointer",
 };
 
@@ -54,9 +55,9 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
   ];
   const navRight: NavItem[] = [
     { href: "/la-casa", label: t.navHouse },
-    { href: "/journal", label: t.navJournal },
+    { href: "/contacto", label: t.navContact },
   ];
-  const menuItems: NavItem[] = [...navLeft, ...navRight, { href: "/contacto", label: t.appointment }];
+  const menuItems: NavItem[] = [...navLeft, ...navRight];
 
   const overlay = overlayCapable && !scrolled;
   const ivoryText = overlay;
@@ -71,7 +72,7 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
     <>
       <header
         style={{
-          position: overlayCapable ? (overlay ? "fixed" : "sticky") : "sticky",
+          position: overlayCapable ? "fixed" : "sticky",
           top: 0,
           left: 0,
           right: 0,
@@ -89,7 +90,7 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
       >
         <nav style={{ display: "flex", flexWrap: "wrap", gap: 20, pointerEvents: overlay ? "auto" : undefined }}>
           {narrow ? (
-            <button type="button" onClick={() => setMenuOpen(true)} className={navLabelClass} style={{ ...resetButton, color: "inherit" }}>
+            <button type="button" onClick={() => setMenuOpen(true)} className={navLabelClass} style={{ ...resetButton, fontSize: 11, fontFamily: "var(--font-label)", color: "inherit" }}>
               {t.menu}
             </button>
           ) : (
@@ -174,7 +175,7 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
             <button type="button" onClick={() => setMenuOpen(false)} className={navLabelClass} style={{ ...resetButton, color: "var(--ck-ivory)" }}>
               {t.close}
             </button>
-            <Image src="/brand/wordmark-ivory.png" alt="Casa Kruyff" height={22} width={190} style={{ height: 22, width: "auto" }} />
+            <Image src="/brand/wordmark-ivory.png" alt="Casa Kruyff" height={22} width={190} style={{ height: "auto", width: "clamp(100px,25vw,190px)" }} />
             <div className="font-[family-name:var(--font-label)]" style={{ display: "flex", gap: 8, fontSize: 11, letterSpacing: "0.18em" }}>
               <button type="button" onClick={() => setLang("es")} style={{ ...resetButton, color: "var(--ck-ivory)", opacity: lang === "es" ? 1 : 0.5 }}>
                 ES

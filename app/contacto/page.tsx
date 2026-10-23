@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useLanguage } from "@/lib/language-context";
 import { useQuote } from "@/lib/quote-context";
-import { HERO_CONTACTO, PIECES } from "@/lib/site-data";
+import { useSiteData } from "@/lib/site-content-context";
 
 const fieldStyle: React.CSSProperties = {
   background: "transparent",
@@ -28,6 +28,7 @@ const labelStyle: React.CSSProperties = {
 
 export default function ContactoPage() {
   const { t } = useLanguage();
+  const { HERO_CONTACTO, PIECES } = useSiteData();
   const { quote, removePiece } = useQuote();
   const [sent, setSent] = useState(false);
 
@@ -36,7 +37,7 @@ export default function ContactoPage() {
     .filter((p): p is (typeof PIECES)[number] => Boolean(p));
 
   return (
-    <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(340px,1fr))", minHeight: "calc(100vh - 75px)" }}>
+    <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,340px),1fr))", minHeight: "calc(100vh - 75px)" }}>
       <div style={{ position: "relative", minHeight: 520, background: "var(--ck-brown-mid)" }}>
         <Image src={HERO_CONTACTO.src} alt="Interior del showroom" fill sizes="(max-width: 700px) 100vw, 50vw" style={{ objectFit: "cover" }} />
       </div>
@@ -80,7 +81,7 @@ export default function ContactoPage() {
             }}
             style={{ display: "flex", flexDirection: "column", gap: 20 }}
           >
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 20 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,220px),1fr))", gap: 20 }}>
               <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <span className="font-[family-name:var(--font-label)]" style={labelStyle}>
                   {t.fName}

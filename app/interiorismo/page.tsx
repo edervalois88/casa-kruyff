@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import { useLanguage } from "@/lib/language-context";
-import { HERO_INT, IMG, PROJECTS, langIndex } from "@/lib/site-data";
+import { langIndex } from "@/lib/site-data";
+import { useSiteData } from "@/lib/site-content-context";
 import Reveal from "@/components/Reveal";
 import RevealImage from "@/components/RevealImage";
 
 export default function InteriorismoPage() {
   const { lang, t } = useLanguage();
+  const { HERO_INT, IMG, PROJECTS } = useSiteData();
   const L = langIndex(lang);
 
   return (
@@ -41,7 +43,7 @@ export default function InteriorismoPage() {
         style={{
           padding: "0 clamp(24px,5vw,88px) clamp(96px,10vw,160px)",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(340px,1fr))",
+          gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,340px),1fr))",
           gap: "72px clamp(24px,3vw,48px)",
         }}
       >

@@ -2,17 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useSiteData } from "@/lib/site-content-context";
 import { useLanguage } from "@/lib/language-context";
 
 export default function Footer() {
   const { t } = useLanguage();
+  const { settings } = useSiteData();
 
   const navAll = [
     { href: "/colecciones", label: t.navCollections },
     { href: "/interiorismo", label: t.navInterior },
     { href: "/disenadores", label: t.navDesigners },
     { href: "/la-casa", label: t.navHouse },
-    { href: "/journal", label: t.navJournal },
+    { href: "/contacto", label: t.navContact },
   ];
 
   return (
@@ -52,8 +54,8 @@ export default function Footer() {
           <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.24em", textTransform: "uppercase", color: "var(--ck-gold-light)" }}>
             {t.follow}
           </span>
-          <a href="https://www.instagram.com/casakruyff" target="_blank" rel="noreferrer" style={{ color: "var(--ck-sand)", fontSize: 14 }}>
-            Instagram · @casakruyff
+          <a href={`https://www.instagram.com/${settings.instagramUsername}/`} target="_blank" rel="noreferrer" style={{ color: "var(--ck-sand)", fontSize: 14 }}>
+            Instagram · @{settings.instagramUsername}
           </a>
         </div>
       </div>

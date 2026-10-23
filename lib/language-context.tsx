@@ -2,7 +2,8 @@
 
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { Lang } from "./site-data";
-import { COPY } from "./copy";
+import type { COPY } from "./copy";
+import { useSiteContent } from "./site-content-context";
 
 interface LanguageContextValue {
   lang: Lang;
@@ -12,35 +13,17 @@ interface LanguageContextValue {
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
-const STORAGE_KEY = "ck-lang";
-
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("en");
+  const content = useSiteContent();
+  const [lang, setLang] = useState<Lang>(content.settings.defaultLanguage);
 
   useEffect(() => {
-    const id = setTimeout(() => {
-      try {
-        const stored = window.localStorage.getItem(STORAGE_KEY);
-        if (stored === "es" || stored === "en") setLangState(stored);
-      } catch {
-        // ignore: storage unavailable
-      }
-    }, 0);
-    return () => clearTimeout(id);
-  }, []);
-
-  const setLang = (next: Lang) => {
-    setLangState(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      // ignore: storage unavailable
-    }
-  };
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   const value = useMemo<LanguageContextValue>(
-    () => ({ lang, setLang, t: COPY[lang] }),
-    [lang]
+    () => ({ lang, setLang, t: content.copy[lang] }),
+    [lang, content.copy]
   );
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;

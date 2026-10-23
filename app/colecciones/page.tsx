@@ -3,11 +3,13 @@
 import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLanguage } from "@/lib/language-context";
-import { CATS, PIECES, catName, langIndex } from "@/lib/site-data";
+import { langIndex } from "@/lib/site-data";
+import { useSiteData } from "@/lib/site-content-context";
 import PieceCard from "@/components/PieceCard";
 
 function ColeccionesContent() {
   const { lang, t } = useLanguage();
+  const { CATS, PIECES, catName } = useSiteData();
   const router = useRouter();
   const searchParams = useSearchParams();
   const cat = searchParams.get("cat") ?? "all";
@@ -82,7 +84,7 @@ function ColeccionesContent() {
         style={{
           padding: "0 clamp(24px,5vw,88px) clamp(96px,10vw,160px)",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))",
+          gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,280px),1fr))",
           gap: "64px clamp(20px,2.4vw,40px)",
         }}
       >

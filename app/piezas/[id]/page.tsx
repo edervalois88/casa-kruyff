@@ -1,15 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import ArViewer from "@/components/ArViewer";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import { useLanguage } from "@/lib/language-context";
 import { useQuote } from "@/lib/quote-context";
-import { IMG, PIECES, catName, langIndex } from "@/lib/site-data";
+import { langIndex } from "@/lib/site-data";
+import { useSiteData } from "@/lib/site-content-context";
 
 export default function PiezaPage() {
   const params = useParams<{ id: string }>();
   const { lang, t } = useLanguage();
+  const { IMG, PIECES, catName, whatsappLink } = useSiteData();
   const { addPiece, hasPiece } = useQuote();
   const L = langIndex(lang);
 
@@ -17,6 +20,7 @@ export default function PiezaPage() {
   if (!piece) notFound();
 
   const img = IMG[piece.id];
+  const name = lang === "en" && piece.nameEn ? piece.nameEn : piece.name;
   const inQuote = hasPiece(piece.id);
   const specs = [piece.mat[L], piece.dim, `${piece.designer}, ${piece.origin}`, t.leadTime].map((v, i) => ({
     k: t.specs[i],
@@ -27,18 +31,22 @@ export default function PiezaPage() {
     <section
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fit,minmax(340px,1fr))",
+        gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,340px),1fr))",
         gap: "clamp(40px,5vw,88px)",
         padding: "clamp(32px,4vw,56px) clamp(24px,5vw,88px) clamp(80px,10vw,140px)",
       }}
     >
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <div style={{ position: "relative", aspectRatio: "4/5", background: "var(--ck-sand)", overflow: "hidden" }}>
-          {img && <Image src={img.src} alt={piece.name} fill sizes="(max-width: 700px) 100vw, 50vw" style={{ objectFit: "cover" }} />}
+          {img && <Image src={img.src} alt={name} fill sizes="(max-width: 700px) 100vw, 50vw" style={{ objectFit: "cover" }} />}
         </div>
+        <ArViewer key={piece.id} piece={piece} poster={img?.src} />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          <div style={{ position: "relative", aspectRatio: "1", background: "var(--ck-sand)" }} />
-          <div style={{ position: "relative", aspectRatio: "1", background: "var(--ck-sand)" }} />
+          {piece.images?.slice(1).map((src, i) => (
+            <div key={src} style={{ position: "relative", aspectRatio: "1", background: "var(--ck-sand)", overflow: "hidden" }}>
+              <Image src={src} alt={`${name} · ${i + 2}`} fill sizes="(max-width:700px) 50vw,25vw" style={{ objectFit: "cover" }} />
+            </div>
+          ))}
         </div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 32, alignSelf: "start", position: "sticky", top: 120 }}>
@@ -50,12 +58,12 @@ export default function PiezaPage() {
           ← {t.navCollections} / {catName(lang, piece.cat, t.all)}
         </Link>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <h1 style={{ margin: 0, fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(48px,5vw,80px)", lineHeight: 1 }}>{piece.name}</h1>
+          <h1 style={{ margin: 0, fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(48px,5vw,80px)", lineHeight: 1 }}>{name}</h1>
           <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ck-gold-soft)" }}>
             {piece.designer} · {piece.origin}
           </span>
         </div>
-        <p style={{ margin: 0, maxWidth: "46ch", fontSize: 17, lineHeight: 1.75, color: "var(--ck-muted-2)" }}>{t.pieceDesc}</p>
+        <p style={{ margin: 0, maxWidth: "46ch", fontSize: 17, lineHeight: 1.75, color: "var(--ck-muted-2)" }}>{piece.description?.[L] || t.pieceDesc}</p>
         <div style={{ display: "flex", flexDirection: "column", borderTop: "1px solid rgba(54,40,31,.14)" }}>
           {specs.map((s) => (
             <div key={s.k} style={{ display: "grid", gridTemplateColumns: "160px minmax(0,1fr)", gap: 16, padding: "16px 0", borderBottom: "1px solid rgba(54,40,31,.14)" }}>
@@ -85,8 +93,10 @@ export default function PiezaPage() {
           >
             {inQuote ? t.added : t.add}
           </button>
-          <Link
-            href="/contacto"
+          <a
+            href={whatsappLink(t.waPiece + name)}
+            target="_blank"
+            rel="noreferrer"
             className="font-[family-name:var(--font-label)]"
             style={{
               cursor: "pointer",
@@ -101,8 +111,8 @@ export default function PiezaPage() {
               display: "inline-block",
             }}
           >
-            {t.appointment}
-          </Link>
+            {t.askPiece}
+          </a>
         </div>
         <span style={{ fontSize: 13, lineHeight: 1.6, color: "var(--ck-muted)" }}>{t.quoteNote}</span>
       </div>

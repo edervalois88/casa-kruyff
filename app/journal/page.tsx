@@ -2,16 +2,17 @@
 
 import Image from "next/image";
 import { useLanguage } from "@/lib/language-context";
-import { HERO_JOURNAL, IMG } from "@/lib/site-data";
+import { useSiteData } from "@/lib/site-content-context";
 
 export default function JournalPage() {
   const { t } = useLanguage();
+  const { HERO_JOURNAL, IMG } = useSiteData();
 
   return (
     <>
       <section style={{ padding: "clamp(64px,8vw,128px) clamp(24px,5vw,88px) 56px", display: "flex", flexDirection: "column", gap: 56 }}>
         <h1 style={{ margin: 0, fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(56px,7vw,112px)", lineHeight: 0.95 }}>Journal</h1>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(340px,1fr))", gap: "clamp(32px,4vw,72px)", alignItems: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,340px),1fr))", gap: "clamp(32px,4vw,72px)", alignItems: "center" }}>
           <div style={{ position: "relative", aspectRatio: "3/2", background: "var(--ck-sand)", overflow: "hidden" }}>
             <Image src={HERO_JOURNAL.src} alt={t.feature.title} fill sizes="(max-width: 700px) 100vw, 50vw" style={{ objectFit: "cover" }} />
           </div>
@@ -34,7 +35,7 @@ export default function JournalPage() {
         style={{
           padding: "56px clamp(24px,5vw,88px) clamp(96px,10vw,160px)",
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill,minmax(280px,1fr))",
+          gridTemplateColumns: "repeat(auto-fill,minmax(min(100%,280px),1fr))",
           gap: "56px clamp(24px,3vw,48px)",
           borderTop: "1px solid rgba(54,40,31,.14)",
         }}

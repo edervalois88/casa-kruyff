@@ -33,7 +33,7 @@ export default function RevealImage(props: ImageProps) {
         transition: "transform 8s ease-in-out",
       }}
     >
-      <Image {...props} />
+      <Image {...props} alt={props.alt ?? ""} />
     </div>
   );
 }
