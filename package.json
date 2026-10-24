@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint app components lib scripts",
-    "test": "tsx --test lib/server/cms.test.ts",
+    "test": "tsx --test lib/server/cms.test.ts components/admin/workflow.test.ts",
     "cms:migrate": "tsx scripts/migrate-cms.ts"
   },
   "engines": {

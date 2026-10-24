@@ -46,6 +46,15 @@ Las cargas pequeñas usan `/api/admin/assets`. Para superar el límite de cuerpo
 
 El estado temporal caduca a los 30 minutos y se limpia al recibir la siguiente carga fragmentada. Se admiten hasta cuatro cargas pendientes. Finalizar, tanto con éxito como por archivo inválido, elimina los fragmentos. Si una carga falla, el panel solicita cancelar únicamente su identificador para liberar los fragmentos. La ruta pública antigua `/media/[filename]` redirige al Blob si existe un registro del archivo.
 
+## Flujo de trabajo del panel
+
+- Filtre las piezas por colección, publicación y disponibilidad de modelo 3D. La búsqueda admite nombres y diseñadores sin distinguir acentos.
+- Abra una pieza y elija Ficha, Fotografías o Modelos 3D / RA. Cambiar de sección conserva las ediciones pendientes.
+- En Contenidos, elija Textos, Imágenes principales, Listas y bloques, Proyectos o Diseñadores.
+- «Guardar y actualizar sitio» muestra las áreas modificadas y pide confirmación antes de enviar los cambios. Las piezas en borrador siguen ocultas. No hay una vista previa de borradores.
+- «Descartar cambios» recupera la última versión cargada o guardada, previa confirmación. Si hay un conflicto con otra sesión, use «Cargar versión actual».
+- Durante una carga de archivos, guardar, descartar y cambiar la contraseña quedan bloqueados. Espere a que termine la carga.
+
 ## Contrato de rutas
 
 Los errores devuelven `{ "error": "mensaje" }`. Todas las escrituras comprueban que `Origin` coincide exactamente con el origen de la solicitud; las rutas de contenido, archivos y contraseña exigen una sesión válida en el servidor. Los límites de acceso, configuración y cambio de contraseña se aplican de forma atómica en Postgres: 20 solicitudes por operación e IP cada 15 minutos, y un límite global de 1000. La IP se obtiene mediante el helper oficial de Vercel y se almacena como hash. Fuera de Vercel, el servidor debe estar detrás de un proxy de confianza que establezca esas cabeceras; en desarrollo sin IP se comparte una única identidad local.
