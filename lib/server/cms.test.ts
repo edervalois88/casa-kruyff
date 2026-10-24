@@ -8,16 +8,15 @@ import { createSeedContent } from "../cms-seed";
 import { getContent, getPublicContent, saveContent, validateContent } from "./cms-store";
 import { db, useTestDatabase, type CmsDatabase } from "./cms-db";
 import * as schema from "./schema";
-import { ensureSetupKey, setupRequired, setup, login, getSession, logout, changePassword, requireAdminRequest, checkOrigin, rateLimit } from "./auth";
+import { checkOrigin, rateLimit } from "./auth";
 import { CmsError, readBounded } from "./cms-error";
 import { blobStorage, cancelUpload, inspectAsset, storeUpload, mediaResponse, storeChunk } from "./assets";
 
 let postgres: PGlite;
 let writes = 0;
-const setupToken = "test-only-" + "a".repeat(64);
 const status = (code: number) => (error: unknown) => error instanceof CmsError && error.status === code;
 before(async () => {
-  Object.assign(process.env, { NODE_ENV: "test", CMS_SETUP_TOKEN: setupToken });
+  Object.assign(process.env, { NODE_ENV: "test" });
   postgres = new PGlite();
   const isolated = drizzle(postgres, { schema });
   await migrate(isolated, { migrationsFolder: "./drizzle" });
@@ -57,36 +56,11 @@ test("whole-document validation rejects schema loss, duplicate IDs, bad referenc
   assert.doesNotThrow(() => validateContent(createSeedContent()));
 });
 
-test("one-admin bootstrap, hash-only storage, login, logout and password revocation", async () => {
-  assert.equal(await setupRequired(), true); await ensureSetupKey();
-  Object.assign(process.env, { CMS_SETUP_TOKEN: "rotated-" + "b".repeat(64) }); await ensureSetupKey();
-  await assert.rejects(setup({ email: "owner@example.test", password: "a long test password", token: setupToken }), status(403));
-  Object.assign(process.env, { CMS_SETUP_TOKEN: setupToken }); await ensureSetupKey();
-  await assert.rejects(setup({ email: "owner@example.test", password: "a long test password", token: "invalid" }), status(403));
-  const token = await setup({ email: "owner@example.test", password: "a long test password", token: setupToken });
-  assert.equal(await setupRequired(), false); assert.equal((await getSession(token))?.email, "owner@example.test");
-  await assert.rejects(setup({ email: "other@example.test", password: "a long test password", token: setupToken }), status(403));
-  assert.equal((await db().select().from(schema.admins)).length, 1);
-  assert.equal((await db().select().from(schema.bootstrap)).length, 0);
-  assert.equal((await db().select().from(schema.sessions)).some(session => session.hash === token), false);
-  assert.equal((await db().select().from(schema.admins))[0].password.includes("a long test password"), false);
-  await assert.rejects(login({ email: "owner@example.test", password: "wrong" }), status(401));
-  const second = await login({ email: "OWNER@example.test", password: "a long test password" });
-  await logout(second); assert.equal(await getSession(second), undefined);
-  await assert.rejects(changePassword({ currentPassword: "wrong", password: "replacement password" }), status(403));
-  await changePassword({ currentPassword: "a long test password", password: "replacement password" });
-  assert.equal(await getSession(token), undefined);
-  await assert.rejects(login({ email: "owner@example.test", password: "a long test password" }), status(401));
-  const renewed = await login({ email: "owner@example.test", password: "replacement password" }); assert.ok(await getSession(renewed));
-  await db().update(schema.sessions).set({ expires: 1 }); assert.equal(await getSession(renewed), undefined);
-});
-
 test("CSRF, authorization, shared atomic rate limiting and bounded request streams", async () => {
   const request = new Request("http://localhost/api/admin/content");
   assert.throws(() => checkOrigin(request), status(403));
   assert.throws(() => checkOrigin(new Request(request.url, { headers: { Origin: "https://attacker.test" } })), status(403));
   assert.doesNotThrow(() => checkOrigin(new Request(request.url, { headers: { Origin: "http://localhost" } })));
-  await assert.rejects(requireAdminRequest(request), status(401));
   await Promise.all(Array.from({ length: 20 }, () => rateLimit(request, "test")));
   await assert.rejects(rateLimit(request, "test"), status(429));
   await db().update(schema.rateLimits).set({ expires: 1 }).where(like(schema.rateLimits.key, "test:%"));

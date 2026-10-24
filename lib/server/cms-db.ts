@@ -8,13 +8,17 @@ export type CmsDatabase = NodePgDatabase<typeof schema>;
 let database: CmsDatabase | undefined;
 let testDatabase: CmsDatabase | undefined;
 let pool: Pool | undefined;
-export function db(): CmsDatabase {
-  if (testDatabase) return testDatabase;
-  if (database) return database;
+export function getPool(): Pool {
+  if (pool) return pool;
   if (!process.env.DATABASE_URL) throw new CmsError(503, "La base de datos no está configurada.");
   pool = new Pool({ connectionString: process.env.DATABASE_URL, max: 3, idleTimeoutMillis: 5000, connectionTimeoutMillis: 10000 });
   attachDatabasePool(pool);
-  database = drizzle(pool, { schema });
+  return pool;
+}
+export function db(): CmsDatabase {
+  if (testDatabase) return testDatabase;
+  if (database) return database;
+  database = drizzle(getPool(), { schema });
   return database;
 }
 export function useTestDatabase(value: CmsDatabase | undefined) {

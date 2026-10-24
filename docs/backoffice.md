@@ -12,6 +12,8 @@ Las conexiones de Neon y Blob del proyecto Vercel proporcionan las variables sig
 | `DATABASE_URL_UNPOOLED` | Conexión directa para migraciones Drizzle |
 | `BLOB_STORE_ID` | Almacén público conectado al proyecto |
 | `VERCEL_OIDC_TOKEN` | Identidad temporal de Vercel; las funciones la obtienen automáticamente |
+| `BETTER_AUTH_SECRET` | Secreto distinto por entorno para firmar sesiones y cookies de Better Auth |
+| `BETTER_AUTH_URL` | Origen de producción `https://casakruyff.com`; en Preview Better Auth infiere el host de la solicitud |
 | `CMS_SETUP_TOKEN` | Clave de configuración inicial, aleatoria, de 43 a 128 caracteres alfanuméricos, guion o guion bajo |
 
 Para desarrollo, use `.env.local` ignorado por Git. La identidad OIDC local caduca: renueve la conexión del CLI si Blob rechaza las cargas. No introduzca ninguna de estas variables como `NEXT_PUBLIC_*`.
@@ -21,8 +23,8 @@ Para desarrollo, use `.env.local` ignorado por Git. La identidad OIDC local cadu
 1. Instale con `npm ci`.
 2. Ejecute `npm run cms:migrate` usando la conexión directa del entorno correspondiente. Las migraciones versionadas están en `drizzle/`, generadas desde `lib/server/schema.ts` mediante Drizzle Kit.
 3. Configure `CMS_SETUP_TOKEN` como secreto del servidor y consérvelo solo para la primera configuración. No existe contraseña predeterminada.
-4. Abra `/admin/login`, introduzca el token, su correo y una contraseña de entre 12 y 256 caracteres.
-5. La transacción crea la única cuenta administrativa y consume el registro de bootstrap. La restricción de base de datos y el bloqueo de fila impiden crear una segunda cuenta. Antes del alta, cambiar `CMS_SETUP_TOKEN` rota el hash de bootstrap y revoca el token anterior. Retire el secreto de configuración del entorno después del alta y de los despliegues posteriores que todavía lo incluyan.
+4. Abra `/admin/setup`, introduzca la clave de bootstrap, su correo y una contraseña de entre 12 y 128 caracteres.
+5. Better Auth crea la cuenta y su registro de credenciales. La tabla `cms_admins` vincula esa identidad como único administrador; el bloqueo de fila y la clave de bootstrap de un solo uso impiden altas concurrentes o públicas. Cambiar `CMS_SETUP_TOKEN` antes del alta invalida la clave anterior. Después de crear la cuenta, retire `CMS_SETUP_TOKEN` de producción.
 
 El contenido original se inserta una sola vez, sin reemplazar las ediciones al reiniciar o desplegar. El alta no migra automáticamente contenido de una antigua instalación SQLite; una importación de esa instalación debe planearse por separado antes de sustituirla.
 
@@ -30,7 +32,7 @@ Cada entorno debe apuntar a su propia rama/base Neon. No ejecute pruebas ni migr
 
 ## Sesiones y edición
 
-Las contraseñas usan scrypt; la base de datos conserva hashes de los tokens de sesión, nunca el token en claro. La cookie es HttpOnly, SameSite=Strict y Secure en producción HTTPS. Las sesiones duran ocho horas. Cerrar sesión invalida el token, y cambiar la contraseña invalida todas las sesiones. El acceso concurrente y el cambio de contraseña se serializan contra la fila de la cuenta para impedir crear una sesión con una contraseña recién revocada.
+Better Auth administra usuarios, hashes de contraseña y sesiones en Neon. El registro por correo está deshabilitado; la única cuenta se crea por el flujo de bootstrap. La cookie de sesión es HttpOnly, SameSite=Strict y Secure en producción HTTPS. Las sesiones duran ocho horas y el login usa límites de frecuencia guardados en Postgres. La ruta del panel comprueba en el servidor que la sesión corresponda al usuario enlazado como administrador. Cambiar la contraseña revoca las demás sesiones y cierra la actual.
 
 Guardar aplica la revisión actual a un documento completo validado. Si otra pestaña ya guardó, la revisión obsoleta recibe HTTP 409; recargue el contenido antes de guardar otra vez. Las piezas en borrador y sus registros de imagen se excluyen del documento público.
 
@@ -52,16 +54,14 @@ Los errores devuelven `{ "error": "mensaje" }`. Todas las escrituras comprueban 
 | --- | --- | --- |
 | `/api/admin/session` | GET | `{ authenticated, setupRequired, email? }`; nunca expone el correo sin sesión |
 | `/api/admin/setup` | POST | JSON `{ token, email, password }`; consume el alta inicial y crea sesión |
-| `/api/admin/login` | POST | JSON `{ email, password }`; crea cookie de sesión |
-| `/api/admin/logout` | POST | Invalida la sesión y borra la cookie |
-| `/api/admin/password` | POST | JSON `{ currentPassword, password }`; cambia la contraseña y cierra sesiones |
+| `/api/auth/[...all]` | GET / POST | Endpoints Better Auth; signup por correo deshabilitado |
 | `/api/admin/content` | GET / PUT | Lee / guarda `SiteContent`; PUT devuelve el documento con nueva revisión |
 | `/api/admin/assets` | POST | Multipart `file`; devuelve `{ url, kind, filename }` con URL Blob real |
 | `/api/admin/assets/chunks` | POST | Multipart `file`, `index`, `total`, `uploadId` tras el primero; intermedio `{ uploadId, complete:false }`, final `{ url, kind, filename, complete:true }` |
 | `/api/admin/assets/chunks` | DELETE | JSON `{ uploadId }`; cancela únicamente esa carga; devuelve `{ cancelled:true }` |
 | `/media/[filename]` | GET | Redirección al archivo público registrado, o HTTP 404 |
 
-`getContent()`, `getPublicContent()`, `saveContent(input)` y las funciones de sesión/autenticación son asíncronas. `requireAdmin()` protege páginas y redirige a `/admin/login`; `requireAdminRequest(request)` protege rutas y devuelve HTTP 401 si falta la sesión.
+`getContent()`, `getPublicContent()`, `saveContent(input)` y las funciones de sesión/autenticación son asíncronas. `requireAdmin()` valida la sesión de Better Auth y la relación de administrador antes de mostrar el panel; `requireAdminRequest(request)` hace lo mismo para las rutas privadas y devuelve HTTP 401 si falta la sesión.
 
 ## Pruebas y respaldo
 
