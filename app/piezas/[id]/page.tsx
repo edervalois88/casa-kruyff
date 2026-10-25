@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import ArViewer from "@/components/ArViewer";
+import PieceGallery from "@/components/PieceGallery";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 import { useLanguage } from "@/lib/language-context";
@@ -28,28 +27,9 @@ export default function PiezaPage() {
   }));
 
   return (
-    <section
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,340px),1fr))",
-        gap: "clamp(40px,5vw,88px)",
-        padding: "clamp(32px,4vw,56px) clamp(24px,5vw,88px) clamp(80px,10vw,140px)",
-      }}
-    >
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <div style={{ position: "relative", aspectRatio: "4/5", background: "var(--ck-sand)", overflow: "hidden" }}>
-          {img && <Image src={img.src} alt={name} fill sizes="(max-width: 700px) 100vw, 50vw" style={{ objectFit: "cover" }} />}
-        </div>
-        <ArViewer key={piece.id} piece={piece} poster={img?.src} />
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          {piece.images?.slice(1).map((src, i) => (
-            <div key={src} style={{ position: "relative", aspectRatio: "1", background: "var(--ck-sand)", overflow: "hidden" }}>
-              <Image src={src} alt={`${name} · ${i + 2}`} fill sizes="(max-width:700px) 50vw,25vw" style={{ objectFit: "cover" }} />
-            </div>
-          ))}
-        </div>
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 32, alignSelf: "start", position: "sticky", top: 120 }}>
+    <section className="ck-piece-detail">
+      <PieceGallery key={piece.id} piece={piece} fallback={img?.src} />
+      <div className="ck-piece-info">
         <Link
           href="/colecciones"
           className="font-[family-name:var(--font-label)]"
@@ -58,7 +38,7 @@ export default function PiezaPage() {
           ← {t.navCollections} / {catName(lang, piece.cat, t.all)}
         </Link>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <h1 style={{ margin: 0, fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(48px,5vw,80px)", lineHeight: 1 }}>{name}</h1>
+          <h1 style={{ margin: 0, fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(40px,4.3vw,68px)", lineHeight: 1 }}>{name}</h1>
           <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ck-gold-soft)" }}>
             {piece.designer} · {piece.origin}
           </span>
@@ -66,7 +46,7 @@ export default function PiezaPage() {
         <p style={{ margin: 0, maxWidth: "46ch", fontSize: 17, lineHeight: 1.75, color: "var(--ck-muted-2)" }}>{piece.description?.[L] || t.pieceDesc}</p>
         <div style={{ display: "flex", flexDirection: "column", borderTop: "1px solid rgba(54,40,31,.14)" }}>
           {specs.map((s) => (
-            <div key={s.k} style={{ display: "grid", gridTemplateColumns: "160px minmax(0,1fr)", gap: 16, padding: "16px 0", borderBottom: "1px solid rgba(54,40,31,.14)" }}>
+            <div key={s.k} style={{ display: "grid", gridTemplateColumns: "minmax(100px,.7fr) minmax(0,1fr)", gap: 16, padding: "12px 0", borderBottom: "1px solid rgba(54,40,31,.14)" }}>
               <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ck-muted)", paddingTop: 3 }}>
                 {s.k}
               </span>
