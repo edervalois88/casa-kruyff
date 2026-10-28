@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/lib/language-context";
 import { useQuote } from "@/lib/quote-context";
 
@@ -29,6 +29,23 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
   const [scrolled, setScrolled] = useState(false);
   const [narrow, setNarrow] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const menu = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const panel = menu.current;
+    if (!panel) return;
+    if (menuOpen) {
+      if (!panel.open) panel.showModal();
+      const previous = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = previous; };
+    }
+    if (!panel.open) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { panel.close(); return; }
+    const exit = panel.animate([{ opacity: 1, transform: "translateY(0)" }, { opacity: 0, transform: "translateY(-8px)" }], { duration: 180, easing: "ease-in" });
+    exit.finished.then(() => panel.close(), () => {});
+    return () => exit.cancel();
+  }, [menuOpen]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -90,7 +107,7 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
       >
         <nav style={{ display: "flex", flexWrap: "wrap", gap: 20, pointerEvents: overlay ? "auto" : undefined }}>
           {narrow ? (
-            <button type="button" onClick={() => setMenuOpen(true)} className={navLabelClass} style={{ ...resetButton, fontSize: 11, fontFamily: "var(--font-label)", color: "inherit" }}>
+            <button type="button" aria-expanded={menuOpen} aria-controls="ck-mobile-menu" onClick={() => setMenuOpen(true)} className={navLabelClass} style={{ ...resetButton, minHeight: 44, fontSize: 11, fontFamily: "var(--font-label)", color: "inherit" }}>
               {t.menu}
             </button>
           ) : (
@@ -151,13 +168,18 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
               ...(narrow ? { whiteSpace: "normal", textAlign: "center", lineHeight: 1.5 } : {}),
             }}
           >
-            {t.quote} ({quote.length})
+            {t.quote} (<span key={quote.length} className="ck-quote-count" aria-live="polite">{quote.length}</span>)
           </Link>
         </div>
       </header>
 
-      {menuOpen && (
-        <div
+        <dialog
+          ref={menu}
+          id="ck-mobile-menu"
+          className="ck-mobile-menu"
+          aria-label={t.menu}
+          onCancel={event => { event.preventDefault(); setMenuOpen(false); }}
+          onClose={() => setMenuOpen(false)}
           style={{
             position: "fixed",
             inset: 0,
@@ -207,8 +229,7 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
           <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ck-ivory-dim)" }}>
             {t.location} · {t.byAppt}
           </span>
-        </div>
-      )}
+        </dialog>
     </>
   );
 }

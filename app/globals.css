@@ -440,7 +440,7 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  border-top: 1px solid var(--ck-gold);
+  border-top: 0;
   padding-top: 24px;
 }
 
@@ -646,7 +646,7 @@ button:focus-visible {
 
 @media (max-width: 800px) {
   .ck-instagram-window {
-    aspect-ratio: 2.15 / 1;
+    aspect-ratio: 3.1 / 1;
   }
 }
 
@@ -666,23 +666,121 @@ button:focus-visible {
   }
 
   .ck-instagram-window {
-    aspect-ratio: 1.25 / 1;
+    aspect-ratio: 1.56 / 1;
   }
 }
 
 @media (max-width: 600px) {
   .ck-designer-row {
-    --ck-designer-columns: 72px minmax(0,1fr);
+    --ck-designer-columns: minmax(0,1fr);
     --ck-designer-gap: 12px 16px;
-    --ck-designer-image: 72px;
-  }
-
-  .ck-designer-portrait {
-    grid-row: span 2;
-    align-self: start;
   }
 
   .ck-designer-origin {
-    grid-column: 2;
+    grid-column: auto;
   }
+}
+
+.ck-intro-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: var(--ck-ivory);
+  pointer-events: none;
+  animation: ck-intro-out 380ms ease 280ms both;
+}
+.ck-intro-veil img { width: 64px; height: auto; opacity: .8; }
+@keyframes ck-intro-out { to { opacity: 0; visibility: hidden; } }
+
+.ck-entrance {
+  opacity: 1;
+  transform: none;
+  transition: opacity 500ms cubic-bezier(.16,1,.3,1) var(--ck-entrance-delay,0ms), transform 650ms cubic-bezier(.16,1,.3,1) var(--ck-entrance-delay,0ms);
+}
+.ck-entrance[data-phase="pending"] { opacity: 0; transform: translateY(12px); }
+.ck-entrance--image {
+  overflow: hidden;
+  clip-path: inset(0);
+  transition: clip-path 650ms cubic-bezier(.16,1,.3,1), opacity 500ms ease;
+}
+.ck-entrance--image[data-phase="pending"] { opacity: .6; transform: none; clip-path: inset(0 0 8% 0); }
+.ck-entrance--image img { transform: scale(1); transition: transform 650ms cubic-bezier(.16,1,.3,1); }
+.ck-entrance--image[data-phase="pending"] img { transform: scale(1.025); }
+
+.ck-mobile-menu {
+  width: 100%;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+}
+.ck-mobile-menu:not([open]) { display: none !important; }
+.ck-mobile-menu[open] { animation: ck-menu-enter 300ms cubic-bezier(.16,1,.3,1) both; }
+.ck-mobile-menu::backdrop { background: rgb(25 19 15 / .4); }
+.ck-mobile-menu button { min-height: 44px; }
+.ck-mobile-menu nav a { display: block; padding-block: 5px; animation: ck-menu-link 320ms cubic-bezier(.16,1,.3,1) both; }
+.ck-mobile-menu nav a:nth-child(2) { animation-delay: 35ms; }
+.ck-mobile-menu nav a:nth-child(3) { animation-delay: 70ms; }
+.ck-mobile-menu nav a:nth-child(4) { animation-delay: 105ms; }
+.ck-mobile-menu nav a:nth-child(5) { animation-delay: 140ms; }
+@keyframes ck-menu-enter { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+@keyframes ck-menu-link { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.ck-filter-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--ck-gold);
+  view-transition-name: ck-filter-line;
+}
+::view-transition-group(*) { animation-duration: 320ms; animation-timing-function: cubic-bezier(.16,1,.3,1); }
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-group(ck-piece-photo) { animation-duration: 360ms; }
+
+.ck-photo-scene { position: absolute; inset: 0; }
+.ck-piece-card img { scale: 1; transition: scale 650ms cubic-bezier(.16,1,.3,1); }
+.ck-piece-card:hover img, .ck-piece-card:focus-visible img { scale: 1.025; }
+.ck-photo-current { animation: ck-photo-in 220ms ease both; }
+.ck-photo-previous { opacity: 0; animation: ck-photo-out 220ms ease both; }
+@keyframes ck-photo-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ck-photo-out { from { opacity: 1; } to { opacity: 0; } }
+.ck-gallery-thumbnails button { transition: border-color 160ms ease, opacity 160ms ease; }
+.ck-quote-add { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 52px; }
+.ck-quote-add:disabled { cursor: default !important; }
+.ck-quote-label, .ck-quote-count { display: inline-block; animation: ck-confirm 180ms ease-out both; }
+.ck-quote-check path { stroke-dasharray: 25; stroke-dashoffset: 0; animation: ck-check 220ms ease-out; }
+@keyframes ck-check { from { stroke-dashoffset: 25; } }
+@keyframes ck-confirm { from { opacity: .45; } to { opacity: 1; } }
+
+.ck-work-steps { position: relative; --ck-work-progress: 1; }
+.ck-work-steps::before, .ck-work-steps::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 1px; }
+.ck-work-steps::before { background: rgb(140 110 65 / .2); }
+.ck-work-steps::after { background: var(--ck-gold); transform: scaleX(var(--ck-work-progress)); transform-origin: left; }
+.ck-work-step > .ck-section-label { transition: color 250ms ease; }
+.ck-work-step[data-reached="false"] > .ck-section-label { color: var(--ck-muted-2); }
+.ck-action { transition: background 160ms ease, border-color 160ms ease, transform 120ms ease; }
+.ck-action:active { transform: translateY(1px); }
+.ck-home-collection__link { text-underline-offset: 6px; }
+
+@media (max-width: 600px) {
+  .ck-work-steps { grid-template-columns: 1fr; padding-left: 24px; }
+  .ck-work-steps::before, .ck-work-steps::after { width: 1px; height: 100%; }
+  .ck-work-steps::after { transform: scaleY(var(--ck-work-progress)); transform-origin: top; }
+  .ck-work-step { padding-top: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ck-intro-veil { display: none; }
+  .ck-piece-card img, .ck-piece-card:hover img, .ck-piece-card:focus-visible img { scale: 1; transition: none; }
+  .ck-entrance, .ck-entrance[data-phase="pending"], .ck-entrance--image[data-phase="pending"] { opacity: 1; transform: none; clip-path: none; transition: none; }
+  .ck-entrance--image img, .ck-entrance--image[data-phase="pending"] img { transform: none; transition: none; }
+  .ck-mobile-menu[open], .ck-mobile-menu nav a, .ck-photo-current, .ck-photo-previous, .ck-quote-check path { animation: none; }
+  .ck-work-steps::after { transform: none; }
+  .ck-work-step > .ck-section-label { color: var(--ck-gold-soft) !important; transition: none; }
+  .ck-action:active { transform: none; }
 }

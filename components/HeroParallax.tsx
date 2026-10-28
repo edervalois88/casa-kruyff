@@ -32,7 +32,7 @@ export default function HeroParallax({
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const compact = window.matchMedia("(max-width: 640px)");
     const update = () => {
-      const progress = Math.min(1, Math.max(0, -stage.getBoundingClientRect().top / stage.offsetHeight));
+      const progress = reduceMotion.matches ? 0 : Math.min(1, Math.max(0, -stage.getBoundingClientRect().top / stage.offsetHeight));
       const backgroundPosition = compact.matches ? 0 : 11;
       const backgroundScale = compact.matches ? 1.12 : 1.32;
       background.style.transform = layered
@@ -50,15 +50,6 @@ export default function HeroParallax({
       }
     };
 
-    if (reduceMotion.matches) {
-      const backgroundPosition = compact.matches ? 0 : 11;
-      const backgroundScale = compact.matches ? 1.12 : 1.32;
-      background.style.transform = layered ? `translate3d(${backgroundPosition}%, 0, 0) scale(${backgroundScale})` : "scale(1.04)";
-      background.style.filter = "none";
-      if (horse) horse.style.transform = "translate3d(-50%, 0, 0) scale(1)";
-      return;
-    }
-
     let frame = 0;
     const onScroll = () => {
       if (frame) return;
@@ -70,9 +61,11 @@ export default function HeroParallax({
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
+    reduceMotion.addEventListener("change", onScroll);
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      reduceMotion.removeEventListener("change", onScroll);
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, [layered]);

@@ -1,12 +1,13 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLanguage } from "@/lib/language-context";
 import { langIndex } from "@/lib/site-data";
 import { useSiteData } from "@/lib/site-content-context";
 import PieceCard from "@/components/PieceCard";
 import CatalogReveal from "@/components/CatalogReveal";
+import { transitionView } from "@/lib/view-transition";
 
 function ColeccionesContent() {
   const { lang, t } = useLanguage();
@@ -14,11 +15,21 @@ function ColeccionesContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const cat = searchParams.get("cat") ?? "all";
+  const grid = useRef<HTMLElement>(null);
   const L = langIndex(lang);
 
   const setCat = (id: string) => {
-    if (id === "all") router.push("/colecciones");
-    else router.push(`/colecciones?cat=${id}`);
+    if (id === cat) return;
+    const href = id === "all" ? "/colecciones" : `/colecciones?cat=${encodeURIComponent(id)}`;
+    transitionView(() => new Promise<void>(resolve => {
+      const element = grid.current;
+      if (!element) { router.push(href, { scroll: false }); resolve(); return; }
+      const done = () => { observer.disconnect(); clearTimeout(timeout); resolve(); };
+      const observer = new MutationObserver(() => { if (element.dataset.category === id) done(); });
+      const timeout = setTimeout(done, 1800);
+      observer.observe(element, { attributes: true, attributeFilter: ["data-category"] });
+      router.push(href, { scroll: false });
+    }));
   };
 
   const filtered = PIECES.filter((p) => cat === "all" || p.cat === cat);
@@ -37,9 +48,11 @@ function ColeccionesContent() {
           <button
             type="button"
             onClick={() => setCat("all")}
+            aria-pressed={cat === "all"}
             className="font-[family-name:var(--font-label)]"
             style={{
               background: "none",
+              position: "relative",
               border: 0,
               margin: 0,
               font: "inherit",
@@ -49,20 +62,23 @@ function ColeccionesContent() {
               letterSpacing: "0.22em",
               textTransform: "uppercase",
               color: cat === "all" ? "var(--ck-ink)" : "var(--ck-muted)",
-              borderBottom: `1px solid ${cat === "all" ? "var(--ck-gold)" : "transparent"}`,
+              borderBottom: "1px solid transparent",
               paddingBottom: 4,
             }}
           >
             {t.all}
+            {cat === "all" && <span className="ck-filter-line" />}
           </button>
           {CATS.map(([id, esLabel, enLabel]) => (
             <button
               type="button"
               key={id}
               onClick={() => setCat(id)}
+              aria-pressed={cat === id}
               className="font-[family-name:var(--font-label)]"
               style={{
                 background: "none",
+                position: "relative",
                 border: 0,
                 margin: 0,
                 font: "inherit",
@@ -72,16 +88,20 @@ function ColeccionesContent() {
                 letterSpacing: "0.22em",
                 textTransform: "uppercase",
                 color: cat === id ? "var(--ck-ink)" : "var(--ck-muted)",
-                borderBottom: `1px solid ${cat === id ? "var(--ck-gold)" : "transparent"}`,
+                borderBottom: "1px solid transparent",
                 paddingBottom: 4,
               }}
             >
               {[esLabel, enLabel][L]}
+              {cat === id && <span className="ck-filter-line" />}
             </button>
           ))}
         </div>
       </section>
       <section
+        ref={grid}
+        data-category={cat}
+        aria-label={title}
         style={{
           padding: "0 clamp(24px,5vw,88px) clamp(96px,10vw,160px)",
           display: "grid",
@@ -90,9 +110,9 @@ function ColeccionesContent() {
         }}
       >
         {filtered.map((p, index) => (
-          <CatalogReveal key={p.id} delay={(index % 4) * 55}>
-            <PieceCard piece={p} />
-          </CatalogReveal>
+          <div key={p.id} style={{ viewTransitionName: `ck-piece-${p.id.replace(/[^a-zA-Z0-9_-]/g, "-")}` }}>
+            <CatalogReveal delay={(index % 4) * 55}><PieceCard piece={p} /></CatalogReveal>
+          </div>
         ))}
       </section>
     </>
