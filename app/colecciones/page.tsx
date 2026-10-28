@@ -6,6 +6,7 @@ import { useLanguage } from "@/lib/language-context";
 import { langIndex } from "@/lib/site-data";
 import { useSiteData } from "@/lib/site-content-context";
 import PieceCard from "@/components/PieceCard";
+import CatalogReveal from "@/components/CatalogReveal";
 
 function ColeccionesContent() {
   const { lang, t } = useLanguage();
@@ -88,8 +89,10 @@ function ColeccionesContent() {
           gap: "64px clamp(20px,2.4vw,40px)",
         }}
       >
-        {filtered.map((p) => (
-          <PieceCard key={p.id} piece={p} />
+        {filtered.map((p, index) => (
+          <CatalogReveal key={p.id} delay={(index % 4) * 55}>
+            <PieceCard piece={p} />
+          </CatalogReveal>
         ))}
       </section>
     </>
