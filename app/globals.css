@@ -129,9 +129,38 @@ button:focus-visible {
   transform: translate3d(11%, 0, 0) scale(1.32);
 }
 
+.ck-hero-background-layered img {
+  object-position: center;
+}
+
 .ck-hero-foreground {
+  inset: auto auto 27.5% 46.5%;
+  width: min(40svh, 38vw);
+  aspect-ratio: 945 / 1032;
   z-index: 1;
-  transform: translate3d(0, -10%, 0) scale(.65);
+  transform: translate3d(-50%, 0, 0);
+  transform-origin: center bottom;
+}
+
+.ck-hero-contact-shadow {
+  position: absolute;
+  z-index: 1;
+  left: 8%;
+  bottom: 1.5%;
+  width: 84%;
+  height: 3.2%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(24, 17, 12, .42) 0%, rgba(24, 17, 12, .22) 48%, transparent 76%);
+  filter: blur(5px);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.ck-hero-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  will-change: transform, opacity;
 }
 
 .ck-hero-shade {
@@ -176,14 +205,24 @@ button:focus-visible {
     min-height: 560px;
   }
 
+  .ck-hero-background-layered img {
+    object-position: 33% center;
+  }
+
   .ck-hero-foreground {
-    transform: translate3d(0, -10%, 0) scale(1.25);
+    left: 50%;
+    bottom: 25%;
+    width: min(94vw, 47.5svh);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ck-hero-background,
   .ck-hero-foreground {
+    will-change: auto;
+  }
+
+  .ck-hero-copy {
     will-change: auto;
   }
 }
