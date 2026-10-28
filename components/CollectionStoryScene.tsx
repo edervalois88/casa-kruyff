@@ -30,26 +30,26 @@ export default function CollectionStoryScene({
     const scene = ref.current;
     if (!scene) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
-      setPhase("visible");
-      return;
-    }
-
-    const bounds = scene.getBoundingClientRect();
-    if (bounds.top < window.innerHeight * 0.92 && bounds.bottom > 0) {
-      setPhase("visible");
-      return;
-    }
-
-    setPhase("pending");
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      setPhase("visible");
-      observer.disconnect();
-    }, { threshold: 0.08, rootMargin: "0px 0px -8% 0px" });
-
-    observer.observe(scene);
-    return () => observer.disconnect();
+    let observer: IntersectionObserver | undefined;
+    const frame = requestAnimationFrame(() => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+        setPhase("visible");
+        return;
+      }
+      const bounds = scene.getBoundingClientRect();
+      if (bounds.top < window.innerHeight * 0.92 && bounds.bottom > 0) {
+        setPhase("visible");
+        return;
+      }
+      setPhase("pending");
+      observer = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        setPhase("visible");
+        observer?.disconnect();
+      }, { threshold: 0.08, rootMargin: "0px 0px -8% 0px" });
+      observer.observe(scene);
+    });
+    return () => { cancelAnimationFrame(frame); observer?.disconnect(); };
   }, []);
 
   return (

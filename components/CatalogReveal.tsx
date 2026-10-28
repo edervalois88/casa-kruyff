@@ -29,29 +29,29 @@ export default function CatalogReveal({ children, delay = 0 }: { children: React
     const element = ref.current;
     if (!element) return;
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
-      setPhase("visible");
-      return;
-    }
-
-    const rect = element.getBoundingClientRect();
-    if (rect.top < window.innerHeight * 0.96 && rect.bottom > 0) {
-      setPhase("visible");
-      return;
-    }
-
     let active = true;
-    const observer = observerForCards();
-    revealCallbacks.set(element, () => {
-      if (active) setPhase("visible");
+    let observer: IntersectionObserver | undefined;
+    const frame = requestAnimationFrame(() => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+        setPhase("visible");
+        return;
+      }
+      const rect = element.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.96 && rect.bottom > 0) {
+        setPhase("visible");
+        return;
+      }
+      observer = observerForCards();
+      revealCallbacks.set(element, () => { if (active) setPhase("visible"); });
+      setPhase("pending");
+      observer.observe(element);
     });
-    setPhase("pending");
-    observer.observe(element);
 
     return () => {
       active = false;
+      cancelAnimationFrame(frame);
       revealCallbacks.delete(element);
-      observer.unobserve(element);
+      observer?.unobserve(element);
     };
   }, []);
 
