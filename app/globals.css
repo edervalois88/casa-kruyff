@@ -814,7 +814,7 @@ button:focus-visible {
   }
   .ck-gallery-stage-deck .ck-image-gallery-panel[aria-pressed="false"] { pointer-events: none; }
   .ck-gallery-stage-deck .ck-image-gallery-panel[data-deck-visible="false"] { opacity: 0; visibility: hidden; }
-  .ck-gallery-stage-deck .ck-image-gallery-panel img { object-fit: contain !important; }
+  .ck-gallery-stage-deck .ck-image-gallery-panel img { object-fit: cover !important; }
   .ck-gallery-stage-deck .ck-image-gallery-number { display: none; }
   .ck-gallery-stage-deck .ck-image-gallery[data-dragging="true"] .ck-image-gallery-panel[aria-pressed="true"] { transition: none; }
   .ck-gallery-stage-deck .ck-gallery-enlarge-action { z-index: 20; top: 28px; right: 34px; }
