@@ -192,7 +192,7 @@ button:focus-visible {
 
 .ck-home-collection-stack {
   position: relative;
-  padding-bottom: 55svh;
+  padding-bottom: 0;
 }
 
 .ck-home-collection {
@@ -322,7 +322,7 @@ button:focus-visible {
 
 @media (max-width: 640px) {
   .ck-home-collection-stack {
-    padding-bottom: 42svh;
+    padding-bottom: 0;
   }
 
   .ck-home-collection {
