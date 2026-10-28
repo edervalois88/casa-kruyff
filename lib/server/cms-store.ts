@@ -5,6 +5,43 @@ import { CmsError } from "./cms-error";
 import { and, eq, inArray } from "drizzle-orm";
 import { assets, content as contentTable } from "./schema";
 
+const legacyCatalog = new Map([
+  ["p1", "Caballo Tang"], ["p2", "Esfera Carrara"], ["p3", "Vasija Tierra I"],
+  ["p4", "Plato Basalto"], ["p5", "Estudio en ocre"], ["p6", "Nocturno III"],
+  ["p7", "Collar Ámbar"], ["p8", "Cuenco Obsidiana"], ["p9", "Chal Anatolia"],
+  ["pieza-28943d17-d5ea-4553-a4e6-22564ea7723e", "Nueva pieza"],
+]);
+
+function isLegacyCatalog(document: SiteContent) {
+  return document.revision === 3 &&
+    [...legacyCatalog].every(([id, name]) => document.pieces.some(piece => piece.id === id && piece.name === name));
+}
+
+async function replaceLegacyCatalog(document: SiteContent): Promise<SiteContent> {
+  if (!isLegacyCatalog(document)) return document;
+  const seed = createSeedContent();
+  const images = { ...document.images };
+  legacyCatalog.forEach((_, id) => { delete images[id]; });
+  delete images.acc;
+  for (const id of ["esc", "cer", "arte", "pop"]) images[id] = seed.images[id];
+  const upgraded = {
+    ...document,
+    revision: document.revision + 1,
+    updatedAt: new Date().toISOString(),
+    pieces: seed.pieces,
+    cats: seed.cats,
+    designers: seed.designers,
+    images,
+  };
+  const [saved] = await db().update(contentTable)
+    .set({ document: upgraded, revision: upgraded.revision })
+    .where(and(eq(contentTable.id, 1), eq(contentTable.revision, document.revision)))
+    .returning({ document: contentTable.document });
+  if (saved) return structuredClone(saved.document) as SiteContent;
+  const [latest] = await db().select().from(contentTable).where(eq(contentTable.id, 1));
+  return structuredClone(latest.document) as SiteContent;
+}
+
 function fail(path: string): never { throw new CmsError(400, `Contenido inválido: ${path}.`); }
 function object(value: unknown, path: string): Record<string, unknown> {
   if (!value || typeof value !== "object" || Array.isArray(value)) fail(path);
@@ -75,7 +112,7 @@ export async function getContent(): Promise<SiteContent> {
   const database = db();
   await database.insert(contentTable).values({ id: 1, document: createSeedContent(), revision: 0 }).onConflictDoNothing();
   const [row] = await database.select().from(contentTable).where(eq(contentTable.id, 1));
-  return structuredClone(row.document);
+  return replaceLegacyCatalog(structuredClone(row.document));
 }
 export async function getPublicContent(): Promise<SiteContent> {
   const content = await getContent(); const drafts = content.pieces.filter(piece => !piece.published); content.pieces = content.pieces.filter(piece => piece.published);

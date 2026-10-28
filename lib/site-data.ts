@@ -1,3 +1,5 @@
+import { CATALOG_PIECES } from "./catalog-products";
+
 // Content and data extracted from the Casa Kruyff design (Casa Kruyff Sitio.dc.html).
 
 export type Lang = "es" | "en";
@@ -22,23 +24,14 @@ function localImage(name: string) {
 }
 
 export const IMG: Record<string, { src: string; credit: string; href: string }> = {
-  esc: localImage("sculpture"),
-  cer: localImage("ceramics"),
-  arte: localImage("art"),
-  acc: localImage("accessories"),
+  esc: { src: "/images/catalog/piece-38-01.webp", credit: "", href: "" },
+  cer: { src: "/images/catalog/piece-01-01.webp", credit: "", href: "" },
+  arte: { src: "/images/catalog/piece-40-01.webp", credit: "", href: "" },
+  pop: { src: "/images/catalog/piece-09-02.webp", credit: "", href: "" },
   sala: unsplash("1618221195710-dd6b41faaea6", "Spacejoy", "spacejoy"),
   comedor: unsplash("1690489965043-ec15758cce71", "Francesco Liotti", "francesco_liotti"),
   recamara: unsplash("1616594039964-ae9021a400a0", "Spacejoy", "spacejoy"),
   estudio: unsplash("1598928506311-c55ded91a20c", "Lotus Design N Print", "lotusdnp"),
-  p1: localImage("hero-horse"),
-  p2: unsplash("1667312939978-64cf31718a6e", "Karolina Grabowska", "kaboompics"),
-  p3: unsplash("1616046229478-9901c5536a45", "Spacejoy", "spacejoy"),
-  p4: unsplash("1572048572872-2394404cf1f3", "Angela Bailey", "angelabaileyy"),
-  p5: localImage("art"),
-  p6: unsplash("1554995207-c18c203602cb", "Kara Eads", "karaeads"),
-  p7: localImage("accessories"),
-  p8: unsplash("1617098900591-3f90928e8c54", "Spacejoy", "spacejoy"),
-  p9: unsplash("1582131503261-fca1d1c0589f", "Linh Le", "linhlee"),
   j1: localImage("interior-fireplace"),
   j2: localImage("interior-dining"),
   j3: localImage("interior-study"),
@@ -57,7 +50,12 @@ export const HERO_CASA = localImage("interior-study");
 export const HERO_JOURNAL = localImage("materials");
 export const HERO_CONTACTO = localImage("interior-fireplace");
 
-export const CATS: [string, string, string][] = [['esc','Escultura y objetos decorativos','Sculpture & Decorative Objects'],['cer','Cerámica y platos','Ceramics & Plates'],['arte','Arte y grabados','Art & Prints'],['acc','Accesorios y arte para portar','Accessories & Wearable Art']];
+export const CATS: [string, string, string][] = [
+  ["esc", "Objetos decorativos", "Decorative Objects"],
+  ["cer", "Cerámica y alfarería", "Ceramics & Pottery"],
+  ["arte", "Arte y obra gráfica", "Art & Prints"],
+  ["pop", "Artesanía y arte popular", "Folk Art & Craft"],
+];
 
 export interface Piece {
   id: string;
@@ -75,17 +73,7 @@ export interface Piece {
   availability?: "available" | "on-request" | "sold";
 }
 
-export const PIECES: Piece[] = [
-  {id:'p1',name:'Caballo Tang',cat:'esc',designer:'Atelier Veronne',origin:'China',mat:['Bronce calado y patinado, base de acero','Pierced patinated bronze, steel stand'],dim:'62 × 18 × 70 cm'},
-  {id:'p2',name:'Esfera Carrara',cat:'esc',designer:'Studio Ferrante',origin:'Italia',mat:['Mármol tallado a mano','Hand-carved marble'],dim:'Ø 24 cm'},
-  {id:'p3',name:'Vasija Tierra I',cat:'cer',designer:'Taller Ocre',origin:'México',mat:['Barro bruñido','Burnished clay'],dim:'Ø 34 × 48 cm'},
-  {id:'p4',name:'Plato Basalto',cat:'cer',designer:'Taller Ocre',origin:'México',mat:['Gres esmaltado','Glazed stoneware'],dim:'Ø 32 cm'},
-  {id:'p5',name:'Estudio en ocre',cat:'arte',designer:'Obra de autor',origin:'España',mat:['Óleo sobre lino','Oil on linen'],dim:'120 × 150 cm'},
-  {id:'p6',name:'Nocturno III',cat:'arte',designer:'Mørk & Co.',origin:'Japón',mat:['Grabado sobre papel washi','Print on washi paper'],dim:'60 × 80 cm'},
-  {id:'p7',name:'Collar Ámbar',cat:'acc',designer:'Casa Anatolia',origin:'Marruecos',mat:['Ámbar y plata','Amber and silver'],dim:'48 cm'},
-  {id:'p8',name:'Cuenco Obsidiana',cat:'cer',designer:'Taller Ocre',origin:'México',mat:['Cerámica ahumada','Smoke-fired ceramic'],dim:'Ø 28 × 12 cm'},
-  {id:'p9',name:'Chal Anatolia',cat:'acc',designer:'Casa Anatolia',origin:'Turquía',mat:['Seda tejida a mano','Hand-woven silk'],dim:'70 × 200 cm'}
-];
+export const PIECES: Piece[] = CATALOG_PIECES;
 
 export const COLLECTIONS = CATS;
 
@@ -111,11 +99,14 @@ export interface Designer {
 }
 
 export const DESIGNERS: Designer[] = [
-  { id: "d1", name: "Atelier Veronne", origin: "Francia", disc: ["Escultura en bronce","Bronze sculpture"] },
-  { id: "d2", name: "Studio Ferrante", origin: "Italia", disc: ["Piedra y mármol","Stone and marble"] },
-  { id: "d3", name: "Mørk & Co.", origin: "Dinamarca", disc: ["Grabado y obra gráfica","Printmaking"] },
-  { id: "d4", name: "Taller Ocre", origin: "México", disc: ["Cerámica y piedra","Ceramics and stone"] },
-  { id: "d5", name: "Casa Anatolia", origin: "Turquía", disc: ["Joyería y textiles","Jewelry and textiles"] },
+  { id: "d1", name: "Artesanos de San José de Gracia", origin: "Michoacán, México", disc: ["Alfarería tradicional","Traditional pottery"] },
+  { id: "d2", name: "Alfareros purépechas de Pambatán", origin: "Michoacán, México", disc: ["Cerámica pintada y esculpida","Painted and sculpted pottery"] },
+  { id: "d3", name: "Artistas Wixárika", origin: "México", disc: ["Talla, chaquira y arte popular","Carving, chaquira, and folk art"] },
+  { id: "d4", name: "Artesanos balineses", origin: "Bali, Indonesia", disc: ["Objetos tallados y fundidos","Carved and cast objects"] },
+  { id: "d5", name: "Gaya Ceramic", origin: "Indonesia", disc: ["Cerámica contemporánea","Contemporary ceramics"] },
+  { id: "d6", name: "Bord de l’Eau", origin: "No especificado", disc: ["Objetos decorativos Mati","Mati decorative objects"] },
+  { id: "d7", name: "Galatiss Art Gallery", origin: "No especificado", disc: ["Objetos de cristal","Crystal objects"] },
+  { id: "d8", name: "Carlos Gunther Maier · House Armida", origin: "No especificado", disc: ["Impresión digital","Digital prints"] },
 ];
 
 export function langIndex(lang: Lang) {
