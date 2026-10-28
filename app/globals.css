@@ -142,6 +142,13 @@ button:focus-visible {
   transform-origin: center bottom;
 }
 
+.ck-hero-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  will-change: transform, opacity;
+}
+
 .ck-hero-shade {
   z-index: 2;
   pointer-events: none;
@@ -197,6 +204,10 @@ button:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .ck-hero-background,
   .ck-hero-foreground {
+    will-change: auto;
+  }
+
+  .ck-hero-copy {
     will-change: auto;
   }
 }
