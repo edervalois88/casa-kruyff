@@ -6,6 +6,7 @@ import type { Piece } from "@/lib/site-data";
 import { useLanguage } from "@/lib/language-context";
 import ArViewer from "./ArViewer";
 import { transitionView } from "@/lib/view-transition";
+import ImageGallery from "@/components/ui/image-gallery";
 
 function Chevron({ next = false }: { next?: boolean }) {
   return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d={next ? "m9 5 7 7-7 7" : "m15 5-7 7 7 7"} /></svg>;
@@ -76,11 +77,13 @@ export default function PieceGallery({ piece, fallback }: { piece: Piece; fallba
       <button type="button" aria-pressed={view === "model"} disabled={!piece.model?.glb} onClick={() => setView("model")}>{t.model3d}{!piece.model?.glb && <span> · {english ? "Coming soon" : "Próximamente"}</span>}</button>
     </div>
 
-    {photos.length > 1 && <div className="ck-gallery-thumbnails" role="group" aria-label={english ? "Additional photographs" : "Fotografías adicionales"}>
-      {photos.map((src, i) => <button key={src} type="button" aria-label={english ? `Show photograph ${i + 1}` : `Ver fotografía ${i + 1}`} aria-pressed={view === "photos" && i === index} onClick={() => { selectPhoto(i); setView("photos"); }}>
-        <Image src={src} alt="" fill sizes="76px" style={{ objectFit: "cover" }} />
-      </button>)}
-    </div>}
+    {photos.length > 1 && <ImageGallery
+      images={photos.map(src => ({ src, alt: "" }))}
+      selectedIndex={index}
+      onSelect={next => { selectPhoto(next); setView("photos"); }}
+      ariaLabel={english ? "Additional photographs" : "Fotografías adicionales"}
+      photoLabel={english ? "Show photograph" : "Ver fotografía"}
+    />}
 
     <dialog ref={lightbox} className="ck-gallery-lightbox" aria-label={english ? `Photographs of ${name}` : `Fotografías de ${name}`} onCancel={event => { event.preventDefault(); closeLightbox(); }} onClick={event => { if (event.target === event.currentTarget) closeLightbox(); }} onKeyDown={event => { if (photos.length < 2) return; if (event.key === "ArrowRight") { event.preventDefault(); move(1); } if (event.key === "ArrowLeft") { event.preventDefault(); move(-1); } }}>
       <div className="ck-lightbox-header"><span>{name} · {index + 1} / {photos.length}</span><button type="button" onClick={closeLightbox}>{english ? "Close" : "Cerrar"}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg></button></div>

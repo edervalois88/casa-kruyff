@@ -751,6 +751,29 @@ button:focus-visible {
 @keyframes ck-photo-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes ck-photo-out { from { opacity: 1; } to { opacity: 0; } }
 .ck-gallery-thumbnails button { transition: border-color 160ms ease, opacity 160ms ease; }
+.ck-image-gallery { height: clamp(132px,14vw,180px); overflow-x: auto; padding: 3px; }
+.ck-image-gallery-panel {
+  flex: var(--ck-gallery-weight,1) 1 0%;
+  min-width: 36px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: var(--ck-sand-light);
+  cursor: pointer;
+  transition: flex-grow 450ms cubic-bezier(.16,1,.3,1), border-color 160ms ease;
+}
+.ck-image-gallery-panel[aria-pressed="true"] { border-color: var(--ck-gold); }
+.ck-image-gallery-panel:focus-visible { outline: 2px solid var(--ck-gold); outline-offset: 2px; }
+.ck-image-gallery-number {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  padding: 3px 5px;
+  background: var(--ck-ivory);
+  color: var(--ck-ink);
+  font: 10px/1.3 var(--font-label);
+  font-variant-numeric: tabular-nums;
+}
 .ck-quote-add { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 52px; }
 .ck-quote-add:disabled { cursor: default !important; }
 .ck-quote-label, .ck-quote-count { display: inline-block; animation: ck-confirm 180ms ease-out both; }
@@ -769,6 +792,8 @@ button:focus-visible {
 .ck-home-collection__link { text-underline-offset: 6px; }
 
 @media (max-width: 600px) {
+  .ck-image-gallery { height: 126px; scroll-snap-type: x proximity; overscroll-behavior-inline: contain; }
+  .ck-image-gallery-panel { flex: 0 0 29%; min-width: 88px; scroll-snap-align: center; }
   .ck-work-steps { grid-template-columns: 1fr; padding-left: 24px; }
   .ck-work-steps::before, .ck-work-steps::after { width: 1px; height: 100%; }
   .ck-work-steps::after { transform: scaleY(var(--ck-work-progress)); transform-origin: top; }
@@ -776,6 +801,7 @@ button:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ck-image-gallery-panel { transition: none; }
   .ck-intro-veil { display: none; }
   .ck-wordmark img { transition: none; }
   .ck-piece-card img, .ck-piece-card:hover img, .ck-piece-card:focus-visible img { scale: 1; transition: none; }
