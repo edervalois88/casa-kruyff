@@ -99,8 +99,44 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-.ck-home-hero-image {
-  object-position: 48% center;
+.ck-hero-scene {
+  position: relative;
+  height: 100svh;
+  min-height: 460px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--ck-brown-deep);
+}
+
+.ck-hero-background,
+.ck-hero-foreground,
+.ck-hero-shade {
+  position: absolute;
+  inset: 0;
+}
+
+.ck-hero-background,
+.ck-hero-foreground {
+  will-change: transform;
+}
+
+.ck-hero-background {
+  z-index: 0;
+  transform: scale(1.04);
+}
+
+.ck-hero-background-layered {
+  transform: translate3d(11%, 0, 0) scale(1.32);
+}
+
+.ck-hero-foreground {
+  z-index: 1;
+  transform: translate3d(0, -10%, 0) scale(.65);
+}
+
+.ck-hero-shade {
+  z-index: 2;
+  pointer-events: none;
 }
 
 .ck-collection-heading {
@@ -136,8 +172,19 @@ button:focus-visible {
 }
 
 @media (max-width: 640px) {
-  .ck-home-hero-image {
-    object-position: 39% center;
+  .ck-hero-scene {
+    min-height: 560px;
+  }
+
+  .ck-hero-foreground {
+    transform: translate3d(0, -10%, 0) scale(1.25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ck-hero-background,
+  .ck-hero-foreground {
+    will-change: auto;
   }
 }
 
