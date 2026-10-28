@@ -190,6 +190,96 @@ button:focus-visible {
   transform: translate3d(0, 0, 0);
 }
 
+.ck-home-collection {
+  position: relative;
+  height: 88svh;
+  min-height: 480px;
+  margin-bottom: 6px;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--ck-brown-mid);
+}
+
+.ck-home-collection__image {
+  z-index: 0;
+  transform: scale(1);
+  transition: transform 950ms cubic-bezier(.16,1,.3,1), opacity 700ms ease;
+}
+
+.ck-home-collection__shade {
+  position: absolute;
+  z-index: 1;
+  inset: auto 0 0;
+  height: 65%;
+  background: linear-gradient(180deg, rgba(20,17,16,0), rgba(20,17,16,.68));
+}
+
+.ck-home-collection__copy {
+  position: absolute;
+  z-index: 2;
+  inset: auto clamp(24px,5vw,88px) clamp(40px,6vw,88px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  color: var(--ck-ivory);
+}
+
+.ck-home-collection__number,
+.ck-home-collection__copy h2,
+.ck-home-collection__link {
+  opacity: 1;
+  transform: none;
+  transition: opacity 520ms cubic-bezier(.16,1,.3,1), transform 620ms cubic-bezier(.16,1,.3,1);
+}
+
+.ck-home-collection__number,
+.ck-home-collection__link {
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+}
+
+.ck-home-collection__copy h2 {
+  max-width: 16ch;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(40px,5.4vw,88px);
+  font-weight: 300;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.ck-home-collection__link {
+  color: var(--ck-ivory);
+  border-bottom: 1px solid var(--ck-gold-light);
+  padding-bottom: 5px;
+  white-space: nowrap;
+}
+
+.ck-home-collection--pending .ck-home-collection__image {
+  opacity: .82;
+  transform: scale(1.035);
+}
+
+.ck-home-collection--pending .ck-home-collection__number,
+.ck-home-collection--pending .ck-home-collection__copy h2,
+.ck-home-collection--pending .ck-home-collection__link {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+}
+
+.ck-home-collection--pending .ck-home-collection__link:focus-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.ck-home-collection--visible .ck-home-collection__number { transition-delay: 60ms; }
+.ck-home-collection--visible .ck-home-collection__copy h2 { transition-delay: 120ms; }
+.ck-home-collection--visible .ck-home-collection__link { transition-delay: 190ms; }
+
 .ck-collection-heading > div {
   display: flex;
   justify-content: space-between;
@@ -235,6 +325,15 @@ button:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ck-home-collection__image,
+  .ck-home-collection__number,
+  .ck-home-collection__copy h2,
+  .ck-home-collection__link {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
   .ck-catalog-reveal,
   .ck-catalog-reveal--pending,
   .ck-catalog-reveal--visible {

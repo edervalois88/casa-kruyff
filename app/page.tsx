@@ -9,6 +9,7 @@ import Reveal from "@/components/Reveal";
 import InstagramFeed from "@/components/InstagramFeed";
 import RevealImage from "@/components/RevealImage";
 import HeroParallax from "@/components/HeroParallax";
+import CollectionStoryScene from "@/components/CollectionStoryScene";
 
 export default function HomePage() {
   const { lang, t } = useLanguage();
@@ -92,37 +93,16 @@ export default function HomePage() {
       {COLLECTIONS.map(([id, esName, enName], i) => {
         const img = IMG[id];
         return (
-          <section key={id} style={{ position: "relative", height: "88svh", minHeight: 480, background: "var(--ck-brown-mid)", marginBottom: 6, overflow: "hidden" }}>
-            <RevealImage src={img.src} alt={[esName, enName][L]} fill sizes="100vw" style={{ objectFit: "cover", objectPosition: id === "acc" ? "56% center" : id === "arte" ? "52% center" : "center" }} />
-            <div
-              aria-hidden
-              style={{ position: "absolute", inset: "auto 0 0 0", height: "65%", background: "linear-gradient(180deg,rgba(20,17,16,0),rgba(20,17,16,.68))" }}
-            />
-            <div style={{ position: "absolute", left: "clamp(24px,5vw,88px)", right: "clamp(24px,5vw,88px)", bottom: "clamp(40px,6vw,88px)", display: "flex", flexDirection: "column", gap: 14, color: "var(--ck-ivory)" }}>
-              <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.26em", textTransform: "uppercase" }}>
-                0{i + 1}
-              </span>
-              <h2 style={{ margin: 0, fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(40px,5.4vw,88px)", lineHeight: 1, maxWidth: "16ch", textWrap: "balance" }}>{[esName, enName][L]}</h2>
-              <Link
-                href={`/colecciones?cat=${id}`}
-                className="font-[family-name:var(--font-label)]"
-                style={{
-                  pointerEvents: "auto",
-                  color: "var(--ck-ivory)",
-                  fontSize: 11,
-                  fontWeight: 500,
-                  letterSpacing: "0.24em",
-                  textTransform: "uppercase",
-                  whiteSpace: "nowrap",
-                  borderBottom: "1px solid #C9A961",
-                  paddingBottom: 5,
-                  alignSelf: "flex-start",
-                }}
-              >
-                {t.viewColl}
-              </Link>
-            </div>
-          </section>
+          <CollectionStoryScene
+            key={id}
+            image={img.src}
+            imageAlt={[esName, enName][L]}
+            name={[esName, enName][L]}
+            index={i}
+            href={`/colecciones?cat=${id}`}
+            action={t.viewColl}
+            objectPosition={id === "acc" ? "56% center" : id === "arte" ? "52% center" : "center"}
+          />
         );
       })}
 
