@@ -8,6 +8,7 @@ import { useSiteData } from "@/lib/site-content-context";
 import Reveal from "@/components/Reveal";
 import InstagramFeed from "@/components/InstagramFeed";
 import RevealImage from "@/components/RevealImage";
+import HeroParallax from "@/components/HeroParallax";
 
 export default function HomePage() {
   const { lang, t } = useLanguage();
@@ -16,16 +17,7 @@ export default function HomePage() {
 
   return (
     <>
-      <section style={{ position: "relative", height: "100svh", minHeight: 460, background: "var(--ck-brown-deep)", overflow: "hidden" }}>
-        <RevealImage src={HERO_A.src} alt="Caballo decorativo sobre una consola de piedra" fill preload sizes="100vw" className="ck-home-hero-image" style={{ objectFit: "cover" }} />
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            background: "linear-gradient(180deg,rgba(20,17,16,.45) 0%,rgba(20,17,16,0) 22%,rgba(20,17,16,0) 52%,rgba(20,17,16,.62) 74%,rgba(20,17,16,.85) 100%)",
-          }}
-        />
+      <HeroParallax src={HERO_A.src} alt="Caballo decorativo sobre una consola de piedra">
         <div
           style={{
             position: "absolute",
@@ -78,7 +70,7 @@ export default function HomePage() {
             {t.explore}
           </Link>
         </div>
-      </section>
+      </HeroParallax>
 
       <section style={{ padding: "clamp(96px,13vw,190px) 24px", display: "flex", flexDirection: "column", alignItems: "center", gap: 40, textAlign: "center" }}>
         <Image src="/brand/emblem.png" alt="" width={72} height={101} style={{ width: 72, height: "auto", opacity: 0.9 }} />
