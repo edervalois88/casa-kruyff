@@ -7,8 +7,10 @@ import { useLanguage } from "@/lib/language-context";
 
 export default function InstagramFeed() {
   const { lang, t } = useLanguage();
-  const { settings, PIECES, IMG, catName } = useSiteData();
-  const highlights = PIECES.filter((piece) => piece.published !== false && IMG[piece.id]?.src).slice(0, 4);
+  const { settings, PIECES, CATS, IMG, catName } = useSiteData();
+  const highlights = CATS.map(([category]) => PIECES.find((piece) => piece.cat === category && piece.published !== false && IMG[piece.id]?.src))
+    .filter((piece) => piece !== undefined)
+    .slice(0, 4);
 
   if (!highlights.length) return null;
 
