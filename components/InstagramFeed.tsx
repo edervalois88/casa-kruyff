@@ -1,18 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useSiteData } from "@/lib/site-content-context";
 import { useLanguage } from "@/lib/language-context";
 
 export default function InstagramFeed() {
-  const { lang, t } = useLanguage();
-  const { settings, PIECES, CATS, IMG, catName } = useSiteData();
-  const highlights = CATS.map(([category]) => PIECES.find((piece) => piece.cat === category && piece.published !== false && IMG[piece.id]?.src))
-    .filter((piece) => piece !== undefined)
-    .slice(0, 4);
-
-  if (!highlights.length) return null;
+  const { t } = useLanguage();
+  const { settings } = useSiteData();
 
   return (
     <section className="ck-instagram" aria-labelledby="instagram-title">
@@ -26,22 +19,15 @@ export default function InstagramFeed() {
           {t.instagramVisit}
         </a>
       </div>
-      <div className="ck-instagram-gallery" aria-label={lang === "es" ? "Selección de piezas del catálogo" : "A selection of pieces from the collection"}>
-        {highlights.map((piece, index) => {
-          const name = lang === "en" && piece.nameEn ? piece.nameEn : piece.name;
-          const image = IMG[piece.id];
-          return (
-            <Link className={`ck-instagram-card ck-instagram-card-${index + 1}`} href={`/piezas/${piece.id}`} key={piece.id}>
-              <div className="ck-instagram-image">
-                <Image src={image.src} alt={name} fill sizes="(max-width: 600px) 46vw, (max-width: 1000px) 44vw, 24vw" />
-              </div>
-              <div className="ck-instagram-caption">
-                <span>{catName(lang, piece.cat, t.all)}</span>
-                <h3>{name}</h3>
-              </div>
-            </Link>
-          );
-        })}
+      <div className="ck-instagram-window">
+        <iframe
+          className="ck-instagram-embed"
+          src={`https://www.instagram.com/${settings.instagramUsername}/embed/`}
+          title={t.instagramLatest}
+          scrolling="no"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        />
       </div>
     </section>
   );
