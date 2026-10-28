@@ -62,7 +62,7 @@ export default function PieceGallery({ piece, fallback }: { piece: Piece; fallba
   </>;
 
   return <div className="ck-piece-gallery">
-    <div className="ck-gallery-stage">
+    <div className={`ck-gallery-stage${photos.length > 1 && view === "photos" ? " ck-gallery-stage-deck" : ""}`}>
       {view === "model" && piece.model?.glb
         ? <ArViewer key={`${piece.id}-${piece.model.glb}`} piece={piece} poster={photos[0]} embedded />
         : photos.length ? <>
@@ -79,6 +79,12 @@ export default function PieceGallery({ piece, fallback }: { piece: Piece; fallba
           <span className="ck-gallery-count" aria-live="polite">{index + 1} / {photos.length}</span>
         </> : <p className="ck-gallery-empty">{english ? "Photographs coming soon" : "Fotografías próximamente"}</p>}
     </div>
+
+    {photos.length > 1 && view === "photos" && <div className="ck-deck-controls">
+      <button type="button" aria-label={previousLabel} onClick={() => move(-1)}><Chevron /></button>
+      <span>{english ? "Swipe to explore" : "Desliza para explorar"}</span>
+      <button type="button" aria-label={nextLabel} onClick={() => move(1)}><Chevron next /></button>
+    </div>}
 
     <div className="ck-gallery-tools" role="group" aria-label={english ? "Gallery view" : "Vista de la galería"}>
       <button type="button" aria-pressed={view === "photos"} onClick={() => setView("photos")}>{english ? "Photographs" : "Fotografías"} <span>({photos.length})</span></button>
