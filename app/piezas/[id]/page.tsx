@@ -58,7 +58,9 @@ export default function PiezaPage() {
           <button
             type="button"
             onClick={() => addPiece(piece.id)}
-            className="font-[family-name:var(--font-label)]"
+            className="ck-quote-add font-[family-name:var(--font-label)]"
+            data-added={inQuote}
+            disabled={inQuote}
             style={{
               cursor: "pointer",
               background: "var(--ck-brown-deep)",
@@ -71,7 +73,8 @@ export default function PiezaPage() {
               textTransform: "uppercase",
             }}
           >
-            {inQuote ? t.added : t.add}
+            {inQuote && <svg className="ck-quote-check" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>}
+            <span key={String(inQuote)} className="ck-quote-label" role="status">{inQuote ? t.added : t.add}</span>
           </button>
           <a
             href={whatsappLink(t.waPiece + name)}

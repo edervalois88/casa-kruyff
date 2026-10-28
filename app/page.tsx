@@ -11,6 +11,7 @@ import RevealImage from "@/components/RevealImage";
 import HeroParallax from "@/components/HeroParallax";
 import CollectionStoryScene from "@/components/CollectionStoryScene";
 import CollectionStack from "@/components/CollectionStack";
+import WorkSteps from "@/components/WorkSteps";
 
 export default function HomePage() {
   const { lang, t } = useLanguage();
@@ -145,15 +146,7 @@ export default function HomePage() {
           <span className="ck-section-label">{t.howWork}</span>
           <h2>{t.howTitle}</h2>
         </div>
-        <div className="ck-work-steps">
-          {t.steps.map(([title, body], i) => (
-            <div key={title} className="ck-work-step">
-              <span className="ck-section-label">{String(i + 1).padStart(2, "0")}</span>
-              <h3>{title}</h3>
-              <p>{body}</p>
-            </div>
-          ))}
-        </div>
+        <WorkSteps steps={t.steps} />
         <a href={whatsappLink(t.waMsg)} target="_blank" rel="noreferrer" className="ck-action">{t.askInfo}</a>
       </section>
 

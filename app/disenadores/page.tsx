@@ -22,14 +22,13 @@ export default function DisenadoresPage() {
             className="ck-designer-row"
             style={{
               display: "grid",
-              gridTemplateColumns: "var(--ck-designer-columns,120px minmax(0,1fr) auto)",
+              gridTemplateColumns: "var(--ck-designer-columns,minmax(0,1fr) auto)",
               gap: "var(--ck-designer-gap,clamp(20px,3vw,48px))",
               alignItems: "center",
               padding: "24px 0",
               borderBottom: "1px solid rgba(54,40,31,.14)",
             }}
           >
-            <div className="ck-designer-portrait" style={{ position: "relative", width: "var(--ck-designer-image,120px)", aspectRatio: "4 / 5", background: "var(--ck-sand)" }} />
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               <span style={{ fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(34px,4vw,56px)", lineHeight: 1 }}>{d.name}</span>
               <span style={{ fontSize: 15, color: "var(--ck-muted-2)" }}>{d.disc[L]}</span>
