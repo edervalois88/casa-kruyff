@@ -10,6 +10,7 @@ import InstagramFeed from "@/components/InstagramFeed";
 import RevealImage from "@/components/RevealImage";
 import HeroParallax from "@/components/HeroParallax";
 import CollectionStoryScene from "@/components/CollectionStoryScene";
+import CollectionStack from "@/components/CollectionStack";
 
 export default function HomePage() {
   const { lang, t } = useLanguage();
@@ -90,7 +91,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="ck-home-collection-stack">
+      <CollectionStack>
         {COLLECTIONS.map(([id, esName, enName], i) => {
           const img = IMG[id];
           return (
@@ -106,7 +107,7 @@ export default function HomePage() {
             />
           );
         })}
-      </div>
+      </CollectionStack>
 
       <section style={{ background: "var(--ck-brown-deep)", color: "var(--ck-ivory)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))" }}>
         <div style={{ position: "relative", minHeight: 640, overflow: "hidden" }}>

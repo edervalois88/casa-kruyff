@@ -206,7 +206,10 @@ button:focus-visible {
   isolation: isolate;
   background: var(--ck-brown-mid);
   border: 1px solid rgba(244,240,230,.26);
-  box-shadow: 0 16px 42px rgba(21,16,12,.24);
+  border-radius: var(--ck-card-radius, 2px);
+  box-shadow: var(--ck-card-shadow, 0 5px 18px rgba(22,16,12,.16));
+  transform: scale(var(--ck-card-scale, 1));
+  transform-origin: center top;
 }
 
 .ck-home-collection__image {
@@ -356,6 +359,9 @@ button:focus-visible {
     min-height: 480px;
     margin-bottom: 6px;
     z-index: auto;
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
   }
 
   .ck-home-collection__image,
