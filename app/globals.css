@@ -129,9 +129,17 @@ button:focus-visible {
   transform: translate3d(11%, 0, 0) scale(1.32);
 }
 
+.ck-hero-background-layered img {
+  object-position: center;
+}
+
 .ck-hero-foreground {
+  inset: auto auto 27.5% 50%;
+  width: min(40svh, 38vw);
+  aspect-ratio: 945 / 1032;
   z-index: 1;
-  transform: translate3d(0, -10%, 0) scale(.65);
+  transform: translate3d(-50%, 0, 0);
+  transform-origin: center bottom;
 }
 
 .ck-hero-shade {
@@ -176,8 +184,13 @@ button:focus-visible {
     min-height: 560px;
   }
 
+  .ck-hero-background-layered img {
+    object-position: 33% center;
+  }
+
   .ck-hero-foreground {
-    transform: translate3d(0, -10%, 0) scale(1.25);
+    bottom: 25%;
+    width: min(94vw, 47.5svh);
   }
 }
 

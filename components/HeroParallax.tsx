@@ -29,18 +29,23 @@ export default function HeroParallax({
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const compact = window.matchMedia("(max-width: 640px)");
-    const horseScale = compact.matches ? 1.25 : 0.65;
     const update = () => {
       const progress = Math.min(1, Math.max(0, -stage.getBoundingClientRect().top / stage.offsetHeight));
+      const backgroundPosition = compact.matches ? 0 : 11;
+      const backgroundScale = compact.matches ? 1.12 : 1.32;
       background.style.transform = layered
-        ? `translate3d(11%, ${progress * 2.2}%, 0) scale(1.32)`
+        ? `translate3d(${backgroundPosition}%, ${progress * 2.2}%, 0) scale(${backgroundScale})`
         : "scale(1.04)";
-      if (horse) horse.style.transform = `translate3d(0, ${-10 - progress * 4.2}%, 0) scale(${horseScale})`;
+      background.style.filter = layered ? `blur(${progress * 5}px)` : "none";
+      if (horse) horse.style.transform = `translate3d(-50%, ${progress * stage.offsetHeight * 0.022}px, 0) scale(${1 + progress * 0.06})`;
     };
 
     if (reduceMotion.matches) {
-      background.style.transform = layered ? "translate3d(11%, 0, 0) scale(1.32)" : "scale(1.04)";
-      if (horse) horse.style.transform = `translate3d(0, -10%, 0) scale(${horseScale})`;
+      const backgroundPosition = compact.matches ? 0 : 11;
+      const backgroundScale = compact.matches ? 1.12 : 1.32;
+      background.style.transform = layered ? `translate3d(${backgroundPosition}%, 0, 0) scale(${backgroundScale})` : "scale(1.04)";
+      background.style.filter = "none";
+      if (horse) horse.style.transform = "translate3d(-50%, 0, 0) scale(1)";
       return;
     }
 
@@ -71,7 +76,7 @@ export default function HeroParallax({
           fill
           preload
           sizes="100vw"
-          style={{ objectFit: "cover", objectPosition: "center" }}
+          style={{ objectFit: "cover" }}
         />
       </div>
       {layered && (
