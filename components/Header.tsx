@@ -78,7 +78,6 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
 
   const overlay = overlayCapable && !scrolled;
   const ivoryText = overlay;
-  const wordmarkSrc = ivoryText ? "/brand/wordmark-ivory.png" : "/brand/wordmark.png";
 
   const navLabelClass =
     "font-[family-name:var(--font-label)] text-[11px] font-medium tracking-[0.18em] uppercase whitespace-nowrap cursor-pointer transition-colors";
@@ -96,7 +95,7 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
           zIndex: 20,
           background: overlay ? "transparent" : "var(--ck-ivory)",
           borderBottom: overlay ? "none" : "1px solid rgba(54,40,31,.14)",
-          padding: overlay ? "28px clamp(20px,4vw,64px)" : "24px clamp(20px,4vw,64px)",
+          padding: narrow ? "12px 20px" : overlay ? "28px clamp(20px,4vw,64px)" : "24px clamp(20px,4vw,64px)",
           display: "grid",
           gridTemplateColumns: narrow ? "auto minmax(0,1fr) auto" : "minmax(0,1fr) auto minmax(0,1fr)",
           alignItems: "center",
@@ -125,14 +124,10 @@ export default function Header({ overlayCapable = false }: { overlayCapable?: bo
         </nav>
 
         <Link href="/" style={{ display: "flex", justifyContent: "center" }}>
-          <Image
-            src={wordmarkSrc}
-            alt="Casa Kruyff"
-            height={narrow ? 20 : 26}
-            width={narrow ? 170 : 220}
-            style={{ height: narrow ? 20 : 26, width: "auto" }}
-            priority
-          />
+          <span className="ck-wordmark" style={{ position: "relative", display: "block", width: narrow ? 170 : 220, height: narrow ? 20 : 26 }}>
+            <Image src="/brand/wordmark.png" alt="Casa Kruyff" fill sizes="220px" preload style={{ objectFit: "contain", opacity: ivoryText ? 0 : 1 }} />
+            <Image src="/brand/wordmark-ivory.png" alt="" aria-hidden="true" fill sizes="220px" preload style={{ objectFit: "contain", opacity: ivoryText ? 1 : 0 }} />
+          </span>
         </Link>
 
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-end", alignItems: "center", gap: 20 }}>

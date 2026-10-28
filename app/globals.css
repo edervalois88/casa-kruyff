@@ -692,6 +692,7 @@ button:focus-visible {
   animation: ck-intro-out 380ms ease 280ms both;
 }
 .ck-intro-veil img { width: 64px; height: auto; opacity: .8; }
+.ck-wordmark img { transition: opacity 200ms ease; }
 @keyframes ck-intro-out { to { opacity: 0; visibility: hidden; } }
 
 .ck-entrance {
@@ -776,6 +777,7 @@ button:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .ck-intro-veil { display: none; }
+  .ck-wordmark img { transition: none; }
   .ck-piece-card img, .ck-piece-card:hover img, .ck-piece-card:focus-visible img { scale: 1; transition: none; }
   .ck-entrance, .ck-entrance[data-phase="pending"], .ck-entrance--image[data-phase="pending"] { opacity: 1; transform: none; clip-path: none; transition: none; }
   .ck-entrance--image img, .ck-entrance--image[data-phase="pending"] img { transform: none; transition: none; }
