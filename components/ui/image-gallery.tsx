@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState, type CSSProperties } from "react";
+import { useRef, type CSSProperties, type Ref } from "react";
 
 interface ImageGalleryProps {
   images: { src: string; alt: string }[];
@@ -9,26 +9,24 @@ interface ImageGalleryProps {
   onSelect: (index: number) => void;
   ariaLabel: string;
   photoLabel: string;
+  selectedImageRef?: Ref<HTMLSpanElement>;
+  enlarged?: boolean;
 }
 
-export default function ImageGallery({ images, selectedIndex, onSelect, ariaLabel, photoLabel }: ImageGalleryProps) {
-  const [preview, setPreview] = useState<number | null>(null);
+export default function ImageGallery({ images, selectedIndex, onSelect, ariaLabel, photoLabel, selectedImageRef, enlarged = false }: ImageGalleryProps) {
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
-  const emphasized = preview ?? selectedIndex;
 
-  return <div className="ck-image-gallery flex w-full items-stretch gap-2" role="group" aria-label={ariaLabel}
-    onPointerLeave={() => setPreview(null)}>
+  return <div className="ck-image-gallery flex w-full items-stretch gap-2" role="group" aria-label={ariaLabel}>
     {images.map((image, index) => <button
       key={image.src}
       ref={element => { buttons.current[index] = element; }}
       type="button"
       className="ck-image-gallery-panel relative overflow-hidden"
-      style={{ "--ck-gallery-weight": emphasized === index ? 3.5 : 1 } as CSSProperties}
+      style={{ "--ck-gallery-weight": selectedIndex === index ? 8 : 1 } as CSSProperties}
       aria-label={`${photoLabel} ${index + 1}`}
       aria-pressed={selectedIndex === index}
-      onPointerEnter={event => { if (event.pointerType === "mouse") setPreview(index); }}
-      onFocus={() => setPreview(index)}
-      onBlur={() => setPreview(null)}
+      onPointerEnter={event => { if (event.pointerType === "mouse") onSelect(index); }}
+      onFocus={() => onSelect(index)}
       onClick={() => onSelect(index)}
       onKeyDown={event => {
         let next: number;
@@ -42,7 +40,9 @@ export default function ImageGallery({ images, selectedIndex, onSelect, ariaLabe
         onSelect(next);
       }}
     >
-      <Image src={image.src} alt={image.alt} fill sizes="(max-width: 800px) 160px, 340px" style={{ objectFit: "cover" }} />
+      <span ref={selectedIndex === index ? selectedImageRef : undefined} className="ck-photo-scene" style={{ viewTransitionName: selectedIndex === index && !enlarged ? "ck-piece-photo" : "none" }}>
+        <Image src={image.src} alt={image.alt} fill sizes="(max-width: 800px) 80vw, 48vw" style={{ objectFit: selectedIndex === index ? "contain" : "cover" }} preload={index === 0} />
+      </span>
       <span className="ck-image-gallery-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
     </button>)}
   </div>;

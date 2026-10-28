@@ -17,6 +17,7 @@ export default function PieceGallery({ piece, fallback }: { piece: Piece; fallba
   const [selected, setSelected] = useState(0);
   const [previous, setPrevious] = useState<number | null>(null);
   const [view, setView] = useState<"photos" | "model">("photos");
+  const [isEnlarged, setIsEnlarged] = useState(false);
   const lightbox = useRef<HTMLDialogElement>(null);
   const sourcePhoto = useRef<HTMLSpanElement>(null);
   const enlargedPhoto = useRef<HTMLDivElement>(null);
@@ -37,11 +38,13 @@ export default function PieceGallery({ piece, fallback }: { piece: Piece; fallba
       if (sourcePhoto.current) sourcePhoto.current.style.viewTransitionName = "none";
       if (enlargedPhoto.current) enlargedPhoto.current.style.viewTransitionName = "ck-piece-photo";
       lightbox.current?.showModal();
+      setIsEnlarged(true);
     });
   }
   function closeLightbox() {
     transitionView(() => {
       lightbox.current?.close();
+      setIsEnlarged(false);
       if (enlargedPhoto.current) enlargedPhoto.current.style.viewTransitionName = "none";
       if (sourcePhoto.current) sourcePhoto.current.style.viewTransitionName = "ck-piece-photo";
     });
@@ -63,11 +66,16 @@ export default function PieceGallery({ piece, fallback }: { piece: Piece; fallba
       {view === "model" && piece.model?.glb
         ? <ArViewer key={`${piece.id}-${piece.model.glb}`} piece={piece} poster={photos[0]} embedded />
         : photos.length ? <>
-          <button type="button" className="ck-gallery-expand" aria-label={english ? `Enlarge photograph of ${name}` : `Ampliar fotografía de ${name}`} onClick={openLightbox}>
+          {photos.length > 1 ? <>
+            <ImageGallery images={photos.map((src, photoIndex) => ({ src, alt: `${name} · ${photoIndex + 1}` }))}
+              selectedIndex={index} onSelect={selectPhoto} selectedImageRef={sourcePhoto} enlarged={isEnlarged}
+              ariaLabel={english ? "Product photographs" : "Fotografías del producto"}
+              photoLabel={english ? "Show photograph" : "Ver fotografía"} />
+            <button type="button" className="ck-gallery-enlarge-label ck-gallery-enlarge-action" onClick={openLightbox}>{english ? "Enlarge photograph" : "Ampliar fotografía"}</button>
+          </> : <button type="button" className="ck-gallery-expand" aria-label={english ? `Enlarge photograph of ${name}` : `Ampliar fotografía de ${name}`} onClick={openLightbox}>
             <span ref={sourcePhoto} className="ck-photo-scene" style={{ viewTransitionName: "ck-piece-photo" }}>{photograph("(max-width: 800px) 100vw, 55vw")}</span>
             <span className="ck-gallery-enlarge-label">{english ? "Enlarge" : "Ampliar"}<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5" /></svg></span>
-          </button>
-          {photoControls}
+          </button>}
           <span className="ck-gallery-count" aria-live="polite">{index + 1} / {photos.length}</span>
         </> : <p className="ck-gallery-empty">{english ? "Photographs coming soon" : "Fotografías próximamente"}</p>}
     </div>
@@ -76,14 +84,6 @@ export default function PieceGallery({ piece, fallback }: { piece: Piece; fallba
       <button type="button" aria-pressed={view === "photos"} onClick={() => setView("photos")}>{english ? "Photographs" : "Fotografías"} <span>({photos.length})</span></button>
       <button type="button" aria-pressed={view === "model"} disabled={!piece.model?.glb} onClick={() => setView("model")}>{t.model3d}{!piece.model?.glb && <span> · {english ? "Coming soon" : "Próximamente"}</span>}</button>
     </div>
-
-    {photos.length > 1 && <ImageGallery
-      images={photos.map(src => ({ src, alt: "" }))}
-      selectedIndex={index}
-      onSelect={next => { selectPhoto(next); setView("photos"); }}
-      ariaLabel={english ? "Additional photographs" : "Fotografías adicionales"}
-      photoLabel={english ? "Show photograph" : "Ver fotografía"}
-    />}
 
     <dialog ref={lightbox} className="ck-gallery-lightbox" aria-label={english ? `Photographs of ${name}` : `Fotografías de ${name}`} onCancel={event => { event.preventDefault(); closeLightbox(); }} onClick={event => { if (event.target === event.currentTarget) closeLightbox(); }} onKeyDown={event => { if (photos.length < 2) return; if (event.key === "ArrowRight") { event.preventDefault(); move(1); } if (event.key === "ArrowLeft") { event.preventDefault(); move(-1); } }}>
       <div className="ck-lightbox-header"><span>{name} · {index + 1} / {photos.length}</span><button type="button" onClick={closeLightbox}>{english ? "Close" : "Cerrar"}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg></button></div>

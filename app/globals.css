@@ -751,7 +751,8 @@ button:focus-visible {
 @keyframes ck-photo-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes ck-photo-out { from { opacity: 1; } to { opacity: 0; } }
 .ck-gallery-thumbnails button { transition: border-color 160ms ease, opacity 160ms ease; }
-.ck-image-gallery { height: clamp(132px,14vw,180px); overflow-x: auto; padding: 3px; }
+.ck-image-gallery { height: 100%; overflow: hidden; padding: 3px; }
+.ck-gallery-enlarge-action { border: 0; cursor: zoom-in; color: var(--ck-ink); }
 .ck-image-gallery-panel {
   flex: var(--ck-gallery-weight,1) 1 0%;
   min-width: 36px;
@@ -792,8 +793,8 @@ button:focus-visible {
 .ck-home-collection__link { text-underline-offset: 6px; }
 
 @media (max-width: 600px) {
-  .ck-image-gallery { height: 126px; scroll-snap-type: x proximity; overscroll-behavior-inline: contain; }
-  .ck-image-gallery-panel { flex: 0 0 29%; min-width: 88px; scroll-snap-align: center; }
+  .ck-image-gallery { gap: 4px; }
+  .ck-image-gallery-panel { min-width: 24px; }
   .ck-work-steps { grid-template-columns: 1fr; padding-left: 24px; }
   .ck-work-steps::before, .ck-work-steps::after { width: 1px; height: 100%; }
   .ck-work-steps::after { transform: scaleY(var(--ck-work-progress)); transform-origin: top; }
