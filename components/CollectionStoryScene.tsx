@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 type ScenePhase = "static" | "pending" | "visible";
 
@@ -53,7 +53,14 @@ export default function CollectionStoryScene({
   }, []);
 
   return (
-    <section ref={ref} className={`ck-home-collection ck-home-collection--${phase}`}>
+    <section
+      ref={ref}
+      className={`ck-home-collection ck-home-collection--${phase}`}
+      style={{
+        "--ck-collection-stack-index": index + 1,
+        "--ck-collection-stack-offset": `${index * 16}px`,
+      } as CSSProperties}
+    >
       <Image
         className="ck-home-collection__image"
         src={image}

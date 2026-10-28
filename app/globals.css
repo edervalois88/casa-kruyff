@@ -190,14 +190,23 @@ button:focus-visible {
   transform: translate3d(0, 0, 0);
 }
 
-.ck-home-collection {
+.ck-home-collection-stack {
   position: relative;
-  height: 88svh;
-  min-height: 480px;
-  margin-bottom: 6px;
+  padding-bottom: 55svh;
+}
+
+.ck-home-collection {
+  position: sticky;
+  top: calc(84px + var(--ck-collection-stack-offset));
+  z-index: var(--ck-collection-stack-index);
+  height: calc(100svh - 120px - var(--ck-collection-stack-offset));
+  min-height: 460px;
+  margin-bottom: calc(120px + var(--ck-collection-stack-offset));
   overflow: hidden;
   isolation: isolate;
   background: var(--ck-brown-mid);
+  border: 1px solid rgba(244,240,230,.26);
+  box-shadow: 0 16px 42px rgba(21,16,12,.24);
 }
 
 .ck-home-collection__image {
@@ -309,6 +318,17 @@ button:focus-visible {
 }
 
 @media (max-width: 640px) {
+  .ck-home-collection-stack {
+    padding-bottom: 42svh;
+  }
+
+  .ck-home-collection {
+    top: calc(68px + var(--ck-collection-stack-offset));
+    height: calc(100svh - 98px - var(--ck-collection-stack-offset));
+    min-height: 390px;
+    margin-bottom: calc(98px + var(--ck-collection-stack-offset));
+  }
+
   .ck-hero-scene {
     min-height: 560px;
   }
@@ -325,6 +345,19 @@ button:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ck-home-collection-stack {
+    padding-bottom: 0;
+  }
+
+  .ck-home-collection {
+    position: relative;
+    top: auto;
+    height: 88svh;
+    min-height: 480px;
+    margin-bottom: 6px;
+    z-index: auto;
+  }
+
   .ck-home-collection__image,
   .ck-home-collection__number,
   .ck-home-collection__copy h2,

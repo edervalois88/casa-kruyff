@@ -90,21 +90,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      {COLLECTIONS.map(([id, esName, enName], i) => {
-        const img = IMG[id];
-        return (
-          <CollectionStoryScene
-            key={id}
-            image={img.src}
-            imageAlt={[esName, enName][L]}
-            name={[esName, enName][L]}
-            index={i}
-            href={`/colecciones?cat=${id}`}
-            action={t.viewColl}
-            objectPosition={id === "acc" ? "56% center" : id === "arte" ? "52% center" : "center"}
-          />
-        );
-      })}
+      <div className="ck-home-collection-stack">
+        {COLLECTIONS.map(([id, esName, enName], i) => {
+          const img = IMG[id];
+          return (
+            <CollectionStoryScene
+              key={id}
+              image={img.src}
+              imageAlt={[esName, enName][L]}
+              name={[esName, enName][L]}
+              index={i}
+              href={`/colecciones?cat=${id}`}
+              action={t.viewColl}
+              objectPosition={id === "acc" ? "56% center" : id === "arte" ? "52% center" : "center"}
+            />
+          );
+        })}
+      </div>
 
       <section style={{ background: "var(--ck-brown-deep)", color: "var(--ck-ivory)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))" }}>
         <div style={{ position: "relative", minHeight: 640, overflow: "hidden" }}>
