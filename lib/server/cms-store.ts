@@ -1,5 +1,5 @@
 import type { SiteContent } from "../cms-types";
-import { createSeedContent } from "../cms-seed";
+import { createSeedContent, withCopyDefaults } from "../cms-seed";
 import { db } from "./cms-db";
 import { CmsError } from "./cms-error";
 import { and, eq, inArray } from "drizzle-orm";
@@ -62,7 +62,7 @@ function url(value: unknown, path: string, ext?: string) {
     try { const parsed = new URL(value); if (parsed.protocol === "https:" && /^[a-z0-9-]+\.public\.blob\.vercel-storage\.com$/.test(parsed.hostname) && new RegExp(`^/cms/[a-f0-9-]{36}\\.${ext}$`).test(parsed.pathname) && !parsed.search && !parsed.hash) return; } catch {}
     fail(path);
   }
-  if (/^\/(?:images|media)\/[a-zA-Z0-9_.-]+\.(?:png|jpe?g|webp)$/i.test(value)) return;
+  if (/^\/(?:images\/(?:[a-zA-Z0-9_-]+\/)*|media\/)[a-zA-Z0-9_.-]+\.(?:png|jpe?g|webp)$/i.test(value)) return;
   try { const parsed = new URL(value); if (parsed.protocol === "https:" && !parsed.username && !parsed.password) return; } catch {}
   fail(path);
 }
@@ -112,7 +112,7 @@ export async function getContent(): Promise<SiteContent> {
   const database = db();
   await database.insert(contentTable).values({ id: 1, document: createSeedContent(), revision: 0 }).onConflictDoNothing();
   const [row] = await database.select().from(contentTable).where(eq(contentTable.id, 1));
-  return replaceLegacyCatalog(structuredClone(row.document));
+  return withCopyDefaults(await replaceLegacyCatalog(structuredClone(row.document)));
 }
 export async function getPublicContent(): Promise<SiteContent> {
   const content = await getContent(); const drafts = content.pieces.filter(piece => !piece.published); content.pieces = content.pieces.filter(piece => piece.published);

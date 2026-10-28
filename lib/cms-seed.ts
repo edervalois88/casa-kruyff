@@ -23,3 +23,13 @@ export function createSeedContent(): SiteContent {
     settings: { phone: CONTACT_PHONE, instagramUsername: "casakruyff", defaultLanguage: "en" },
   } as SiteContent);
 }
+
+export function withCopyDefaults(document: SiteContent): SiteContent {
+  return {
+    ...document,
+    copy: {
+      es: { ...COPY.es, ...document.copy.es },
+      en: { ...COPY.en, ...document.copy.en },
+    },
+  };
+}
