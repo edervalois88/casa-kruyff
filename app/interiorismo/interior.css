@@ -49,7 +49,7 @@
   padding: clamp(88px,11vw,160px) var(--ck-interior-gutter);
   scroll-margin-top: 110px;
 }
-.ck-interior-index { position: sticky; top: 116px; }
+.ck-interior-index { position: sticky; top: 116px; min-width: 0; }
 .ck-interior-index h2 { margin: 0 0 36px; max-width: 10ch; font: 300 clamp(36px,3.6vw,54px)/1.04 var(--font-serif); text-wrap: balance; }
 .ck-interior-index nav { display: flex; flex-direction: column; }
 .ck-interior-index a { position: relative; display: flex; flex-direction: column; gap: 7px; padding: 17px 0; border-top: 1px solid rgb(54 40 31 / .15); color: var(--ck-muted-2); text-decoration: none; transition: color 200ms ease; }
@@ -84,7 +84,7 @@
   .ck-interior-intro-copy { gap: 18px; padding: 0; }
   .ck-interior-intro-copy p { max-width: 46ch; font-size: 16px; line-height: 1.7; }
   .ck-interior-hero { height: 54svh; min-height: 340px; max-height: 620px; }
-  .ck-interior-projects { grid-template-columns: 1fr; gap: 32px; padding-block: 68px; scroll-margin-top: 90px; }
+  .ck-interior-projects { grid-template-columns: minmax(0,1fr); gap: 32px; padding-block: 68px; scroll-margin-top: 90px; }
   .ck-interior-index { position: static; }
   .ck-interior-index h2 { max-width: none; margin-bottom: 22px; font-size: 40px; }
   .ck-interior-index nav { flex-direction: row; gap: 22px; overflow-x: auto; padding: 4px 2px 12px; scroll-snap-type: x proximity; }
