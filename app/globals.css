@@ -134,12 +134,26 @@ button:focus-visible {
 }
 
 .ck-hero-foreground {
-  inset: auto auto 27.5% 50%;
+  inset: auto auto 27.5% 46.5%;
   width: min(40svh, 38vw);
   aspect-ratio: 945 / 1032;
   z-index: 1;
   transform: translate3d(-50%, 0, 0);
   transform-origin: center bottom;
+}
+
+.ck-hero-contact-shadow {
+  position: absolute;
+  z-index: 1;
+  left: 8%;
+  bottom: 1.5%;
+  width: 84%;
+  height: 3.2%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(24, 17, 12, .42) 0%, rgba(24, 17, 12, .22) 48%, transparent 76%);
+  filter: blur(5px);
+  mix-blend-mode: multiply;
+  pointer-events: none;
 }
 
 .ck-hero-copy {
@@ -196,6 +210,7 @@ button:focus-visible {
   }
 
   .ck-hero-foreground {
+    left: 50%;
     bottom: 25%;
     width: min(94vw, 47.5svh);
   }

@@ -91,7 +91,8 @@ export default function HeroParallax({
       </div>
       {layered && (
         <div ref={horseRef} className="ck-hero-foreground" aria-hidden="true">
-          <Image src={HORSE_CUTOUT} alt="" fill sizes="100vw" style={{ objectFit: "contain", objectPosition: "center" }} />
+          <Image src={HORSE_CUTOUT} alt="" fill sizes="100vw" style={{ objectFit: "contain", objectPosition: "center", filter: "saturate(.82) brightness(.94) contrast(.97)" }} />
+          <span className="ck-hero-contact-shadow" />
         </div>
       )}
       <div ref={contentRef} className="ck-hero-copy">
