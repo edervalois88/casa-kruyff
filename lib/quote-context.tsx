@@ -21,7 +21,10 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
     const id = setTimeout(() => {
       try {
         const stored = window.localStorage.getItem(STORAGE_KEY);
-        if (stored) setQuote(JSON.parse(stored));
+        if (stored) {
+          const ids: string[] = JSON.parse(stored);
+          setQuote([...new Set(ids.map(id => id === "bear-multicolor" ? "piece-27" : id))]);
+        }
       } catch {
         // ignore: storage unavailable or corrupt
       }

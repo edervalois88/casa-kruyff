@@ -566,6 +566,7 @@ button:focus-visible {
 .ck-gallery-previous{left:12px}.ck-gallery-next{right:12px}
 .ck-gallery-count{position:absolute;right:16px;bottom:16px;padding:8px 12px;background:var(--ck-ivory);font:400 12px var(--font-label);font-variant-numeric:tabular-nums;pointer-events:none}
 .ck-gallery-tools{display:flex;gap:24px;border-bottom:1px solid var(--ck-ivory-dim)}
+.ck-gallery-caption{margin:0;font:400 12px var(--font-label);color:var(--ck-muted-2);line-height:1.5}
 .ck-gallery-tools button{min-height:44px;padding:8px 0;border:0;border-bottom:2px solid transparent;background:transparent;font:500 12px var(--font-label);color:var(--ck-muted-2);cursor:pointer}
 .ck-gallery-tools button[aria-pressed=true]{border-bottom-color:var(--ck-ink);color:var(--ck-ink)}
 .ck-gallery-tools button:disabled{cursor:default;color:var(--ck-muted)}

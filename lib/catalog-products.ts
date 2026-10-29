@@ -1,5 +1,6 @@
 import type { Piece } from "./site-data";
 import { CATALOG_ADDITIONS, CATALOG_NEW_PHOTOS } from "./catalog-additions";
+import { applyProductUpdates } from "./catalog-variants";
 
 const photo = (name: string) => `/images/catalog/${name}.webp`;
 
@@ -386,8 +387,10 @@ const ORIGINAL_CATALOG: Piece[] = [
   },
 ];
 
-export const CATALOG_PIECES: Piece[] = [...ORIGINAL_CATALOG.map(piece => {
+export const BASE_CATALOG_PIECES: Piece[] = [...ORIGINAL_CATALOG.map(piece => {
   if (piece.id === "piece-23") return { ...piece, images: [photo("piece-23-01")] };
   const photos = CATALOG_NEW_PHOTOS[piece.id];
   return photos ? { ...piece, images: [...photos, ...(piece.images ?? [])], published: true } : piece;
 }), ...CATALOG_ADDITIONS];
+
+export const CATALOG_PIECES: Piece[] = applyProductUpdates(BASE_CATALOG_PIECES);

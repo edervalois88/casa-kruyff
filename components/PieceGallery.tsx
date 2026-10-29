@@ -7,6 +7,7 @@ import { useLanguage } from "@/lib/language-context";
 import ArViewer from "./ArViewer";
 import { transitionView } from "@/lib/view-transition";
 import { catalogText } from "@/lib/catalog-language";
+import { catalogPhotoLabel } from "@/lib/catalog-photo-label";
 
 function Chevron({ next = false }: { next?: boolean }) {
   return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d={next ? "m9 5 7 7-7 7" : "m15 5-7 7 7 7"} /></svg>;
@@ -24,6 +25,7 @@ export default function PieceGallery({ piece, fallback }: { piece: Piece; fallba
   const index = Math.min(selected, Math.max(0, photos.length - 1));
   const name = catalogText(lang === "en" && piece.nameEn ? piece.nameEn : piece.name, lang);
   const english = lang === "en";
+  const caption = catalogPhotoLabel(photos[index] ?? "", lang);
   const previousLabel = english ? "Previous photograph" : "Fotografía anterior";
   const nextLabel = english ? "Next photograph" : "Fotografía siguiente";
   function selectPhoto(next: number) {
@@ -49,7 +51,7 @@ export default function PieceGallery({ piece, fallback }: { piece: Piece; fallba
   function photograph(sizes: string) {
     return <>
       {previous !== null && photos[previous] && <Image key={`previous-${photos[previous]}`} className="ck-photo-previous" src={photos[previous]} alt="" aria-hidden="true" fill sizes={sizes} style={{ objectFit: "contain" }} />}
-      <Image key={photos[index]} className={previous !== null ? "ck-photo-current" : undefined} src={photos[index]} alt={`${name} · ${index + 1}`} fill sizes={sizes} style={{ objectFit: "contain" }} preload={index === 0} />
+      <Image key={photos[index]} className={previous !== null ? "ck-photo-current" : undefined} src={photos[index]} alt={`${name} · ${caption ?? index + 1}`} fill sizes={sizes} style={{ objectFit: "contain" }} preload={index === 0} />
     </>;
   }
 
@@ -72,13 +74,14 @@ export default function PieceGallery({ piece, fallback }: { piece: Piece; fallba
         </> : <p className="ck-gallery-empty">{english ? "Photographs coming soon" : "Fotografías próximamente"}</p>}
     </div>
 
+    {view === "photos" && caption && <p className="ck-gallery-caption" role="status">{caption}</p>}
     <div className="ck-gallery-tools" role="group" aria-label={english ? "Gallery view" : "Vista de la galería"}>
       <button type="button" aria-pressed={view === "photos"} onClick={() => setView("photos")}>{english ? "Photographs" : "Fotografías"} <span>({photos.length})</span></button>
       <button type="button" aria-pressed={view === "model"} disabled={!piece.model?.glb} onClick={() => setView("model")}>{t.model3d}{!piece.model?.glb && <span> · {english ? "Coming soon" : "Próximamente"}</span>}</button>
     </div>
 
     {photos.length > 1 && <div className="ck-gallery-thumbnails" role="group" aria-label={english ? "Additional photographs" : "Fotografías adicionales"}>
-      {photos.map((src, i) => <button key={src} type="button" aria-label={english ? `Show photograph ${i + 1}` : `Ver fotografía ${i + 1}`} aria-pressed={view === "photos" && i === index} onClick={() => { selectPhoto(i); setView("photos"); }}>
+      {photos.map((src, i) => <button key={src} type="button" title={catalogPhotoLabel(src, lang) ?? undefined} aria-label={`${english ? "Show photograph" : "Ver fotografía"} ${i + 1}${catalogPhotoLabel(src, lang) ? `: ${catalogPhotoLabel(src, lang)}` : ""}`} aria-pressed={view === "photos" && i === index} onClick={() => { selectPhoto(i); setView("photos"); }}>
         <Image src={src} alt="" fill sizes="76px" style={{ objectFit: "cover" }} />
       </button>)}
     </div>}

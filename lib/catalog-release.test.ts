@@ -2,13 +2,14 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { existsSync } from "node:fs";
 import { createSeedContent } from "./cms-seed";
+import { BASE_CATALOG_PIECES } from "./catalog-products";
 import { applyCatalogRelease } from "./catalog-release";
 import { validateContent } from "./server/cms-store";
 
 function previousCatalog() {
   const old = createSeedContent();
   delete old.catalogVersion;
-  old.pieces = old.pieces.filter(piece => /^piece-\d+$/.test(piece.id));
+  old.pieces = BASE_CATALOG_PIECES.filter(piece => /^piece-\d+$/.test(piece.id)).map(piece => ({ ...structuredClone(piece), nameEn: piece.nameEn ?? piece.name, description: piece.description ?? ["", ""], images: piece.images ?? [], published: Boolean(piece.images?.length), availability: "on-request" }));
   old.cats = old.cats.filter(cat => !["acc", "holiday"].includes(cat[0]));
   old.designers = old.designers.filter(designer => designer.name !== "Caroline Rovithi");
   old.pieces.find(piece => piece.id === "piece-23")!.images.push("/images/catalog/piece-23-02.webp");
@@ -26,7 +27,7 @@ test("release separates headdresses, publishes missing photographs and keeps aut
   old.heroes.home.src = "/images/custom.webp";
   const next = applyCatalogRelease(old);
   assert.equal(old.pieces.length, 40);
-  assert.equal(next.pieces.length, 69);
+  assert.equal(next.pieces.length, 78);
   assert.equal(next.pieces[0].name, "An authored name");
   assert.equal(next.pieces[0].availability, "sold");
   assert.equal(next.heroes.home.src, "/images/custom.webp");
@@ -45,7 +46,7 @@ test("release marker preserves later deletions and custom photographs without re
   const bear = old.pieces.find(p => p.id === "piece-27")!;
   bear.images = ["/images/custom.webp"]; bear.published = false;
   const next = applyCatalogRelease(old);
-  assert.equal(next.pieces.find(p => p.id === "piece-27")!.images[0], "/images/custom.webp");
+  assert.ok(next.pieces.find(p => p.id === "piece-27")!.images.includes("/images/custom.webp"));
   assert.equal(next.pieces.find(p => p.id === "piece-27")!.published, false);
   next.pieces = next.pieces.filter(p => p.id !== "accessory-01");
   assert.equal(applyCatalogRelease(next), next);
@@ -60,3 +61,4 @@ test("every seeded published photograph exists and products have unique identiti
     for (const src of piece.images) assert.ok(existsSync(`public${src}`), `${piece.id}: ${src}`);
   }
 });
+
