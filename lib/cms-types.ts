@@ -13,6 +13,7 @@ export interface ManagedPiece extends Piece {
 }
 
 export interface SiteContent {
+  catalogVersion?: number;
   revision: number;
   updatedAt: string;
   pieces: ManagedPiece[];

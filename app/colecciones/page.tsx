@@ -109,6 +109,11 @@ function ColeccionesContent() {
           gap: "64px clamp(20px,2.4vw,40px)",
         }}
       >
+        {filtered.length === 0 && <p style={{ gridColumn: "1 / -1", padding: "32px 0", maxWidth: "48ch", color: "var(--ck-muted-2)" }}>
+          {cat === "holiday"
+            ? lang === "en" ? "Our seasonal selection is coming soon. Discover the rest of our collections in the meantime." : "Nuestra selección de temporada llegará pronto. Mientras tanto, descubre el resto de nuestras colecciones."
+            : lang === "en" ? "There are no pieces in this collection yet." : "Aún no hay piezas en esta colección."}
+        </p>}
         {filtered.map((p, index) => (
           <div key={p.id} style={{ viewTransitionName: `ck-piece-${p.id.replace(/[^a-zA-Z0-9_-]/g, "-")}` }}>
             <CatalogReveal delay={(index % 4) * 55}><PieceCard piece={p} /></CatalogReveal>

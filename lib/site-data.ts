@@ -28,6 +28,7 @@ export const IMG: Record<string, { src: string; credit: string; href: string }> 
   cer: { src: "/images/catalog/piece-01-01.webp", credit: "", href: "" },
   arte: { src: "/images/catalog/piece-40-01.webp", credit: "", href: "" },
   pop: { src: "/images/catalog/piece-09-02.webp", credit: "", href: "" },
+  acc: { src: "/images/catalog/accessory-01-01.webp", credit: "", href: "" },
   sala: unsplash("1618221195710-dd6b41faaea6", "Spacejoy", "spacejoy"),
   comedor: unsplash("1690489965043-ec15758cce71", "Francesco Liotti", "francesco_liotti"),
   recamara: unsplash("1616594039964-ae9021a400a0", "Spacejoy", "spacejoy"),
@@ -55,6 +56,8 @@ export const CATS: [string, string, string][] = [
   ["cer", "Cerámica y alfarería", "Ceramics & Pottery"],
   ["arte", "Arte y obra gráfica", "Art & Prints"],
   ["pop", "Artesanía y arte popular", "Folk Art & Craft"],
+  ["acc", "Accesorios", "Accessories"],
+  ["holiday", "The Holiday Edit", "The Holiday Edit"],
 ];
 
 export interface Piece {
@@ -99,6 +102,7 @@ export interface Designer {
 }
 
 export const DESIGNERS: Designer[] = [
+  { id: "caroline-rovithi", name: "Caroline Rovithi", origin: "No especificado", disc: ["Arte y publicaciones", "Art and publications"] },
   { id: "d1", name: "Artesanos de San José de Gracia", origin: "Michoacán, México", disc: ["Alfarería tradicional","Traditional pottery"] },
   { id: "d2", name: "Alfareros purépechas de Pambatán", origin: "Michoacán, México", disc: ["Cerámica pintada y esculpida","Painted and sculpted pottery"] },
   { id: "d3", name: "Artistas Wixárika", origin: "México", disc: ["Talla, chaquira y arte popular","Carving, chaquira, and folk art"] },

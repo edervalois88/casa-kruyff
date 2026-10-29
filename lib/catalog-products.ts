@@ -1,10 +1,11 @@
 import type { Piece } from "./site-data";
+import { CATALOG_ADDITIONS, CATALOG_NEW_PHOTOS } from "./catalog-additions";
 
 const photo = (name: string) => `/images/catalog/${name}.webp`;
 
 // Curated from the 40-piece product list supplied with the product photography.
 // Products without a matching photograph remain drafts until an image is provided.
-export const CATALOG_PIECES: Piece[] = [
+const ORIGINAL_CATALOG: Piece[] = [
   {
     id: "piece-01", name: "Piña vidriada con flores", nameEn: "Glazed Pineapple with Flowers",
     cat: "cer", designer: "Artesanos de San José de Gracia", origin: "Michoacán, México",
@@ -384,3 +385,9 @@ export const CATALOG_PIECES: Piece[] = [
     ], images: [photo("piece-40-01")],
   },
 ];
+
+export const CATALOG_PIECES: Piece[] = [...ORIGINAL_CATALOG.map(piece => {
+  if (piece.id === "piece-23") return { ...piece, images: [photo("piece-23-01")] };
+  const photos = CATALOG_NEW_PHOTOS[piece.id];
+  return photos ? { ...piece, images: [...photos, ...(piece.images ?? [])], published: true } : piece;
+}), ...CATALOG_ADDITIONS];
