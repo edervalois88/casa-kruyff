@@ -6,6 +6,7 @@ import type { Piece } from "@/lib/site-data";
 import { useLanguage } from "@/lib/language-context";
 import ArViewer from "./ArViewer";
 import { transitionView } from "@/lib/view-transition";
+import { catalogText } from "@/lib/catalog-language";
 
 function Chevron({ next = false }: { next?: boolean }) {
   return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d={next ? "m9 5 7 7-7 7" : "m15 5-7 7 7 7"} /></svg>;
@@ -21,7 +22,7 @@ export default function PieceGallery({ piece, fallback }: { piece: Piece; fallba
   const enlargedPhoto = useRef<HTMLDivElement>(null);
   const photos = [...new Set(piece.images?.length ? piece.images : fallback ? [fallback] : [])];
   const index = Math.min(selected, Math.max(0, photos.length - 1));
-  const name = lang === "en" && piece.nameEn ? piece.nameEn : piece.name;
+  const name = catalogText(lang === "en" && piece.nameEn ? piece.nameEn : piece.name, lang);
   const english = lang === "en";
   const previousLabel = english ? "Previous photograph" : "Fotografía anterior";
   const nextLabel = english ? "Next photograph" : "Fotografía siguiente";

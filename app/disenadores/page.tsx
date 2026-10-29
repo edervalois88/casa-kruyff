@@ -3,6 +3,7 @@
 import { useLanguage } from "@/lib/language-context";
 import { langIndex } from "@/lib/site-data";
 import { useSiteData } from "@/lib/site-content-context";
+import { catalogText } from "@/lib/catalog-language";
 
 export default function DisenadoresPage() {
   const { t, lang } = useLanguage();
@@ -30,11 +31,11 @@ export default function DisenadoresPage() {
             }}
           >
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <span style={{ fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(34px,4vw,56px)", lineHeight: 1 }}>{d.name}</span>
+              <span style={{ fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(34px,4vw,56px)", lineHeight: 1 }}>{catalogText(d.name, lang)}</span>
               <span style={{ fontSize: 15, color: "var(--ck-muted-2)" }}>{d.disc[L]}</span>
             </div>
             <span className="ck-designer-origin font-[family-name:var(--font-label)]" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ck-gold-soft)" }}>
-              {d.origin}
+              {catalogText(d.origin, lang)}
             </span>
           </div>
         ))}

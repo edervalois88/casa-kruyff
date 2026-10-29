@@ -42,7 +42,7 @@ export default function Footer() {
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.24em", textTransform: "uppercase", color: "var(--ck-gold-light)" }}>
-            Casa
+            {t.navHouse}
           </span>
           {navAll.map((n) => (
             <Link key={n.href} href={n.href} style={{ color: "var(--ck-sand)", fontSize: 14 }}>

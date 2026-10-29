@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/lib/language-context";
+import { catalogText } from "@/lib/catalog-language";
 import { langIndex } from "@/lib/site-data";
 import { useSiteData } from "@/lib/site-content-context";
 import WorkSteps from "@/components/WorkSteps";
@@ -94,7 +95,7 @@ export default function InteriorismoPage() {
         <nav aria-label={t.interiorProjectsTitle}>
           {projects.map(project => <a key={project.id} href={`#interior-project-${project.id}`}
             aria-current={activeProject === project.id ? "location" : undefined}>
-            <span>{project.name}</span><small>{project.place}</small>
+            <span>{catalogText(project.name, lang)}</span><small>{project.place}</small>
           </a>)}
         </nav>
       </aside>
@@ -103,10 +104,10 @@ export default function InteriorismoPage() {
           className="ck-interior-project" data-interior-project={project.id} tabIndex={-1}>
           <figure>
             <div className="ck-interior-media" data-interior-media>
-              <Image src={IMG[project.id].src} alt={project.name} fill sizes="(max-width: 760px) 100vw, 65vw" style={{ objectFit: "cover" }} />
+              <Image src={IMG[project.id].src} alt={catalogText(project.name, lang)} fill sizes="(max-width: 760px) 100vw, 65vw" style={{ objectFit: "cover" }} />
             </div>
             <figcaption>
-              <h3>{project.name}</h3>
+              <h3>{catalogText(project.name, lang)}</h3>
               <div><span>{project.type[L]}</span><span>{project.place}</span></div>
             </figcaption>
           </figure>

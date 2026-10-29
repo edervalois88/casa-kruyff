@@ -7,6 +7,7 @@ import { useLanguage } from "@/lib/language-context";
 import { useQuote } from "@/lib/quote-context";
 import { langIndex } from "@/lib/site-data";
 import { useSiteData } from "@/lib/site-content-context";
+import { catalogText, catalogDimensions } from "@/lib/catalog-language";
 
 export default function PiezaPage() {
   const params = useParams<{ id: string }>();
@@ -19,9 +20,9 @@ export default function PiezaPage() {
   if (!piece) notFound();
 
   const img = IMG[piece.id];
-  const name = lang === "en" && piece.nameEn ? piece.nameEn : piece.name;
+  const name = catalogText(lang === "en" && piece.nameEn ? piece.nameEn : piece.name, lang);
   const inQuote = hasPiece(piece.id);
-  const specs = [piece.mat[L], piece.dim, `${piece.designer}, ${piece.origin}`, t.leadTime].map((v, i) => ({
+  const specs = [piece.mat[L], catalogDimensions(piece.dim, lang), `${catalogText(piece.designer, lang)}, ${catalogText(piece.origin, lang)}`, t.leadTime].map((v, i) => ({
     k: t.specs[i],
     v,
   }));
@@ -40,7 +41,7 @@ export default function PiezaPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <h1 style={{ margin: 0, fontFamily: "var(--font-serif)", fontWeight: 300, fontSize: "clamp(40px,4.3vw,68px)", lineHeight: 1 }}>{name}</h1>
           <span className="font-[family-name:var(--font-label)]" style={{ fontSize: 11, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: "var(--ck-gold-soft)" }}>
-            {piece.designer} · {piece.origin}
+            {catalogText(piece.designer, lang)} · {catalogText(piece.origin, lang)}
           </span>
         </div>
         <p style={{ margin: 0, maxWidth: "46ch", fontSize: 17, lineHeight: 1.75, color: "var(--ck-muted-2)" }}>{piece.description?.[L] || t.pieceDesc}</p>
