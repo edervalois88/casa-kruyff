@@ -1,4 +1,5 @@
 import { CATALOG_PIECES } from "./catalog-products";
+import { artistOrigin } from "./artist-origins";
 
 // Content and data extracted from the Casa Kruyff design (Casa Kruyff Sitio.dc.html).
 
@@ -102,6 +103,7 @@ export interface Designer {
 }
 
 export const DESIGNERS: Designer[] = [
+  { id: "sandra-roldan", name: "Sandra Roldán", origin: "Colombia", disc: ["Artista", "Artist"] },
   { id: "caroline-rovithi", name: "Caroline Rovithi", origin: "No especificado", disc: ["Arte y publicaciones", "Art and publications"] },
   { id: "d1", name: "Artesanos de San José de Gracia", origin: "Michoacán, México", disc: ["Alfarería tradicional","Traditional pottery"] },
   { id: "d2", name: "Alfareros purépechas de Pambatán", origin: "Michoacán, México", disc: ["Cerámica pintada y esculpida","Painted and sculpted pottery"] },
@@ -111,7 +113,7 @@ export const DESIGNERS: Designer[] = [
   { id: "d6", name: "Bord de l’Eau", origin: "No especificado", disc: ["Objetos decorativos Mati","Mati decorative objects"] },
   { id: "d7", name: "Galatiss Art Gallery", origin: "No especificado", disc: ["Objetos de cristal","Crystal objects"] },
   { id: "d8", name: "Carlos Gunther Maier · House Armida", origin: "No especificado", disc: ["Impresión digital","Digital prints"] },
-];
+].map(designer => ({ ...designer, origin: artistOrigin(designer.name) ?? designer.origin })) as Designer[];
 
 export function langIndex(lang: Lang) {
   return lang === "es" ? 0 : 1;

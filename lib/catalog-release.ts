@@ -1,8 +1,9 @@
 import type { SiteContent, ManagedPiece } from "./cms-types";
 import { CATALOG_ADDITIONS, CATALOG_NEW_PHOTOS } from "./catalog-additions";
 import { applyProductUpdates } from "./catalog-variants";
+import { artistOrigin } from "./artist-origins";
 
-export const CATALOG_VERSION = 2;
+export const CATALOG_VERSION = 3;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -38,8 +39,15 @@ function applyFirstRelease(document: SiteContent): SiteContent {
 export function applyCatalogRelease(document: SiteContent): SiteContent {
   if ((document.catalogVersion ?? 0) >= CATALOG_VERSION) return document;
   const next = structuredClone(applyFirstRelease(document));
-  next.pieces = applyProductUpdates(next.pieces);
-  delete next.images["bear-multicolor"];
+  if ((next.catalogVersion ?? 0) < 2) {
+    next.pieces = applyProductUpdates(next.pieces);
+    delete next.images["bear-multicolor"];
+  }
+  next.pieces = next.pieces.map(piece => ({ ...piece, origin: artistOrigin(piece.designer) ?? piece.origin }));
+  next.designers = next.designers.map(designer => ({ ...designer, origin: artistOrigin(designer.name) ?? designer.origin }));
+  if (!next.designers.some(designer => designer.name === "Sandra Roldán")) {
+    next.designers.push({ id: "sandra-roldan", name: "Sandra Roldán", origin: "Colombia", disc: ["Artista", "Artist"] });
+  }
   next.catalogVersion = CATALOG_VERSION;
   return next;
 }
