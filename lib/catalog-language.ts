@@ -1,6 +1,7 @@
 import type { Lang } from "./site-data";
 
 const englishLabels: Record<string, string> = {
+  "Grecia": "Greece",
   "No especificado": "Not specified",
   "No especificadas": "Not specified",
   "Artesanos de San José de Gracia": "San José de Gracia artisans",
