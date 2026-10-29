@@ -5,7 +5,7 @@ import type { SiteContent } from "./cms-types";
 export function createSeedContent(): SiteContent {
   return structuredClone({
     revision: 0,
-    catalogVersion: 1,
+    catalogVersion: 2,
     updatedAt: new Date().toISOString(),
     pieces: PIECES.map((piece) => ({
       ...piece,

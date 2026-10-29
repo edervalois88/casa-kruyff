@@ -156,14 +156,14 @@ test("catalog refresh previews without writing, persists once and respects later
   try {
     process.env.VERCEL_ENV = "preview";
     const preview = await getContent();
-    assert.equal(preview.pieces.length, 69);
+    assert.equal(preview.pieces.length, 78);
     const [unchanged] = await db().select().from(schema.content).where(eq(schema.content.id, 1));
     assert.equal(unchanged.revision, 90);
     assert.equal(unchanged.document.catalogVersion, undefined);
     process.env.VERCEL_ENV = "production";
     const migrated = await getContent();
     assert.equal(migrated.revision, 91);
-    assert.equal(migrated.catalogVersion, 1);
+    assert.equal(migrated.catalogVersion, 2);
     assert.equal((await getContent()).revision, 91);
     migrated.pieces = migrated.pieces.filter(piece => piece.id !== "accessory-01");
     await saveContent(migrated);
