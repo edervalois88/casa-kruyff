@@ -4,6 +4,7 @@ import { db } from "./cms-db";
 import { CmsError } from "./cms-error";
 import { and, eq, inArray } from "drizzle-orm";
 import { assets, content as contentTable } from "./schema";
+import { applyCatalogRelease, CATALOG_VERSION } from "../catalog-release";
 
 const legacyCatalog = new Map([
   ["p1", "Caballo Tang"], ["p2", "Esfera Carrara"], ["p3", "Vasija Tierra I"],
@@ -85,7 +86,8 @@ function rows(value: unknown, path: string, validate: (row: Record<string, unkno
   value.forEach(row => { const v = object(row, path); id(v.id, path); if (ids.has(v.id as string)) fail(`${path}.id duplicado`); ids.add(v.id as string); validate(v); });
 }
 export function validateContent(input: unknown): SiteContent {
-  const v = object(input, "documento"); exact(v, ["revision", "updatedAt", "pieces", "cats", "images", "heroes", "copy", "projects", "designers", "settings"], "documento");
+  const v = object(input, "documento"); exact(v, ["revision", "updatedAt", "pieces", "cats", "images", "heroes", "copy", "projects", "designers", "settings", ...(v.catalogVersion !== undefined ? ["catalogVersion"] : [])], "documento");
+  if (v.catalogVersion !== undefined && (!Number.isSafeInteger(v.catalogVersion) || (v.catalogVersion as number) < 0 || (v.catalogVersion as number) > CATALOG_VERSION)) fail("catalogVersion");
   if (!Number.isSafeInteger(v.revision) || (v.revision as number) < 0) fail("revision");
   text(v.updatedAt, "updatedAt", 50); if (!Number.isFinite(Date.parse(v.updatedAt))) fail("updatedAt");
   if (!Array.isArray(v.cats) || v.cats.length < 1 || v.cats.length > 100) fail("cats");
@@ -112,14 +114,28 @@ export async function getContent(): Promise<SiteContent> {
   const database = db();
   await database.insert(contentTable).values({ id: 1, document: createSeedContent(), revision: 0 }).onConflictDoNothing();
   const [row] = await database.select().from(contentTable).where(eq(contentTable.id, 1));
-  return withCopyDefaults(await replaceLegacyCatalog(structuredClone(row.document)));
+  const stored = await replaceLegacyCatalog(structuredClone(row.document));
+  const upgraded = applyCatalogRelease(stored);
+  if (upgraded !== stored && process.env.VERCEL_ENV !== "preview") {
+    upgraded.revision++;
+    upgraded.updatedAt = new Date().toISOString();
+    const [saved] = await database.update(contentTable)
+      .set({ document: upgraded, revision: upgraded.revision })
+      .where(and(eq(contentTable.id, 1), eq(contentTable.revision, stored.revision)))
+      .returning({ document: contentTable.document });
+    if (saved) return withCopyDefaults(structuredClone(saved.document));
+    const [latest] = await database.select().from(contentTable).where(eq(contentTable.id, 1));
+    return withCopyDefaults(applyCatalogRelease(structuredClone(latest.document)));
+  }
+  return withCopyDefaults(upgraded);
 }
 export async function getPublicContent(): Promise<SiteContent> {
   const content = await getContent(); const drafts = content.pieces.filter(piece => !piece.published); content.pieces = content.pieces.filter(piece => piece.published);
   drafts.forEach(piece => delete content.images[piece.id]); return content;
 }
 export async function saveContent(input: unknown): Promise<SiteContent> {
-  const content = validateContent(input); await getContent(); const previous = content.revision;
+  const content = validateContent(input); const current = await getContent(); const previous = content.revision;
+  content.catalogVersion = current.catalogVersion;
   const models = content.pieces.flatMap(piece => piece.model ? [{ url: piece.model.glb, kind: "glb" }, ...(piece.model.usdz ? [{ url: piece.model.usdz, kind: "usdz" }] : [])] : []).filter(model => model.url.startsWith("https:"));
   if (models.length) {
     const records = await db().select().from(assets).where(inArray(assets.url, models.map(model => model.url)));

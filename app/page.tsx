@@ -10,7 +10,7 @@ import InstagramFeed from "@/components/InstagramFeed";
 import RevealImage from "@/components/RevealImage";
 import HeroParallax from "@/components/HeroParallax";
 import CollectionStoryScene from "@/components/CollectionStoryScene";
-import CollectionStack from "@/components/CollectionStack";
+import CollectionScroll from "@/components/CollectionScroll";
 import WorkSteps from "@/components/WorkSteps";
 
 export default function HomePage() {
@@ -92,9 +92,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      <CollectionStack>
+      <CollectionScroll>
         {COLLECTIONS.map(([id, esName, enName], i) => {
+          if (id === "holiday") return <section className="ck-holiday-edit" key={id}>
+            <h2>The Holiday Edit</h2>
+            <p>{lang === "en" ? "A seasonal selection, coming soon." : "Una selección de temporada, próximamente."}</p>
+            <Link href="/colecciones?cat=holiday">{t.viewColl}</Link>
+          </section>;
           const img = IMG[id];
+          if (!img) return null;
           return (
             <CollectionStoryScene
               key={id}
@@ -108,7 +114,7 @@ export default function HomePage() {
             />
           );
         })}
-      </CollectionStack>
+      </CollectionScroll>
 
       <section style={{ background: "var(--ck-brown-deep)", color: "var(--ck-ivory)", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))" }}>
         <div style={{ position: "relative", minHeight: 640, overflow: "hidden" }}>

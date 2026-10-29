@@ -190,27 +190,25 @@ button:focus-visible {
   transform: translate3d(0, 0, 0);
 }
 
-.ck-home-collection-stack {
+.ck-home-collection-scroll {
   position: relative;
   padding-bottom: 0;
 }
 
 .ck-home-collection {
-  position: sticky;
-  top: calc(84px + var(--ck-collection-stack-offset));
-  z-index: var(--ck-collection-stack-index);
-  height: calc(100svh - 120px - var(--ck-collection-stack-offset));
+  position: relative;
+  height: 85svh;
   min-height: 460px;
-  margin-bottom: calc(120px + var(--ck-collection-stack-offset));
+  margin-bottom: 4px;
   overflow: hidden;
   isolation: isolate;
   background: var(--ck-brown-mid);
-  border: 1px solid rgba(244,240,230,.26);
-  border-radius: var(--ck-card-radius, 2px);
-  box-shadow: var(--ck-card-shadow, 0 5px 18px rgba(22,16,12,.16));
-  transform: scale(var(--ck-card-scale, 1));
-  transform-origin: center top;
 }
+
+.ck-holiday-edit { min-height: 360px; padding: clamp(64px,8vw,120px) 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; text-align: center; background: var(--ck-brown-deep); color: var(--ck-ivory); }
+.ck-holiday-edit h2 { margin: 0; font: 300 clamp(48px,6vw,88px)/1.05 var(--font-serif); }
+.ck-holiday-edit p { margin: 0; }
+.ck-holiday-edit a { font: 500 11px var(--font-label); letter-spacing: .18em; text-transform: uppercase; text-underline-offset: 7px; }
 
 .ck-home-collection__image {
   z-index: 0;
@@ -321,15 +319,14 @@ button:focus-visible {
 }
 
 @media (max-width: 640px) {
-  .ck-home-collection-stack {
+  .ck-home-collection-scroll {
     padding-bottom: 0;
   }
 
   .ck-home-collection {
-    top: calc(68px + var(--ck-collection-stack-offset));
-    height: calc(100svh - 98px - var(--ck-collection-stack-offset));
+    height: 78svh;
     min-height: 390px;
-    margin-bottom: calc(98px + var(--ck-collection-stack-offset));
+    margin-bottom: 4px;
   }
 
   .ck-hero-scene {
@@ -348,7 +345,7 @@ button:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ck-home-collection-stack {
+  .ck-home-collection-scroll {
     padding-bottom: 0;
   }
 

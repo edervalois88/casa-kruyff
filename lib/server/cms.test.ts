@@ -30,13 +30,14 @@ before(async () => {
 after(async () => { useTestDatabase(undefined); await postgres.close(); mock.restoreAll(); });
 
 test("Postgres migration, seed-once persistence, optimistic conflicts and draft filtering", async () => {
-  const initial = await getContent(); assert.equal(initial.pieces.length, 9); assert.equal(initial.revision, 0);
+  const seed = createSeedContent();
+  const initial = await getContent(); assert.equal(initial.pieces.length, seed.pieces.length); assert.equal(initial.revision, 0);
   initial.pieces[0].name = "Persistent edit"; initial.pieces[0].published = false;
   const saved = await saveContent(initial); assert.equal(saved.revision, 1);
   assert.equal((await getContent()).pieces[0].name, "Persistent edit");
   await assert.rejects(saveContent(initial), status(409));
-  const published = await getPublicContent(); assert.equal(published.pieces.length, 8); assert.equal(published.images.p1, undefined);
-  assert.equal((await getContent()).pieces.length, 9);
+  const published = await getPublicContent(); assert.equal(published.pieces.length, seed.pieces.filter(piece => piece.published).length - 1); assert.equal(published.images[initial.pieces[0].id], undefined);
+  assert.equal((await getContent()).pieces.length, seed.pieces.length);
   const snapshots = [await getContent(), await getContent()];
   const results = await Promise.allSettled(snapshots.map(snapshot => saveContent(snapshot)));
   assert.equal(results.filter(result => result.status === "fulfilled").length, 1);
@@ -142,4 +143,33 @@ test("cancelling an upload removes only that upload and is idempotent", async ()
   assert.equal(pending.some(upload => upload.id === second.uploadId), true);
   await assert.rejects(cancelUpload("../invalid"), status(400));
   await cancelUpload(second.uploadId);
+});
+
+test("catalog refresh previews without writing, persists once and respects later CMS deletions", async () => {
+  const old = createSeedContent();
+  delete old.catalogVersion;
+  old.pieces = old.pieces.filter(piece => /^piece-\d+$/.test(piece.id));
+  old.cats = old.cats.filter(cat => !["acc", "holiday"].includes(cat[0]));
+  old.revision = 90;
+  await db().update(schema.content).set({ document: old, revision: old.revision }).where(eq(schema.content.id, 1));
+  const environment = process.env.VERCEL_ENV;
+  try {
+    process.env.VERCEL_ENV = "preview";
+    const preview = await getContent();
+    assert.equal(preview.pieces.length, 69);
+    const [unchanged] = await db().select().from(schema.content).where(eq(schema.content.id, 1));
+    assert.equal(unchanged.revision, 90);
+    assert.equal(unchanged.document.catalogVersion, undefined);
+    process.env.VERCEL_ENV = "production";
+    const migrated = await getContent();
+    assert.equal(migrated.revision, 91);
+    assert.equal(migrated.catalogVersion, 1);
+    assert.equal((await getContent()).revision, 91);
+    migrated.pieces = migrated.pieces.filter(piece => piece.id !== "accessory-01");
+    await saveContent(migrated);
+    assert.equal((await getContent()).pieces.some(piece => piece.id === "accessory-01"), false);
+  } finally {
+    if (environment === undefined) delete process.env.VERCEL_ENV;
+    else process.env.VERCEL_ENV = environment;
+  }
 });
