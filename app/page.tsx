@@ -20,7 +20,7 @@ export default function HomePage() {
 
   return (
     <>
-      <HeroParallax src={HERO_A.src} alt="Caballo decorativo sobre una consola de piedra">
+      <HeroParallax src={HERO_A.src} alt={lang === "en" ? "Decorative horse on a stone console" : "Caballo decorativo sobre una consola de piedra"}>
         <div
           style={{
             position: "absolute",

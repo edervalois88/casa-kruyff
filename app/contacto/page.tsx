@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useLanguage } from "@/lib/language-context";
 import { useQuote } from "@/lib/quote-context";
 import { useSiteData } from "@/lib/site-content-context";
+import { catalogText } from "@/lib/catalog-language";
 
 const fieldStyle: React.CSSProperties = {
   background: "transparent",
@@ -27,7 +28,7 @@ const labelStyle: React.CSSProperties = {
 };
 
 export default function ContactoPage() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { HERO_CONTACTO, PIECES } = useSiteData();
   const { quote, removePiece } = useQuote();
   const [sent, setSent] = useState(false);
@@ -39,7 +40,7 @@ export default function ContactoPage() {
   return (
     <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,340px),1fr))", minHeight: "calc(100vh - 75px)" }}>
       <div style={{ position: "relative", minHeight: 520, background: "var(--ck-brown-mid)" }}>
-        <Image src={HERO_CONTACTO.src} alt="Interior del showroom" fill sizes="(max-width: 700px) 100vw, 50vw" style={{ objectFit: "cover" }} />
+        <Image src={HERO_CONTACTO.src} alt={lang === "en" ? "Showroom interior" : "Interior del showroom"} fill sizes="(max-width: 700px) 100vw, 50vw" style={{ objectFit: "cover" }} />
       </div>
       <div style={{ padding: "clamp(48px,6vw,104px) clamp(24px,5vw,88px)", display: "flex", flexDirection: "column", gap: 40 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
@@ -58,7 +59,7 @@ export default function ContactoPage() {
             {quoteItems.map((q) => (
               <div key={q.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, padding: "12px 0", borderTop: "1px solid rgba(54,40,31,.14)" }}>
                 <span style={{ fontFamily: "var(--font-serif)", fontSize: 24 }}>
-                  {q.name} <span style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--ck-muted-2)" }}>· {q.designer}</span>
+                  {catalogText(lang === "en" && q.nameEn ? q.nameEn : q.name, lang)} <span style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--ck-muted-2)" }}>· {catalogText(q.designer, lang)}</span>
                 </span>
                 <button
                   type="button"

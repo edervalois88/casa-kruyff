@@ -5,12 +5,13 @@ import Link from "next/link";
 import type { Piece } from "@/lib/site-data";
 import { useSiteData } from "@/lib/site-content-context";
 import { useLanguage } from "@/lib/language-context";
+import { catalogText } from "@/lib/catalog-language";
 
 export default function PieceCard({ piece, showCat = true }: { piece: Piece; showCat?: boolean }) {
   const { lang, t } = useLanguage();
   const { IMG, catName } = useSiteData();
   const img = IMG[piece.id];
-  const name = lang === "en" && piece.nameEn ? piece.nameEn : piece.name;
+  const name = catalogText(lang === "en" && piece.nameEn ? piece.nameEn : piece.name, lang);
 
   return (
     <Link
@@ -44,7 +45,7 @@ export default function PieceCard({ piece, showCat = true }: { piece: Piece; sho
         className="font-[family-name:var(--font-label)]"
         style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--ck-muted)" }}
       >
-        {piece.designer} · {piece.origin}
+        {catalogText(piece.designer, lang)} · {catalogText(piece.origin, lang)}
       </span>
     </Link>
   );
