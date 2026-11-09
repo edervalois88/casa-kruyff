@@ -1,5 +1,6 @@
 import { CATALOG_PIECES } from "./catalog-products";
 import { artistOrigin } from "./artist-origins";
+import { CYNTHIA_PADILLA } from "./cynthia-padilla";
 
 // Content and data extracted from the Casa Kruyff design (Casa Kruyff Sitio.dc.html).
 
@@ -103,6 +104,7 @@ export interface Designer {
 }
 
 export const DESIGNERS: Designer[] = [
+  CYNTHIA_PADILLA,
   { id: "sandra-roldan", name: "Sandra Roldán", origin: "Colombia", disc: ["Artista", "Artist"] },
   { id: "caroline-rovithi", name: "Caroline Rovithi", origin: "No especificado", disc: ["Arte y publicaciones", "Art and publications"] },
   { id: "d1", name: "Artesanos de San José de Gracia", origin: "Michoacán, México", disc: ["Alfarería tradicional","Traditional pottery"] },

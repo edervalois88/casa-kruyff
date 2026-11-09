@@ -2,8 +2,9 @@ import type { SiteContent, ManagedPiece } from "./cms-types";
 import { CATALOG_ADDITIONS, CATALOG_NEW_PHOTOS } from "./catalog-additions";
 import { applyProductUpdates } from "./catalog-variants";
 import { artistOrigin } from "./artist-origins";
+import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
-export const CATALOG_VERSION = 3;
+export const CATALOG_VERSION = 4;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -43,11 +44,15 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
     next.pieces = applyProductUpdates(next.pieces);
     delete next.images["bear-multicolor"];
   }
-  next.pieces = next.pieces.map(piece => ({ ...piece, origin: artistOrigin(piece.designer) ?? piece.origin }));
-  next.designers = next.designers.map(designer => ({ ...designer, origin: artistOrigin(designer.name) ?? designer.origin }));
-  if (!next.designers.some(designer => designer.name === "Sandra Roldán")) {
-    next.designers.push({ id: "sandra-roldan", name: "Sandra Roldán", origin: "Colombia", disc: ["Artista", "Artist"] });
+  if ((next.catalogVersion ?? 0) < 3) {
+    next.pieces = next.pieces.map(piece => ({ ...piece, origin: artistOrigin(piece.designer) ?? piece.origin }));
+    next.designers = next.designers.map(designer => ({ ...designer, origin: artistOrigin(designer.name) ?? designer.origin }));
+    if (!next.designers.some(designer => designer.name === "Sandra Roldán")) {
+      next.designers.push({ id: "sandra-roldan", name: "Sandra Roldán", origin: "Colombia", disc: ["Artista", "Artist"] });
+    }
   }
+  if (!next.pieces.some(piece => piece.id === CYNTHIA_PRINT.id)) next.pieces.push(structuredClone(CYNTHIA_PRINT));
+  if (!next.designers.some(designer => designer.id === CYNTHIA_PADILLA.id || designer.name === CYNTHIA_PADILLA.name)) next.designers.push(structuredClone(CYNTHIA_PADILLA));
   next.catalogVersion = CATALOG_VERSION;
   return next;
 }
