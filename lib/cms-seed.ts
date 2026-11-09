@@ -1,11 +1,12 @@
 import { COPY } from "./copy";
 import { CATS, CONTACT_PHONE, DESIGNERS, HERO_A, HERO_CASA, HERO_CONTACTO, HERO_INT, HERO_INTERIOR, HERO_JOURNAL, IMG, PIECES, PROJECTS } from "./site-data";
 import type { SiteContent } from "./cms-types";
+import { CATALOG_VERSION } from "./catalog-release";
 
 export function createSeedContent(): SiteContent {
   return structuredClone({
     revision: 0,
-    catalogVersion: 3,
+    catalogVersion: CATALOG_VERSION,
     updatedAt: new Date().toISOString(),
     pieces: PIECES.map((piece) => ({
       ...piece,
