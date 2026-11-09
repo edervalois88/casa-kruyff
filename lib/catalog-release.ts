@@ -7,7 +7,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 7;
+export const CATALOG_VERSION = 8;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -58,7 +58,11 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
   if ((next.catalogVersion ?? 0) < 4 && !next.designers.some(designer => designer.id === CYNTHIA_PADILLA.id || designer.name === CYNTHIA_PADILLA.name)) next.designers.push(structuredClone(CYNTHIA_PADILLA));
   if ((next.catalogVersion ?? 0) < 5) next.pieces = refineCatalog(next.pieces);
   if ((next.catalogVersion ?? 0) < 6 && !next.designers.some(designer => designer.id === RANIA_DIAKOU.id || designer.name === RANIA_DIAKOU.name)) next.designers.push(structuredClone(RANIA_DIAKOU));
-  if (!next.pieces.some(piece => piece.id === DECORATIVE_TURTLE.id)) next.pieces.push(structuredClone(DECORATIVE_TURTLE));
+  if ((next.catalogVersion ?? 0) < 7 && !next.pieces.some(piece => piece.id === DECORATIVE_TURTLE.id)) next.pieces.push(structuredClone(DECORATIVE_TURTLE));
+  if ((next.catalogVersion ?? 0) < 8) {
+    const turtle = next.pieces.find(piece => piece.id === DECORATIVE_TURTLE.id);
+    if (turtle) turtle.published = false;
+  }
   next.catalogVersion = CATALOG_VERSION;
   return next;
 }
