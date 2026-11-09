@@ -42,7 +42,7 @@ test("version two migrates existing content only once and labels generated image
   old.pieces=BASE_CATALOG_PIECES.map(p=>({...structuredClone(p),nameEn:p.nameEn??p.name,description:p.description??["", ""],images:p.images??[],published:true,availability:"on-request"}));
   old.catalogVersion=1;
   const next=applyCatalogRelease(old);
-  assert.equal(next.pieces.length,78);
+  assert.equal(next.pieces.length,80);
   assert.equal(applyCatalogRelease(next),next);
   assert.equal(catalogPhotoLabel("/images/catalog/piece-29-color-gold.webp","en"),"Color visualization — Gold finish");
   assert.equal(catalogPhotoLabel("/images/catalog/piece-29-olive.webp","en"),null);
