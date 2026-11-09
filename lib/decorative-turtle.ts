@@ -15,6 +15,6 @@ export const DECORATIVE_TURTLE: ManagedPiece = {
   ],
   images: [1, 2, 3].map(number => `/images/catalog/decorative-turtle-0${number}.webp`),
   model: { glb: "/models/decorative-turtle.glb", usdz: "/models/decorative-turtle.usdz" },
-  published: true,
+  published: false,
   availability: "on-request",
 };

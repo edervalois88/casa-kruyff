@@ -62,3 +62,16 @@ test("every seeded published photograph exists and products have unique identiti
   }
 });
 
+test("version 8 withdraws the turtle without deleting its data or recreating a removed entry", () => {
+  const old = createSeedContent();
+  old.catalogVersion = 7;
+  const turtle = old.pieces.find(piece => piece.id === "decorative-turtle")!;
+  turtle.published = true;
+  const next = applyCatalogRelease(old);
+  assert.deepEqual(next.pieces.find(piece => piece.id === turtle.id), { ...turtle, published: false });
+  assert.equal(old.pieces.find(piece => piece.id === turtle.id)!.published, true);
+  assert.equal(applyCatalogRelease(next), next);
+  old.pieces = old.pieces.filter(piece => piece.id !== turtle.id);
+  assert.equal(applyCatalogRelease(old).pieces.some(piece => piece.id === turtle.id), false);
+});
+
