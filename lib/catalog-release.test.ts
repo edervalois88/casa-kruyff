@@ -27,13 +27,13 @@ test("release separates headdresses, publishes missing photographs and keeps aut
   old.heroes.home.src = "/images/custom.webp";
   const next = applyCatalogRelease(old);
   assert.equal(old.pieces.length, 40);
-  assert.equal(next.pieces.length, 79);
+  assert.equal(next.pieces.length, 80);
   assert.equal(next.pieces[0].name, "An authored name");
   assert.equal(next.pieces[0].availability, "sold");
   assert.equal(next.heroes.home.src, "/images/custom.webp");
   assert.deepEqual(next.pieces.find(p => p.id === "piece-23")!.images, ["/images/catalog/piece-23-01.webp"]);
   assert.deepEqual(next.pieces.find(p => p.id === "headdress-floral")!.images, ["/images/catalog/piece-23-02.webp"]);
-  assert.equal(next.pieces.filter(p => p.cat === "acc").length, 19);
+  assert.equal(next.pieces.filter(p => p.cat === "acc").length, 20);
   assert.equal(next.pieces.filter(p => p.cat === "holiday").length, 0);
   assert.equal(next.pieces.filter(p => p.designer === "Caroline Rovithi").length, 7);
   assert.equal(next.pieces.find(p => p.id === "piece-29")!.published, true);

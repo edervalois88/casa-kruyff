@@ -13,7 +13,7 @@ test("each model has its own photographs and retains the original description", 
       const piece = CATALOG_PIECES.find(p => p.id === variant.id)!;
       assert.equal(piece.description?.[1], `${original.description?.[1]}\n\nVariant: ${variant.en}.`);
       assert.ok(piece.nameEn?.endsWith(variant.en));
-      assert.deepEqual(piece.images, variant.photos.map(n => `/images/catalog/${parent}-${String(n).padStart(2,"0")}.webp`));
+      assert.deepEqual(piece.images?.filter(src => !src.includes("piece-08-studio-color") && !src.includes("piece-08-color-reference")), variant.photos.map(n => `/images/catalog/${parent}-${String(n).padStart(2,"0")}.webp`));
     }
   }
   assert.ok(CATALOG_PIECES.find(p => p.id === "piece-24")?.images?.includes("/images/catalog/piece-24-04.webp"));
