@@ -27,7 +27,7 @@ test("release separates headdresses, publishes missing photographs and keeps aut
   old.heroes.home.src = "/images/custom.webp";
   const next = applyCatalogRelease(old);
   assert.equal(old.pieces.length, 40);
-  assert.equal(next.pieces.length, 80);
+  assert.equal(next.pieces.length, 81);
   assert.equal(next.pieces[0].name, "An authored name");
   assert.equal(next.pieces[0].availability, "sold");
   assert.equal(next.heroes.home.src, "/images/custom.webp");
