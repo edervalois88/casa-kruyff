@@ -11,3 +11,10 @@ const countries: Record<string, string> = {
 export function artistOrigin(name: string): string | undefined {
   return countries[name];
 }
+
+export const RANIA_DIAKOU = {
+  id: "rania-diakou",
+  name: "Rania Diakou",
+  origin: "Grecia",
+  disc: ["Artista", "Artist"] as [string, string],
+};
