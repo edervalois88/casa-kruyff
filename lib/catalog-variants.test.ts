@@ -13,7 +13,7 @@ test("each model has its own photographs and retains the original description", 
       const piece = CATALOG_PIECES.find(p => p.id === variant.id)!;
       assert.equal(piece.description?.[1], `${original.description?.[1]}\n\nVariant: ${variant.en}.`);
       assert.ok(piece.nameEn?.endsWith(variant.en));
-      assert.deepEqual(piece.images, variant.photos.map(n => `/images/catalog/${parent}-${String(n).padStart(2,"0")}.webp`));
+      assert.deepEqual(piece.images?.filter(src => !src.includes("piece-08-studio-color") && !src.includes("piece-08-color-reference")), variant.photos.map(n => `/images/catalog/${parent}-${String(n).padStart(2,"0")}.webp`));
     }
   }
   assert.ok(CATALOG_PIECES.find(p => p.id === "piece-24")?.images?.includes("/images/catalog/piece-24-04.webp"));
@@ -42,7 +42,7 @@ test("version two migrates existing content only once and labels generated image
   old.pieces=BASE_CATALOG_PIECES.map(p=>({...structuredClone(p),nameEn:p.nameEn??p.name,description:p.description??["", ""],images:p.images??[],published:true,availability:"on-request"}));
   old.catalogVersion=1;
   const next=applyCatalogRelease(old);
-  assert.equal(next.pieces.length,78);
+  assert.equal(next.pieces.length,80);
   assert.equal(applyCatalogRelease(next),next);
   assert.equal(catalogPhotoLabel("/images/catalog/piece-29-color-gold.webp","en"),"Color visualization — Gold finish");
   assert.equal(catalogPhotoLabel("/images/catalog/piece-29-olive.webp","en"),null);

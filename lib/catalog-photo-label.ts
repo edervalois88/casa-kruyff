@@ -6,6 +6,8 @@ const colors: Record<string, [string, string]> = {
   purple: ["Morado", "Purple"], orange: ["Naranja", "Orange"], silver: ["Acabado plateado", "Silver finish"], gold: ["Acabado dorado", "Gold finish"],
 };
 export function catalogPhotoLabel(src: string, lang: Lang): string | null {
+  if (/cynthia-padilla-frida-detail-(left|right)\.webp$/.test(src)) return lang === "en" ? "Detail · AI-edited photograph" : "Detalle · fotografía editada con IA";
+  if (src.endsWith("/piece-08-studio-color.webp")) return lang === "en" ? "Studio presentation · AI-edited photograph" : "Presentación de estudio · fotografía editada con IA";
   if (src.endsWith("/cynthia-padilla-frida-01.webp")) return lang === "en" ? "Studio presentation · AI-edited photograph" : "Presentación de estudio · fotografía editada con IA";
   const match = src.match(/piece-(?:27|28|29)-color-([a-z-]+)\.webp$/);
   if (match && colors[match[1]]) return `${lang === "en" ? "Color visualization" : "Visualización de color"} — ${colors[match[1]][lang === "en" ? 1 : 0]}`;

@@ -4,7 +4,9 @@ import { applyProductUpdates } from "./catalog-variants";
 import { artistOrigin } from "./artist-origins";
 import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
-export const CATALOG_VERSION = 4;
+import { refineCatalog } from "./catalog-refinements";
+
+export const CATALOG_VERSION = 5;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -51,8 +53,9 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
       next.designers.push({ id: "sandra-roldan", name: "Sandra Roldán", origin: "Colombia", disc: ["Artista", "Artist"] });
     }
   }
-  if (!next.pieces.some(piece => piece.id === CYNTHIA_PRINT.id)) next.pieces.push(structuredClone(CYNTHIA_PRINT));
-  if (!next.designers.some(designer => designer.id === CYNTHIA_PADILLA.id || designer.name === CYNTHIA_PADILLA.name)) next.designers.push(structuredClone(CYNTHIA_PADILLA));
+  if ((next.catalogVersion ?? 0) < 4 && !next.pieces.some(piece => piece.id === CYNTHIA_PRINT.id)) next.pieces.push(structuredClone(CYNTHIA_PRINT));
+  if ((next.catalogVersion ?? 0) < 4 && !next.designers.some(designer => designer.id === CYNTHIA_PADILLA.id || designer.name === CYNTHIA_PADILLA.name)) next.designers.push(structuredClone(CYNTHIA_PADILLA));
+  next.pieces = refineCatalog(next.pieces);
   next.catalogVersion = CATALOG_VERSION;
   return next;
 }
