@@ -7,7 +7,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 8;
+export const CATALOG_VERSION = 9;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -62,6 +62,17 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
   if ((next.catalogVersion ?? 0) < 8) {
     const turtle = next.pieces.find(piece => piece.id === DECORATIVE_TURTLE.id);
     if (turtle) turtle.published = false;
+  }
+  if ((next.catalogVersion ?? 0) < 9) {
+    // Preserve CMS photos, availability and publication state while updating confirmed bag data.
+    const bags = new Map(CATALOG_ADDITIONS.filter(piece => piece.designer === "ORRA").map(piece => [piece.id, piece]));
+    next.pieces = next.pieces.map(piece => {
+      const bag = bags.get(piece.id);
+      if (!bag) return piece;
+      return { ...piece, name: bag.name, nameEn: bag.nameEn ?? bag.name,
+        designer: bag.designer, origin: bag.origin, mat: bag.mat, dim: bag.dim,
+        description: bag.description ?? ["", ""] };
+    });
   }
   next.catalogVersion = CATALOG_VERSION;
   return next;
