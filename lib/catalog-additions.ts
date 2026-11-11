@@ -214,19 +214,19 @@ export const CATALOG_ADDITIONS: Piece[] = [
   },
   {
     "id": "accessory-01",
-    "name": "Bolso tejido con panel negro y asas circulares",
-    "nameEn": "Woven Bag with Black Panel and Circular Handles",
+    "name": "Anastilosis Bag",
+    "nameEn": "Anastilosis Bag",
     "cat": "acc",
-    "designer": "No especificado",
-    "origin": "No especificado",
+    "designer": "ORRA",
+    "origin": "Grecia",
     "mat": [
-      "Material por confirmar",
-      "Material to be confirmed"
+      "Rafia y piel; forro de algodón",
+      "Raffia and leather; cotton lining"
     ],
-    "dim": "No especificadas",
+    "dim": "H 21 × W 35 × D 14 cm; handle drop 16 cm; strap drop 145 cm",
     "description": [
-      "",
-      ""
+      "Bolso con asa superior de piel y correa de piel ajustable y desmontable para llevar en la mano o cruzado. Con cierre superior de cremallera, bolsillo interior de cremallera y forro de algodón.",
+      "A bag with a leather top handle and removable, adjustable leather shoulder strap for hand or crossbody carrying. Includes a top zip closure, internal zip pocket and cotton lining."
     ],
     "images": [
       "/images/catalog/accessory-01-01.webp"
@@ -235,19 +235,19 @@ export const CATALOG_ADDITIONS: Piece[] = [
   },
   {
     "id": "accessory-02",
-    "name": "Bolso tejido caramelo",
-    "nameEn": "Caramel Woven Handbag",
+    "name": "Grace Raffia Bag",
+    "nameEn": "Grace Raffia Bag",
     "cat": "acc",
-    "designer": "No especificado",
-    "origin": "No especificado",
+    "designer": "ORRA",
+    "origin": "Grecia",
     "mat": [
-      "Material por confirmar",
-      "Material to be confirmed"
+      "Rafia y detalles de piel de becerro; forro de algodón",
+      "Raffia and calf leather details; cotton lining"
     ],
-    "dim": "No especificadas",
+    "dim": "H 39 cm; W bottom 40 / top 35 cm; D 18 cm",
     "description": [
-      "",
-      ""
+      "Bolso con asas superiores de piel, cierre de cremallera y lazos laterales para ajustar el volumen. Con bolsillo interior de cremallera y forro de algodón.",
+      "A bag with leather top handles, a zip closure and side ties to adjust its volume. Finished with an internal zip pocket and cotton lining."
     ],
     "images": [
       "/images/catalog/accessory-02-01.webp"
@@ -298,19 +298,19 @@ export const CATALOG_ADDITIONS: Piece[] = [
   },
   {
     "id": "accessory-05",
-    "name": "Bolso tejido carbón en abanico",
-    "nameEn": "Charcoal Fan-Shaped Woven Bag",
+    "name": "Andromachi Raffia Bag",
+    "nameEn": "Andromachi Raffia Bag",
     "cat": "acc",
-    "designer": "No especificado",
-    "origin": "No especificado",
+    "designer": "ORRA",
+    "origin": "Grecia",
     "mat": [
-      "Material por confirmar",
-      "Material to be confirmed"
+      "Rafia; forro de algodón",
+      "Raffia; cotton lining"
     ],
-    "dim": "No especificadas",
+    "dim": "H 39 × W 79 × D 18 cm; handle drop 65 cm",
     "description": [
-      "",
-      ""
+      "Bolso para llevar en la mano o al hombro, con cierre superior de cremallera, bolsillo interior de cremallera y forro de algodón.",
+      "A bag for hand or shoulder carrying, with a top zip closure, internal zip pocket and cotton lining."
     ],
     "images": [
       "/images/catalog/accessory-05-01.webp"
@@ -361,19 +361,19 @@ export const CATALOG_ADDITIONS: Piece[] = [
   },
   {
     "id": "accessory-08",
-    "name": "Bolso tejido chocolate",
-    "nameEn": "Chocolate Woven Handbag",
+    "name": "Theodora Raffia Bag",
+    "nameEn": "Theodora Raffia Bag",
     "cat": "acc",
-    "designer": "No especificado",
-    "origin": "No especificado",
+    "designer": "ORRA",
+    "origin": "Grecia",
     "mat": [
-      "Material por confirmar",
-      "Material to be confirmed"
+      "Ante y rafia; forro de algodón",
+      "Suede and raffia; cotton lining"
     ],
-    "dim": "No especificadas",
+    "dim": "H 39 × W 42 × D 20 cm; handle drop 65 cm",
     "description": [
-      "",
-      ""
+      "Bolso para llevar en la mano o al hombro, con cierre superior de cremallera, bolsillo interior de cremallera y forro de algodón.",
+      "A bag for hand or shoulder carrying, with a top zip closure, internal zip pocket and cotton lining."
     ],
     "images": [
       "/images/catalog/accessory-08-01.webp"
@@ -403,19 +403,19 @@ export const CATALOG_ADDITIONS: Piece[] = [
   },
   {
     "id": "accessory-10",
-    "name": "Bolso crema con textura en relieve",
-    "nameEn": "Cream Textured Handbag",
+    "name": "Grace Suede Croco Bag",
+    "nameEn": "Grace Suede Croco Bag",
     "cat": "acc",
-    "designer": "No especificado",
-    "origin": "No especificado",
+    "designer": "ORRA",
+    "origin": "Grecia",
     "mat": [
-      "Material por confirmar",
-      "Material to be confirmed"
+      "Ante con textura croco y detalles de piel de becerro; forro de algodón",
+      "Croco-textured suede and calf leather details; cotton lining"
     ],
-    "dim": "No especificadas",
+    "dim": "H 39 cm; W bottom 40 / top 35 cm; D 18 cm",
     "description": [
-      "",
-      ""
+      "Bolso con asas superiores de piel, cierre de cremallera y lazos laterales para ajustar el volumen. Con bolsillo interior de cremallera y forro de algodón.",
+      "A bag with leather top handles, a zip closure and side ties to adjust its volume. Finished with an internal zip pocket and cotton lining."
     ],
     "images": [
       "/images/catalog/accessory-10-01.webp"
@@ -424,19 +424,19 @@ export const CATALOG_ADDITIONS: Piece[] = [
   },
   {
     "id": "accessory-11",
-    "name": "Clutch tejido crema con base oscura",
-    "nameEn": "Cream Woven Clutch with Dark Base",
+    "name": "Market Embro Raffia Leather Bag",
+    "nameEn": "Market Embro Raffia Leather Bag",
     "cat": "acc",
-    "designer": "No especificado",
-    "origin": "No especificado",
+    "designer": "ORRA",
+    "origin": "Grecia",
     "mat": [
-      "Material por confirmar",
-      "Material to be confirmed"
+      "Rafia y piel con detalles bordados; forro de algodón",
+      "Raffia and leather with embroidered details; cotton lining"
     ],
-    "dim": "No especificadas",
+    "dim": "H 35 × W 35 × D 4 cm",
     "description": [
-      "",
-      ""
+      "Clutch artesanal de rafia y piel con solapa plegable y detalles bordados. Cierre magnético superior, bolsillo interior de cremallera y forro de algodón.",
+      "A handcrafted fold-over raffia and leather clutch with embroidered details. Finished with a top magnetic clasp, internal zip pocket and cotton lining."
     ],
     "images": [
       "/images/catalog/accessory-11-01.webp"
@@ -445,19 +445,19 @@ export const CATALOG_ADDITIONS: Piece[] = [
   },
   {
     "id": "accessory-12",
-    "name": "Bolso tejido crema geométrico",
-    "nameEn": "Cream Geometric Woven Bag",
+    "name": "Antonia Raffia Bag — Natural",
+    "nameEn": "Antonia Raffia Bag — Natural",
     "cat": "acc",
-    "designer": "No especificado",
-    "origin": "No especificado",
+    "designer": "ORRA",
+    "origin": "Grecia",
     "mat": [
-      "Material por confirmar",
-      "Material to be confirmed"
+      "Rafia y piel; forro de algodón",
+      "Raffia and leather; cotton lining"
     ],
-    "dim": "No especificadas",
+    "dim": "H 21 × W 35 × D 14 cm; handle drop 16 cm; strap drop 145 cm",
     "description": [
-      "",
-      ""
+      "Bolso con asa superior de piel y correa de piel ajustable y desmontable para llevar en la mano o cruzado. Con cierre superior de cremallera, bolsillo interior de cremallera y forro de algodón.",
+      "A bag with a leather top handle and removable, adjustable leather shoulder strap for hand or crossbody carrying. Includes a top zip closure, internal zip pocket and cotton lining."
     ],
     "images": [
       "/images/catalog/accessory-12-01.webp"
@@ -529,19 +529,19 @@ export const CATALOG_ADDITIONS: Piece[] = [
   },
   {
     "id": "accessory-16",
-    "name": "Bolso tejido gris plateado",
-    "nameEn": "Silver-Gray Woven Handbag",
+    "name": "Antonia Raffia Bag — Silver Gray",
+    "nameEn": "Antonia Raffia Bag — Silver Gray",
     "cat": "acc",
-    "designer": "No especificado",
-    "origin": "No especificado",
+    "designer": "ORRA",
+    "origin": "Grecia",
     "mat": [
-      "Material por confirmar",
-      "Material to be confirmed"
+      "Rafia y piel; forro de algodón",
+      "Raffia and leather; cotton lining"
     ],
-    "dim": "No especificadas",
+    "dim": "H 21 × W 35 × D 14 cm; handle drop 16 cm; strap drop 145 cm",
     "description": [
-      "",
-      ""
+      "Bolso con asa superior de piel y correa de piel ajustable y desmontable para llevar en la mano o cruzado. Con cierre superior de cremallera, bolsillo interior de cremallera y forro de algodón.",
+      "A bag with a leather top handle and removable, adjustable leather shoulder strap for hand or crossbody carrying. Includes a top zip closure, internal zip pocket and cotton lining."
     ],
     "images": [
       "/images/catalog/accessory-16-01.webp"
@@ -550,19 +550,19 @@ export const CATALOG_ADDITIONS: Piece[] = [
   },
   {
     "id": "accessory-17",
-    "name": "Bolso tejido beige de silueta suave",
-    "nameEn": "Soft-Shaped Beige Woven Handbag",
+    "name": "Afetiria Raffia Bag",
+    "nameEn": "Afetiria Raffia Bag",
     "cat": "acc",
-    "designer": "No especificado",
-    "origin": "No especificado",
+    "designer": "ORRA",
+    "origin": "Grecia",
     "mat": [
-      "Material por confirmar",
-      "Material to be confirmed"
+      "Rafia y detalles de piel de becerro; forro de algodón",
+      "Raffia and calf leather details; cotton lining"
     ],
-    "dim": "No especificadas",
+    "dim": "H 39 cm; W bottom 73 / top 52 cm; D 14 cm",
     "description": [
-      "",
-      ""
+      "Bolso con asas superiores de piel, cierre de cremallera y lazos laterales para ajustar el volumen. Con bolsillo interior de cremallera y forro de algodón.",
+      "A bag with leather top handles, a zip closure and side ties to adjust its volume. Finished with an internal zip pocket and cotton lining."
     ],
     "images": [
       "/images/catalog/accessory-17-01.webp"
@@ -592,19 +592,19 @@ export const CATALOG_ADDITIONS: Piece[] = [
   },
   {
     "id": "accessory-19",
-    "name": "Bolso abanico con asas circulares",
-    "nameEn": "Fan-Shaped Bag with Circular Handles",
+    "name": "Anadimiourgia Raffia Bag",
+    "nameEn": "Anadimiourgia Raffia Bag",
     "cat": "acc",
-    "designer": "No especificado",
-    "origin": "No especificado",
+    "designer": "ORRA",
+    "origin": "Grecia",
     "mat": [
-      "Material por confirmar",
-      "Material to be confirmed"
+      "Rafia y detalles de piel de becerro; forro de algodón",
+      "Raffia and calf leather details; cotton lining"
     ],
-    "dim": "No especificadas",
+    "dim": "H 39 × W 59 × D 19.5 cm; handle drop 21 cm; strap drop 90 cm",
     "description": [
-      "",
-      ""
+      "Bolso artesanal de rafia tipo zempili con asas circulares de piel. Correa de piel ajustable y desmontable, cierre superior de cremallera, bolsillo interior de cremallera y forro de algodón.",
+      "A handcrafted zempili-style raffia bag with circular leather handles. Features a removable, adjustable leather shoulder strap, top zip closure, internal zip pocket and cotton lining."
     ],
     "images": [
       "/images/catalog/accessory-19-01.webp"

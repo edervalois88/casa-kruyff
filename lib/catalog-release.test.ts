@@ -75,3 +75,29 @@ test("version 8 withdraws the turtle without deleting its data or recreating a r
   assert.equal(applyCatalogRelease(old).pieces.some(piece => piece.id === turtle.id), false);
 });
 
+
+test("version 9 updates confirmed ORRA bags without changing media or unrelated entries", () => {
+  const old = createSeedContent();
+  old.catalogVersion = 8;
+  const bag = old.pieces.find(piece => piece.id === "accessory-01")!;
+  bag.name = "Old bag";
+  bag.dim = "No especificadas";
+  bag.images = ["/images/custom-bag.webp"];
+  bag.published = false;
+  bag.availability = "sold";
+  const unrelated = old.pieces.find(piece => piece.id === "accessory-03")!;
+  const next = applyCatalogRelease(old);
+  const updated = next.pieces.find(piece => piece.id === bag.id)!;
+  assert.equal(updated.nameEn, "Anastilosis Bag");
+  assert.match(updated.dim, /H 21/);
+  assert.deepEqual(updated.images, bag.images);
+  assert.equal(updated.published, false);
+  assert.equal(updated.availability, "sold");
+  assert.deepEqual(next.pieces.find(piece => piece.id === unrelated.id), unrelated);
+  assert.equal(next.pieces.filter(piece => piece.designer === "ORRA").length, 10);
+  for (const id of ["accessory-05", "accessory-19"]) {
+    assert.match(next.pieces.find(piece => piece.id === id)!.dim, /^H 39/);
+  }
+  updated.dim = "Custom measurement";
+  assert.equal(applyCatalogRelease(next), next);
+});
