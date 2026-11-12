@@ -1,3 +1,4 @@
+import { addSuperheroPlates } from "./superhero-plates";
 import { updateRemainingOrraBags } from "./remaining-orra-bags";
 import { updateSandraNecklaces } from "./sandra-necklaces";
 import { HOLIDAY_PRODUCTS } from "./holiday-products";
@@ -11,7 +12,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 19;
+export const CATALOG_VERSION = 20;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -137,6 +138,12 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
       trio.images = [...new Set([...trio.images, ...source.images])];
       trio.description = structuredClone(source.description);
     }
+  }
+  if ((next.catalogVersion ?? 0) < 20) {
+    next.pieces = addSuperheroPlates(next.pieces);
+    next.designers = next.designers.map(designer => designer.id === "d8"
+      ? { ...designer, name: "Carlos Gunter", origin: "San Miguel de Allende, México" }
+      : designer);
   }
   next.catalogVersion = CATALOG_VERSION;
   return next;
