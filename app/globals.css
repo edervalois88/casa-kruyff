@@ -212,7 +212,7 @@ button:focus-visible {
 .ck-holiday-edit__image img { display: block; width: 100%; height: auto; }
 .ck-holiday-edit h2 { margin: 0; font: 300 clamp(48px,6vw,88px)/1.05 var(--font-serif); }
 .ck-holiday-edit p { margin: 0; }
-.ck-holiday-edit__copy a { font: 500 11px var(--font-label); letter-spacing: .18em; text-transform: uppercase; text-underline-offset: 7px; }
+.ck-holiday-edit__copy a { color: var(--ck-ivory); border-bottom: 1px solid var(--ck-gold); padding-bottom: 6px; font: 500 11px var(--font-label); letter-spacing: .18em; text-transform: uppercase; text-underline-offset: 7px; }
 @media (max-width: 700px) {
   .ck-holiday-edit { grid-template-columns: 1fr; }
   .ck-holiday-edit__copy { align-items: center; text-align: center; }
