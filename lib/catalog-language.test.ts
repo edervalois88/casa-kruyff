@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { catalogText, catalogDimensions } from "./catalog-language";
+import { catalogText, catalogDimensions, catalogAttribution } from "./catalog-language";
 import { PIECES } from "./site-data";
 
 test("English catalog metadata has no untranslated shared Spanish labels", () => {
@@ -16,4 +16,12 @@ test("Spanish values and proper artist names remain intact", () => {
   assert.equal(catalogText("Artesanos mexicanos", "es"), "Artesanos mexicanos");
   assert.equal(catalogDimensions("24 cm de alto", "es"), "24 cm de alto");
   assert.equal(catalogDimensions("Chico: 35 × 35 × 160 cm; mediano: 35 × 35 × 170 cm", "en"), "Small: 35 × 35 × 160 cm; Medium: 35 × 35 × 170 cm");
+});
+
+test("public attribution hides unspecified artists and redundant separators", () => {
+  assert.equal(catalogAttribution("No especificado", "México", "en"), "Mexico");
+  assert.equal(catalogAttribution("Not specified", "China", "en", ", "), "China");
+  assert.equal(catalogAttribution("Sandra Roldán", "Colombia", "en"), "Sandra Roldán · Colombia");
+  assert.equal(catalogAttribution("No especificado", "No especificado", "es"), "");
+  assert.equal(catalogAttribution("Caroline Rovithi", "No especificado", "en"), "Caroline Rovithi");
 });
