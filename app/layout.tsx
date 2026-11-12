@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Cormorant_Garamond, Lato, Montserrat } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/language-context";
@@ -49,6 +50,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           </QuoteProvider>
         </LanguageProvider>
         </SiteContentProvider>
+        <Analytics />
       </body>
     </html>
   );
