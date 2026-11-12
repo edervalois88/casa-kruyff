@@ -27,14 +27,14 @@ test("release separates headdresses, publishes missing photographs and keeps aut
   old.heroes.home.src = "/images/custom.webp";
   const next = applyCatalogRelease(old);
   assert.equal(old.pieces.length, 40);
-  assert.equal(next.pieces.length, 90);
+  assert.equal(next.pieces.length, 87);
   assert.equal(next.pieces[0].name, "An authored name");
   assert.equal(next.pieces[0].availability, "sold");
   assert.equal(next.heroes.home.src, "/images/custom.webp");
   assert.deepEqual(next.pieces.find(p => p.id === "piece-23")!.images, ["/images/catalog/piece-23-01.webp"]);
   assert.deepEqual(next.pieces.find(p => p.id === "headdress-floral")!.images, ["/images/catalog/piece-23-02.webp"]);
   assert.equal(next.pieces.filter(p => p.cat === "acc").length, 20);
-  assert.equal(next.pieces.filter(p => p.cat === "holiday").length, 8);
+  assert.equal(next.pieces.filter(p => p.cat === "holiday").length, 5);
   assert.equal(next.pieces.filter(p => p.designer === "Caroline Rovithi").length, 7);
   assert.equal(next.pieces.find(p => p.id === "piece-29")!.published, true);
   assert.equal(next.pieces.find(p => p.id === "piece-31")!.published, true);
@@ -129,8 +129,8 @@ test("holiday release imports only studio images and moves Sandra necklaces to t
   old.pieces = old.pieces.filter(piece => piece.cat !== "holiday");
   const next = applyCatalogRelease(old);
   const holiday = next.pieces.filter(piece => piece.cat === "holiday");
-  assert.equal(holiday.length, 8);
-  assert.ok(holiday.every(piece => piece.published && piece.images.length === 1 && piece.images[0].includes("/holiday-")));
+  assert.equal(holiday.length, 5);
+  assert.ok(holiday.every(piece => piece.published && piece.images.length >= 1 && piece.images[0].includes("/holiday-")));
   assert.deepEqual(next.pieces.slice(-2).map(piece => piece.id), ["accessory-14", "accessory-15"]);
   for (const piece of next.pieces.slice(-2)) {
     assert.equal(piece.designer, "Sandra Roldán");
@@ -165,5 +165,20 @@ test("release 13 identifies leather bags and places multicolor after the other b
   const black = next.pieces.find(p => p.id === "accessory-03")!;
   assert.equal(black.mat[1], "Smooth black leather");
   assert.equal(black.dim, "No especificadas");
+  assert.equal(applyCatalogRelease(next), next);
+});
+
+test("release 14 groups nutcracker colors and applies confirmed materials", () => {
+  const old = createSeedContent(); old.catalogVersion = 13;
+  const base = old.pieces.find(p => p.id === "holiday-nutcracker-gold")!;
+  for (const id of ["holiday-nutcracker-red", "holiday-nutcracker-ivory", "holiday-nutcracker-metallic-red"]) old.pieces.push({ ...structuredClone(base), id });
+  const next = applyCatalogRelease(old);
+  assert.equal(next.pieces.filter(p => p.cat === "holiday").length, 5);
+  assert.equal(next.pieces.find(p => p.id === "holiday-nutcracker-gold")!.images.length, 3);
+  assert.equal(next.pieces.find(p => p.id === "holiday-nutcracker-antique-gold")!.images.length, 2);
+  for (const piece of next.pieces.filter(p => p.cat === "holiday" && p.id !== "holiday-rocking-horse")) assert.equal(piece.mat[1], "Fiberglass");
+  const horse = next.pieces.find(p => p.id === "holiday-rocking-horse")!;
+  assert.equal(horse.mat[1], "Hand-carved mango wood");
+  assert.match(horse.description[1], /not a toy/);
   assert.equal(applyCatalogRelease(next), next);
 });
