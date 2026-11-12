@@ -11,7 +11,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 18;
+export const CATALOG_VERSION = 19;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -114,7 +114,8 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
   if ((next.catalogVersion ?? 0) < 17) {
     next.pieces = next.pieces.map(piece => {
       if (!["holiday-nutcracker-gold", "holiday-crowned-gold", "holiday-white-nutcracker-trio"].includes(piece.id)) return piece;
-      const source = HOLIDAY_PRODUCTS.find(source => source.id === piece.id)!;
+      const source = HOLIDAY_PRODUCTS.find(source => source.id === piece.id);
+      if (!source) return piece;
       return { ...piece, dim: source.dim, origin: source.origin, description: structuredClone(source.description) };
     });
   }
@@ -125,6 +126,16 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
       tall.dim = source.dim; tall.origin = source.origin;
       tall.images = [...new Set([...tall.images, ...source.images])];
       tall.description = structuredClone(source.description);
+    }
+  }
+  if ((next.catalogVersion ?? 0) < 19) {
+    next.pieces = next.pieces.filter(piece => piece.id !== "holiday-crowned-gold");
+    delete next.images["holiday-crowned-gold"];
+    const trio = next.pieces.find(piece => piece.id === "holiday-white-nutcracker-trio");
+    if (trio) {
+      const source = HOLIDAY_PRODUCTS.find(piece => piece.id === trio.id)!;
+      trio.images = [...new Set([...trio.images, ...source.images])];
+      trio.description = structuredClone(source.description);
     }
   }
   next.catalogVersion = CATALOG_VERSION;

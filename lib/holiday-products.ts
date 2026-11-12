@@ -72,28 +72,6 @@ export const HOLIDAY_PRODUCTS: ManagedPiece[] = [
     "availability": "on-request"
   },
   {
-    "id": "holiday-crowned-gold",
-    "name": "Cascanueces con corona dorado champaña",
-    "nameEn": "Champagne Gold Crowned Nutcracker",
-    "cat": "holiday",
-    "designer": "No especificado",
-    "origin": "México",
-    "mat": [
-      "Fibra de vidrio",
-      "Fiberglass"
-    ],
-    "dim": "W 65 × H 187 cm",
-    "description": [
-      "Cascanueces decorativo con corona y acabado dorado champaña. La fotografía muestra un acercamiento de la corona y el cuerpo. Elaborado en fibra de vidrio. Acabados disponibles: dorado, rojo y plateado; disponibilidad según modelo por confirmar.",
-      "A decorative crowned nutcracker with a champagne gold finish. The photograph shows a close-up of the crown and body. Made from fiberglass. Available finishes: gold, red and silver; availability for each model is confirmed on request."
-    ],
-    "images": [
-      "/images/catalog/holiday-crowned-gold-01.webp"
-    ],
-    "published": true,
-    "availability": "on-request"
-  },
-  {
     "id": "holiday-white-nutcracker-trio",
     "name": "Cascanueces blancos — tres siluetas",
     "nameEn": "White Nutcrackers — Three Silhouettes",
@@ -106,11 +84,14 @@ export const HOLIDAY_PRODUCTS: ManagedPiece[] = [
     ],
     "dim": "Left: W 65 × H 187 cm; center: W 55 × H 157 cm; right: W 65 × H 132 cm",
     "description": [
-      "Selección de cascanueces blancos en tres siluetas y alturas, con distintos sombreros y bases circulares. Presentados juntos como referencia; piezas y disponibilidad por confirmar. Elaborado en fibra de vidrio. Acabados disponibles: dorado, rojo y plateado; disponibilidad según modelo por confirmar. De izquierda a derecha: modelo con corona, modelo redondeado y modelo bajo. Ancho × alto: 65 × 187 cm, 55 × 157 cm y 65 × 132 cm, respectivamente.",
-      "A selection of white nutcrackers in three silhouettes and heights, with distinct hats and circular bases. Shown together for reference; individual pieces and availability are to be confirmed. Made from fiberglass. Available finishes: gold, red and silver; availability for each model is confirmed on request. From left to right: crowned, rounded and short models. Width × height: 65 × 187 cm, 55 × 157 cm and 65 × 132 cm, respectively."
+      "Selección de cascanueces blancos en tres siluetas y alturas, con distintos sombreros y bases circulares. Presentados juntos como referencia; piezas y disponibilidad por confirmar. Elaborado en fibra de vidrio. Acabados disponibles: dorado, rojo y plateado; disponibilidad según modelo por confirmar. De izquierda a derecha: modelo con corona, modelo redondeado y modelo bajo. Ancho × alto: 65 × 187 cm, 55 × 157 cm y 65 × 132 cm, respectivamente. La galería incluye el acabado dorado del modelo con corona y una composición dorada y marfil.",
+      "A selection of white nutcrackers in three silhouettes and heights, with distinct hats and circular bases. Shown together for reference; individual pieces and availability are to be confirmed. Made from fiberglass. Available finishes: gold, red and silver; availability for each model is confirmed on request. From left to right: crowned, rounded and short models. Width × height: 65 × 187 cm, 55 × 157 cm and 65 × 132 cm, respectively. The gallery also includes the crowned model in gold and a gold-and-ivory composition."
     ],
     "images": [
-      "/images/catalog/holiday-white-nutcracker-trio-01.webp"
+      "/images/catalog/holiday-white-nutcracker-trio-01.webp",
+      "/images/catalog/holiday-crowned-gold-full-01.webp",
+      "/images/catalog/holiday-crowned-gold-01.webp",
+      "/images/catalog/holiday-gold-ivory-pair-01.webp"
     ],
     "published": true,
     "availability": "on-request"
