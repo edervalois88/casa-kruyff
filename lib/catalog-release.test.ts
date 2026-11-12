@@ -175,7 +175,7 @@ test("release 14 groups nutcracker colors and applies confirmed materials", () =
   const next = applyCatalogRelease(old);
   assert.equal(next.pieces.filter(p => p.cat === "holiday").length, 5);
   assert.equal(next.pieces.find(p => p.id === "holiday-nutcracker-gold")!.images.length, 3);
-  assert.equal(next.pieces.find(p => p.id === "holiday-nutcracker-antique-gold")!.images.length, 2);
+  assert.equal(next.pieces.find(p => p.id === "holiday-nutcracker-antique-gold")!.images.length, 3);
   for (const piece of next.pieces.filter(p => p.cat === "holiday" && p.id !== "holiday-rocking-horse")) assert.equal(piece.mat[1], "Fiberglass");
   const horse = next.pieces.find(p => p.id === "holiday-rocking-horse")!;
   assert.equal(horse.mat[1], "Hand-carved mango wood");

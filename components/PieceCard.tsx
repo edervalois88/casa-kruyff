@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { Piece } from "@/lib/site-data";
 import { useSiteData } from "@/lib/site-content-context";
 import { useLanguage } from "@/lib/language-context";
-import { catalogText } from "@/lib/catalog-language";
+import { catalogText, catalogAttribution } from "@/lib/catalog-language";
 
 export default function PieceCard({ piece, showCat = true }: { piece: Piece; showCat?: boolean }) {
   const { lang, t } = useLanguage();
@@ -45,7 +45,7 @@ export default function PieceCard({ piece, showCat = true }: { piece: Piece; sho
         className="font-[family-name:var(--font-label)]"
         style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--ck-muted)" }}
       >
-        {catalogText(piece.designer, lang)} · {catalogText(piece.origin, lang)}
+        {catalogAttribution(piece.designer, piece.origin, lang)}
       </span>
     </Link>
   );

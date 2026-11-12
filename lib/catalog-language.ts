@@ -44,3 +44,12 @@ export function catalogDimensions(value: string, lang: Lang): string {
     .replace(/\bde alto\b/g, "high")
     .replace(/ cm o /g, " cm or ");
 }
+
+// Public attribution omits placeholder values while retaining confirmed names and origins.
+export function catalogAttribution(designer: string, origin: string, lang: Lang, separator = " · "): string {
+  return [designer, origin]
+    .map(value => value.trim())
+    .filter(value => value && !/^(no especificad[oa]s?|not specified|unknown|n\/a)$/i.test(value))
+    .map(value => catalogText(value, lang))
+    .join(separator);
+}

@@ -31,19 +31,20 @@ export const HOLIDAY_PRODUCTS: ManagedPiece[] = [
     "nameEn": "Tall Nutcracker",
     "cat": "holiday",
     "designer": "No especificado",
-    "origin": "No especificado",
+    "origin": "China",
     "mat": [
       "Fibra de vidrio",
       "Fiberglass"
     ],
-    "dim": "No especificadas",
+    "dim": "15.75 × 13.39 × 55.12 in (≈ 40 × 34 × 140 cm)",
     "description": [
-      "Cascanueces decorativo de fibra de vidrio con silueta alargada, sombrero cilíndrico y base circular. Acabados disponibles: dorado, rojo y plateado. La galería reúne las referencias dorada envejecida y roja metálica del mismo diseño. Disponibilidad y medidas por confirmar.",
-      "A decorative fiberglass nutcracker with an elongated silhouette, cylindrical hat and circular base. Available finishes: gold, red and silver. The gallery shows antique gold and metallic red references of the same design. Availability and dimensions are confirmed on request."
+      "Cascanueces decorativo de fibra de vidrio con silueta alargada, sombrero cilíndrico y base circular. Acabados disponibles: dorado, rojo y plateado. La galería reúne las referencias dorada envejecida, roja metálica y plateada envejecida del mismo diseño. Disponibilidad por confirmar.",
+      "A decorative fiberglass nutcracker with an elongated silhouette, cylindrical hat and circular base. Available finishes: gold, red and silver. The gallery shows antique gold, metallic red and antique silver references of the same design. Availability is confirmed on request."
     ],
     "images": [
       "/images/catalog/holiday-nutcracker-antique-gold-01.webp",
-      "/images/catalog/holiday-nutcracker-metallic-red-01.webp"
+      "/images/catalog/holiday-nutcracker-metallic-red-01.webp",
+      "/images/catalog/holiday-nutcracker-silver-01.webp"
     ],
     "published": true,
     "availability": "on-request"
