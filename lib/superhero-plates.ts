@@ -6,7 +6,7 @@ const framedDimensions = "Print only: 75 × 53.5 cm; framed art: 82 × 61 cm";
 
 function portrait(id: string, character: string, description: [string, string]): ManagedPiece {
   return {
-    id, name: `Super Hero Collection — ${character}`, nameEn: `Super Hero Collection — ${character}`,
+    id, name: "Super Hero Collection", nameEn: "Super Hero Collection",
     cat: "arte", designer: "", origin: "San Miguel de Allende, México",
     mat: ["Impresión enmarcada", "Framed print"], dim: framedDimensions,
     description, images: [photo(`superhero-${character.toLowerCase().replaceAll(" ", "-")}`)],
@@ -16,7 +16,7 @@ function portrait(id: string, character: string, description: [string, string]):
 
 export const SUPERHERO_PORTRAITS: ManagedPiece[] = [
   {
-    id: "piece-18", name: "Super Hero Collection — Superman abuelo", nameEn: "Super Hero Collection — Elder Superman",
+    id: "piece-18", name: "Super Hero Collection", nameEn: "Super Hero Collection",
     cat: "arte", designer: "Carlos Gunter", origin: "San Miguel de Allende, México",
     mat: ["Impresión digital", "Digital print"], dim: "101.6 × 152.4 cm",
     description: [

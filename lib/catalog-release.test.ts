@@ -7,6 +7,25 @@ import { applyCatalogRelease } from "./catalog-release";
 import { validateContent } from "./server/cms-store";
 import { SUPERHERO_PORTRAITS, ROVITHI_PLATES } from "./superhero-plates";
 
+test("release 21 changes only the four Super Hero Collection titles", () => {
+  const old = createSeedContent(); old.catalogVersion = 20;
+  const superman = old.pieces.find(piece => piece.id === "piece-18")!;
+  superman.name = "Super Hero Collection — Superman abuelo";
+  superman.nameEn = "Super Hero Collection — Elder Superman";
+  const target = old.pieces.find(piece => piece.id === "superhero-batman")!;
+  target.name = "Super Hero Collection — Batman";
+  target.nameEn = target.name;
+  target.images = ["/images/custom.webp"];
+  const next = applyCatalogRelease(old);
+  const updated = next.pieces.find(piece => piece.id === target.id)!;
+  assert.deepEqual(updated, { ...target, name: "Super Hero Collection", nameEn: "Super Hero Collection" });
+  assert.deepEqual(next.pieces.find(piece => piece.id === "piece-18"), { ...old.pieces.find(piece => piece.id === "piece-18"), name: "Super Hero Collection", nameEn: "Super Hero Collection" });
+  for (const id of ["superhero-wonder-woman", "superhero-hulk"]) {
+    assert.equal(next.pieces.find(piece => piece.id === id)!.nameEn, "Super Hero Collection");
+  }
+  assert.equal(applyCatalogRelease(next), next);
+});
+
 test("release 20 publishes supplied art without assigning the unknown artists or Superman dimensions to other portraits", () => {
   const old = createSeedContent(); old.catalogVersion = 19;
   const newIds = new Set([...SUPERHERO_PORTRAITS, ...ROVITHI_PLATES].map(piece => piece.id));
