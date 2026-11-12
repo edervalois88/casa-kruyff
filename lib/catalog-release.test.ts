@@ -94,7 +94,7 @@ test("version 9 updates confirmed ORRA bags without changing media or unrelated 
   assert.equal(updated.published, false);
   assert.equal(updated.availability, "sold");
   assert.deepEqual(next.pieces.find(piece => piece.id === unrelated.id), unrelated);
-  assert.equal(next.pieces.filter(piece => piece.designer === "ORRA").length, 10);
+  assert.equal(next.pieces.filter(piece => piece.designer === "ORRA").length, 14);
   for (const id of ["accessory-05", "accessory-19"]) {
     assert.match(next.pieces.find(piece => piece.id === id)!.dim, /^H 39/);
   }
@@ -137,5 +137,21 @@ test("holiday release imports only studio images and moves Sandra necklaces to t
     assert.equal(piece.origin, "Antioquia, Colombia");
     assert.match(piece.description[1], /knot-based weaving/);
   }
+  assert.equal(applyCatalogRelease(next), next);
+});
+
+test("release 12 updates four identified ORRA bags without replacing photographs", () => {
+  const old = createSeedContent(); old.catalogVersion = 11;
+  const ids = ["accessory-04", "accessory-07", "accessory-09", "accessory-18"];
+  for (const id of ids) old.pieces.find(p => p.id === id)!.dim = "No especificadas";
+  const next = applyCatalogRelease(old);
+  for (const id of ids) {
+    const piece = next.pieces.find(p => p.id === id)!;
+    assert.equal(piece.designer, "ORRA");
+    assert.ok(piece.dim.startsWith("H "));
+    assert.deepEqual(piece.images, old.pieces.find(p => p.id === id)!.images);
+  }
+  assert.match(next.pieces.find(p => p.id === "accessory-18")!.dim, /^H 39/);
+  assert.deepEqual(next.pieces.slice(-2).map(p => p.id), ["accessory-14", "accessory-15"]);
   assert.equal(applyCatalogRelease(next), next);
 });

@@ -1,3 +1,4 @@
+import { updateRemainingOrraBags } from "./remaining-orra-bags";
 import { updateSandraNecklaces } from "./sandra-necklaces";
 import { HOLIDAY_PRODUCTS } from "./holiday-products";
 import { separateMulticolorBear } from "./catalog-presentation-update";
@@ -10,7 +11,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 11;
+export const CATALOG_VERSION = 12;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -85,6 +86,7 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
     next.pieces = updateSandraNecklaces(next.pieces);
     next.images.holiday ??= { src: HOLIDAY_PRODUCTS[0].images[0], credit: "", href: "" };
   }
+  if ((next.catalogVersion ?? 0) < 12) next.pieces = updateRemainingOrraBags(next.pieces);
   next.catalogVersion = CATALOG_VERSION;
   return next;
 }
