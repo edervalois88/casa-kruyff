@@ -12,7 +12,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 22;
+export const CATALOG_VERSION = 23;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -156,6 +156,19 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
       const portrait = SUPERHERO_PORTRAITS.find(source => source.id === piece.id);
       return portrait ? { ...piece, description: structuredClone(portrait.description) } : piece;
     });
+  }
+  if ((next.catalogVersion ?? 0) < 23) {
+    const replacements = new Set(["superhero-wonder-woman", "superhero-batman"]);
+    next.pieces = next.pieces.map(piece => {
+      if (!replacements.has(piece.id)) return piece;
+      const source = SUPERHERO_PORTRAITS.find(source => source.id === piece.id)!;
+      return { ...piece, images: [...source.images] };
+    });
+  }
+  if ((next.catalogVersion ?? 0) < 23 && !next.pieces.some(piece => piece.id === "superhero-classical-portrait")) {
+    const source = SUPERHERO_PORTRAITS.find(piece => piece.id === "superhero-classical-portrait")!;
+    const necklaces = next.pieces.findIndex(piece => piece.id === "accessory-14" || piece.id === "accessory-15");
+    next.pieces.splice(necklaces < 0 ? next.pieces.length : necklaces, 0, structuredClone(source));
   }
   next.catalogVersion = CATALOG_VERSION;
   return next;

@@ -7,9 +7,35 @@ import { applyCatalogRelease } from "./catalog-release";
 import { validateContent } from "./server/cms-store";
 import { SUPERHERO_PORTRAITS, ROVITHI_PLATES } from "./superhero-plates";
 
+test("release 23 replaces only the two supplied photographs and adds an independent portrait", () => {
+  const old = createSeedContent(); old.catalogVersion = 22;
+  old.pieces = old.pieces.filter(piece => piece.id !== "superhero-classical-portrait");
+  for (const id of ["superhero-batman", "superhero-wonder-woman"]) {
+    const piece = old.pieces.find(piece => piece.id === id)!;
+    piece.images = ["/images/previous.webp"];
+    piece.availability = "sold";
+  }
+  const original = structuredClone(old.pieces.find(piece => piece.id === "piece-18"));
+  const next = applyCatalogRelease(old);
+  assert.deepEqual(next.pieces.find(piece => piece.id === "piece-18"), original);
+  for (const id of ["superhero-batman", "superhero-wonder-woman"]) {
+    const piece = next.pieces.find(piece => piece.id === id)!;
+    assert.deepEqual(piece.images, [`/images/catalog/${id}-studio-v2.webp`]);
+    assert.equal(piece.availability, "sold");
+  }
+  const added = next.pieces.find(piece => piece.id === "superhero-classical-portrait")!;
+  assert.equal(added.nameEn, "Super Hero Collection");
+  assert.equal(added.designer, "");
+  assert.equal(added.dim, "No especificadas");
+  assert.equal(added.published, true);
+  assert.deepEqual(added.images, ["/images/catalog/superhero-portrait-studio-v2.webp"]);
+  assert.equal(applyCatalogRelease(next), next);
+  assert.doesNotThrow(() => validateContent(next));
+});
+
 test("release 22 removes character names from public portrait copy while retaining confirmed facts and media", () => {
   const old = createSeedContent(); old.catalogVersion = 21;
-  const portrait = old.pieces.find(piece => piece.id === "superhero-batman")!;
+  const portrait = old.pieces.find(piece => piece.id === "superhero-hulk")!;
   portrait.description = ["Batman", "Batman"];
   portrait.images = ["/images/custom.webp"];
   const next = applyCatalogRelease(old);
@@ -28,7 +54,7 @@ test("release 21 changes only the four Super Hero Collection titles", () => {
   const superman = old.pieces.find(piece => piece.id === "piece-18")!;
   superman.name = "Super Hero Collection — Superman abuelo";
   superman.nameEn = "Super Hero Collection — Elder Superman";
-  const target = old.pieces.find(piece => piece.id === "superhero-batman")!;
+  const target = old.pieces.find(piece => piece.id === "superhero-hulk")!;
   target.name = "Super Hero Collection — Batman";
   target.nameEn = target.name;
   target.images = ["/images/custom.webp"];
@@ -54,7 +80,7 @@ test("release 20 publishes supplied art without assigning the unknown artists or
   assert.equal(superman.dim, "101.6 × 152.4 cm");
   assert.equal(superman.published, true);
   assert.equal(superman.availability, "sold");
-  for (const source of SUPERHERO_PORTRAITS.slice(1)) {
+  for (const source of SUPERHERO_PORTRAITS.slice(1, 4)) {
     const piece = next.pieces.find(piece => piece.id === source.id)!;
     assert.equal(piece.designer, "");
     assert.equal(piece.origin, "San Miguel de Allende, México");
@@ -63,7 +89,7 @@ test("release 20 publishes supplied art without assigning the unknown artists or
   const commissioned = next.pieces.find(piece => piece.id === "rovithi-made-to-order-plate")!;
   assert.equal(commissioned.nameEn, "Made to Order Plate");
   assert.match(commissioned.description[1], /custom plate/);
-  assert.equal(next.pieces.filter(piece => newIds.has(piece.id)).length, 8);
+  assert.equal(next.pieces.filter(piece => newIds.has(piece.id)).length, 9);
   assert.doesNotThrow(() => validateContent(next));
   assert.equal(applyCatalogRelease(next), next);
 });
@@ -89,7 +115,7 @@ test("release separates headdresses, publishes missing photographs and keeps aut
   old.heroes.home.src = "/images/custom.webp";
   const next = applyCatalogRelease(old);
   assert.equal(old.pieces.length, 40);
-  assert.equal(next.pieces.length, 93);
+  assert.equal(next.pieces.length, 94);
   assert.equal(next.pieces[0].name, "An authored name");
   assert.equal(next.pieces[0].availability, "sold");
   assert.equal(next.heroes.home.src, "/images/custom.webp");

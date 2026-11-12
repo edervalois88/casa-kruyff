@@ -15,3 +15,7 @@ Three portrait edits did not complete; a separate Batman edit was explicitly rej
 ## Verification
 
 Catalog tests cover publication, eight distinct records, confirmed versus unknown artists, independent dimensions, preserved existing availability, idempotence, and file existence. Previously confirmed necklace ordering and all other catalog regressions remain covered.
+
+## Release 23 — client-supplied final studio photographs
+
+The client supplied finished studio photographs for the masked seated portrait and female portrait. These replace their earlier showroom photographs without further generative editing. A third supplied photograph is a separate work, explicitly confirmed as an additional product after clarification; it does not replace the silver-haired Carlos Gunter portrait. The new work uses the public title Super Hero Collection, with artist and dimensions unconfirmed. Original confirmed artist, dimensions, image and description of piece-18 remain unchanged. All three supplied PNGs were encoded as WebP without content edits.
