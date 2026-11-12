@@ -27,14 +27,14 @@ test("release separates headdresses, publishes missing photographs and keeps aut
   old.heroes.home.src = "/images/custom.webp";
   const next = applyCatalogRelease(old);
   assert.equal(old.pieces.length, 40);
-  assert.equal(next.pieces.length, 82);
+  assert.equal(next.pieces.length, 90);
   assert.equal(next.pieces[0].name, "An authored name");
   assert.equal(next.pieces[0].availability, "sold");
   assert.equal(next.heroes.home.src, "/images/custom.webp");
   assert.deepEqual(next.pieces.find(p => p.id === "piece-23")!.images, ["/images/catalog/piece-23-01.webp"]);
   assert.deepEqual(next.pieces.find(p => p.id === "headdress-floral")!.images, ["/images/catalog/piece-23-02.webp"]);
   assert.equal(next.pieces.filter(p => p.cat === "acc").length, 20);
-  assert.equal(next.pieces.filter(p => p.cat === "holiday").length, 0);
+  assert.equal(next.pieces.filter(p => p.cat === "holiday").length, 8);
   assert.equal(next.pieces.filter(p => p.designer === "Caroline Rovithi").length, 7);
   assert.equal(next.pieces.find(p => p.id === "piece-29")!.published, true);
   assert.equal(next.pieces.find(p => p.id === "piece-31")!.published, true);
@@ -121,5 +121,21 @@ test("version 10 separates the multicolor bear and leads with the orange lollipo
     "/images/catalog/cynthia-padilla-frida-detail-left.webp",
     "/images/catalog/cynthia-padilla-frida-detail-right.webp",
   ]);
+  assert.equal(applyCatalogRelease(next), next);
+});
+
+test("holiday release imports only studio images and moves Sandra necklaces to the end", () => {
+  const old = createSeedContent(); old.catalogVersion = 10;
+  old.pieces = old.pieces.filter(piece => piece.cat !== "holiday");
+  const next = applyCatalogRelease(old);
+  const holiday = next.pieces.filter(piece => piece.cat === "holiday");
+  assert.equal(holiday.length, 8);
+  assert.ok(holiday.every(piece => piece.published && piece.images.length === 1 && piece.images[0].includes("/holiday-")));
+  assert.deepEqual(next.pieces.slice(-2).map(piece => piece.id), ["accessory-14", "accessory-15"]);
+  for (const piece of next.pieces.slice(-2)) {
+    assert.equal(piece.designer, "Sandra Roldán");
+    assert.equal(piece.origin, "Antioquia, Colombia");
+    assert.match(piece.description[1], /knot-based weaving/);
+  }
   assert.equal(applyCatalogRelease(next), next);
 });

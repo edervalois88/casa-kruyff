@@ -1,3 +1,5 @@
+import { updateSandraNecklaces } from "./sandra-necklaces";
+import { HOLIDAY_PRODUCTS } from "./holiday-products";
 import { separateMulticolorBear } from "./catalog-presentation-update";
 import { DECORATIVE_TURTLE } from "./decorative-turtle";
 import type { SiteContent, ManagedPiece } from "./cms-types";
@@ -8,7 +10,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 10;
+export const CATALOG_VERSION = 11;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -76,6 +78,13 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
     });
   }
   if ((next.catalogVersion ?? 0) < 10) next.pieces = separateMulticolorBear(next.pieces);
+  if ((next.catalogVersion ?? 0) < 11) {
+    for (const piece of HOLIDAY_PRODUCTS) {
+      if (!next.pieces.some(existing => existing.id === piece.id)) next.pieces.push(structuredClone(piece));
+    }
+    next.pieces = updateSandraNecklaces(next.pieces);
+    next.images.holiday ??= { src: HOLIDAY_PRODUCTS[0].images[0], credit: "", href: "" };
+  }
   next.catalogVersion = CATALOG_VERSION;
   return next;
 }
