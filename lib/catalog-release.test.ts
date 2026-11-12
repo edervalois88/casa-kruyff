@@ -27,7 +27,7 @@ test("release separates headdresses, publishes missing photographs and keeps aut
   old.heroes.home.src = "/images/custom.webp";
   const next = applyCatalogRelease(old);
   assert.equal(old.pieces.length, 40);
-  assert.equal(next.pieces.length, 81);
+  assert.equal(next.pieces.length, 82);
   assert.equal(next.pieces[0].name, "An authored name");
   assert.equal(next.pieces[0].availability, "sold");
   assert.equal(next.heroes.home.src, "/images/custom.webp");
@@ -99,5 +99,27 @@ test("version 9 updates confirmed ORRA bags without changing media or unrelated 
     assert.match(next.pieces.find(piece => piece.id === id)!.dim, /^H 39/);
   }
   updated.dim = "Custom measurement";
+  assert.equal(applyCatalogRelease(next), next);
+});
+
+test("version 10 separates the multicolor bear and leads with the orange lollipop", () => {
+  const old = createSeedContent();
+  old.catalogVersion = 9;
+  old.pieces = old.pieces.filter(piece => piece.id !== "bear-multicolor");
+  const bear = old.pieces.find(piece => piece.id === "piece-27")!;
+  bear.images.push("/images/catalog/bear-multicolor-01.webp");
+  const next = applyCatalogRelease(old);
+  const standalone = next.pieces.find(piece => piece.id === "bear-multicolor")!;
+  assert.equal(standalone.published, true);
+  assert.equal(standalone.dim, "No especificadas");
+  assert.equal(standalone.nameEn, "Multicolored Gummy Bear");
+  assert.ok(!next.pieces.find(piece => piece.id === bear.id)!.images.includes(standalone.images[0]));
+  assert.equal(next.pieces.find(piece => piece.id === "piece-29")!.images[0], "/images/catalog/piece-29-color-orange.webp");
+  assert.equal(next.pieces.filter(piece => piece.id === standalone.id).length, 1);
+  assert.deepEqual(next.pieces.find(piece => piece.id === "cynthia-padilla-frida")!.images, [
+    "/images/catalog/cynthia-padilla-frida-01.webp",
+    "/images/catalog/cynthia-padilla-frida-detail-left.webp",
+    "/images/catalog/cynthia-padilla-frida-detail-right.webp",
+  ]);
   assert.equal(applyCatalogRelease(next), next);
 });
