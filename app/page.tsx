@@ -95,9 +95,16 @@ export default function HomePage() {
       <CollectionScroll>
         {COLLECTIONS.map(([id, esName, enName], i) => {
           if (id === "holiday") return <section className="ck-holiday-edit" key={id}>
-            <h2>The Holiday Edit</h2>
-            <p>{lang === "en" ? "Discover sculptural accents for the festive season." : "Descubre acentos escultóricos para la temporada festiva."}</p>
-            <Link href="/colecciones?cat=holiday">{t.viewColl}</Link>
+            <div className="ck-holiday-edit__copy">
+              <h2>The Holiday Edit</h2>
+              <p>{lang === "en" ? "Discover sculptural accents for the festive season." : "Descubre acentos escultóricos para la temporada festiva."}</p>
+              <Link href="/colecciones?cat=holiday">{t.viewColl}</Link>
+            </div>
+            <Link className="ck-holiday-edit__image" href="/colecciones?cat=holiday" aria-label={lang === "en" ? "Explore The Holiday Edit" : "Explorar The Holiday Edit"}>
+              <Image src={IMG.holiday?.src ?? "/images/catalog/holiday-white-nutcracker-trio-01.webp"}
+                alt={lang === "en" ? "Three white sculptural nutcrackers from The Holiday Edit" : "Tres cascanueces escultóricos blancos de The Holiday Edit"}
+                width={1024} height={1536} sizes="(max-width: 700px) 100vw, 50vw" />
+            </Link>
           </section>;
           const img = IMG[id];
           if (!img) return null;
