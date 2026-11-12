@@ -1,3 +1,4 @@
+import { separateMulticolorBear } from "./catalog-presentation-update";
 import { DECORATIVE_TURTLE } from "./decorative-turtle";
 import type { SiteContent, ManagedPiece } from "./cms-types";
 import { CATALOG_ADDITIONS, CATALOG_NEW_PHOTOS } from "./catalog-additions";
@@ -7,7 +8,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 9;
+export const CATALOG_VERSION = 10;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -74,6 +75,7 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
         description: bag.description ?? ["", ""] };
     });
   }
+  if ((next.catalogVersion ?? 0) < 10) next.pieces = separateMulticolorBear(next.pieces);
   next.catalogVersion = CATALOG_VERSION;
   return next;
 }

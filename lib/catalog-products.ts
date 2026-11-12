@@ -1,3 +1,4 @@
+import { separateMulticolorBear } from "./catalog-presentation-update";
 import { DECORATIVE_TURTLE } from "./decorative-turtle";
 import type { Piece } from "./site-data";
 import { CATALOG_ADDITIONS, CATALOG_NEW_PHOTOS } from "./catalog-additions";
@@ -397,4 +398,4 @@ export const BASE_CATALOG_PIECES: Piece[] = [...ORIGINAL_CATALOG.map(piece => {
   return photos ? { ...piece, images: [...photos, ...(piece.images ?? [])], published: true } : piece;
 }), ...CATALOG_ADDITIONS];
 
-export const CATALOG_PIECES: Piece[] = refineCatalog([...applyProductUpdates(BASE_CATALOG_PIECES).map(piece => ({ ...piece, origin: artistOrigin(piece.designer) ?? piece.origin })), CYNTHIA_PRINT, DECORATIVE_TURTLE]);
+export const CATALOG_PIECES: Piece[] = separateMulticolorBear(refineCatalog([...applyProductUpdates(BASE_CATALOG_PIECES).map(piece => ({ ...piece, origin: artistOrigin(piece.designer) ?? piece.origin })), CYNTHIA_PRINT, DECORATIVE_TURTLE]));
