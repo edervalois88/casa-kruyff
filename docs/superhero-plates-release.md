@@ -19,3 +19,7 @@ Catalog tests cover publication, eight distinct records, confirmed versus unknow
 ## Release 23 — client-supplied final studio photographs
 
 The client supplied finished studio photographs for the masked seated portrait and female portrait. These replace their earlier showroom photographs without further generative editing. A third supplied photograph is a separate work, explicitly confirmed as an additional product after clarification; it does not replace the silver-haired Carlos Gunter portrait. The new work uses the public title Super Hero Collection, with artist and dimensions unconfirmed. Original confirmed artist, dimensions, image and description of piece-18 remain unchanged. All three supplied PNGs were encoded as WebP without content edits.
+
+## Release 25 — color studio photographs for three portraits
+
+The Wonder Woman, Batman and classical (black-haired) portraits now use new studio photographs that keep each print's original colors while sharing the Hulk portrait's wall, frame and lighting. Hulk keeps its sepia photograph and Elder Superman is unchanged. New files use the `-studio-v3` suffix so cached v2 images are not served; stored catalogs below version 25 are migrated to the new image paths.

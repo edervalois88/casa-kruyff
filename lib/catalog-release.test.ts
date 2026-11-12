@@ -20,7 +20,7 @@ test("release 23 replaces only the two supplied photographs and adds an independ
   assert.deepEqual(next.pieces.find(piece => piece.id === "piece-18"), original);
   for (const id of ["superhero-batman", "superhero-wonder-woman"]) {
     const piece = next.pieces.find(piece => piece.id === id)!;
-    assert.deepEqual(piece.images, [`/images/catalog/${id}-studio-v2.webp`]);
+    assert.deepEqual(piece.images, [`/images/catalog/${id}-studio-v3.webp`]);
     assert.equal(piece.availability, "sold");
   }
   const added = next.pieces.find(piece => piece.id === "superhero-classical-portrait")!;
@@ -28,7 +28,7 @@ test("release 23 replaces only the two supplied photographs and adds an independ
   assert.equal(added.designer, "");
   assert.equal(added.dim, "No especificadas");
   assert.equal(added.published, true);
-  assert.deepEqual(added.images, ["/images/catalog/superhero-portrait-studio-v2.webp"]);
+  assert.deepEqual(added.images, ["/images/catalog/superhero-portrait-studio-v3.webp"]);
   assert.equal(applyCatalogRelease(next), next);
   assert.doesNotThrow(() => validateContent(next));
 });
@@ -282,5 +282,22 @@ test("release 19 consolidates crowned gold into the trio gallery without duplica
   assert.equal(photos.length, 4);
   assert.equal(new Set(photos).size, 4);
   assert.ok(photos.includes("/images/catalog/holiday-gold-ivory-pair-01.webp"));
+  assert.equal(applyCatalogRelease(next), next);
+});
+
+test("release 25 swaps only the Batman, Wonder Woman and classical portrait photographs", () => {
+  const old = createSeedContent();
+  old.catalogVersion = 24;
+  const swapped = ["superhero-batman", "superhero-wonder-woman", "superhero-classical-portrait"];
+  for (const piece of old.pieces) {
+    if (swapped.includes(piece.id)) piece.images = [`/images/catalog/${piece.id}-studio-v2.webp`];
+  }
+  const keep = structuredClone(old.pieces.filter(piece => !swapped.includes(piece.id)));
+  const next = applyCatalogRelease(old);
+  assert.equal(next.catalogVersion, 25);
+  assert.deepEqual(next.pieces.find(piece => piece.id === "superhero-batman")!.images, ["/images/catalog/superhero-batman-studio-v3.webp"]);
+  assert.deepEqual(next.pieces.find(piece => piece.id === "superhero-wonder-woman")!.images, ["/images/catalog/superhero-wonder-woman-studio-v3.webp"]);
+  assert.deepEqual(next.pieces.find(piece => piece.id === "superhero-classical-portrait")!.images, ["/images/catalog/superhero-portrait-studio-v3.webp"]);
+  assert.deepEqual(next.pieces.filter(piece => !swapped.includes(piece.id)), keep);
   assert.equal(applyCatalogRelease(next), next);
 });
