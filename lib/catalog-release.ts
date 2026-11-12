@@ -11,7 +11,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 16;
+export const CATALOG_VERSION = 17;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -111,6 +111,13 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
     }
   }
   if ((next.catalogVersion ?? 0) < 16) next.pieces = next.pieces.map(piece => piece.id === "accessory-03" ? updateRemainingOrraBags([piece])[0] : piece);
+  if ((next.catalogVersion ?? 0) < 17) {
+    next.pieces = next.pieces.map(piece => {
+      if (!["holiday-nutcracker-gold", "holiday-crowned-gold", "holiday-white-nutcracker-trio"].includes(piece.id)) return piece;
+      const source = HOLIDAY_PRODUCTS.find(source => source.id === piece.id)!;
+      return { ...piece, dim: source.dim, origin: source.origin, description: structuredClone(source.description) };
+    });
+  }
   next.catalogVersion = CATALOG_VERSION;
   return next;
 }
