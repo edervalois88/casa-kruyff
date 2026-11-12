@@ -163,7 +163,7 @@ test("catalog refresh previews without writing, persists once and respects later
     process.env.VERCEL_ENV = "production";
     const migrated = await getContent();
     assert.equal(migrated.revision, 91);
-    assert.equal(migrated.catalogVersion, 15);
+    assert.equal(migrated.catalogVersion, 16);
     assert.equal((await getContent()).revision, 91);
     migrated.pieces = migrated.pieces.filter(piece => piece.id !== "accessory-01");
     await saveContent(migrated);

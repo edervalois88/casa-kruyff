@@ -163,8 +163,8 @@ test("release 13 identifies leather bags and places multicolor after the other b
   assert.equal(next.pieces[i+1].id, "bear-multicolor");
   assert.equal(next.pieces.find(p => p.id === "accessory-06")!.nameEn, "Marigold Leather Bag");
   const black = next.pieces.find(p => p.id === "accessory-03")!;
-  assert.equal(black.mat[1], "Smooth black leather");
-  assert.equal(black.dim, "No especificadas");
+  assert.equal(black.mat[1], "Smooth black leather; cotton lining");
+  assert.equal(black.dim, "H 21 × W 35 × D 14 cm; handle drop 16 cm; strap drop 145 cm");
   assert.equal(applyCatalogRelease(next), next);
 });
 
