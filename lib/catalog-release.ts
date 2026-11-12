@@ -1,4 +1,4 @@
-import { addSuperheroPlates } from "./superhero-plates";
+import { addSuperheroPlates, SUPERHERO_PORTRAITS } from "./superhero-plates";
 import { updateRemainingOrraBags } from "./remaining-orra-bags";
 import { updateSandraNecklaces } from "./sandra-necklaces";
 import { HOLIDAY_PRODUCTS } from "./holiday-products";
@@ -12,7 +12,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 21;
+export const CATALOG_VERSION = 22;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -150,6 +150,12 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
     next.pieces = next.pieces.map(piece => ids.has(piece.id)
       ? { ...piece, name: "Super Hero Collection", nameEn: "Super Hero Collection" }
       : piece);
+  }
+  if ((next.catalogVersion ?? 0) < 22) {
+    next.pieces = next.pieces.map(piece => {
+      const portrait = SUPERHERO_PORTRAITS.find(source => source.id === piece.id);
+      return portrait ? { ...piece, description: structuredClone(portrait.description) } : piece;
+    });
   }
   next.catalogVersion = CATALOG_VERSION;
   return next;

@@ -7,6 +7,22 @@ import { applyCatalogRelease } from "./catalog-release";
 import { validateContent } from "./server/cms-store";
 import { SUPERHERO_PORTRAITS, ROVITHI_PLATES } from "./superhero-plates";
 
+test("release 22 removes character names from public portrait copy while retaining confirmed facts and media", () => {
+  const old = createSeedContent(); old.catalogVersion = 21;
+  const portrait = old.pieces.find(piece => piece.id === "superhero-batman")!;
+  portrait.description = ["Batman", "Batman"];
+  portrait.images = ["/images/custom.webp"];
+  const next = applyCatalogRelease(old);
+  for (const source of SUPERHERO_PORTRAITS) {
+    const piece = next.pieces.find(piece => piece.id === source.id)!;
+    assert.doesNotMatch([piece.name, piece.nameEn, ...piece.description].join(" "), /batman|wonder woman|hulk|superman/i);
+    assert.equal(piece.designer, source.designer);
+    assert.equal(piece.dim, source.dim);
+  }
+  assert.deepEqual(next.pieces.find(piece => piece.id === portrait.id)!.images, portrait.images);
+  assert.equal(applyCatalogRelease(next), next);
+});
+
 test("release 21 changes only the four Super Hero Collection titles", () => {
   const old = createSeedContent(); old.catalogVersion = 20;
   const superman = old.pieces.find(piece => piece.id === "piece-18")!;
