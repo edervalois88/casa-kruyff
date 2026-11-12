@@ -12,7 +12,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 20;
+export const CATALOG_VERSION = 21;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -144,6 +144,12 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
     next.designers = next.designers.map(designer => designer.id === "d8"
       ? { ...designer, name: "Carlos Gunter", origin: "San Miguel de Allende, México" }
       : designer);
+  }
+  if ((next.catalogVersion ?? 0) < 21) {
+    const ids = new Set(["piece-18", "superhero-wonder-woman", "superhero-batman", "superhero-hulk"]);
+    next.pieces = next.pieces.map(piece => ids.has(piece.id)
+      ? { ...piece, name: "Super Hero Collection", nameEn: "Super Hero Collection" }
+      : piece);
   }
   next.catalogVersion = CATALOG_VERSION;
   return next;
