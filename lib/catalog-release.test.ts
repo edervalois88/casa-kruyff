@@ -5,6 +5,33 @@ import { createSeedContent } from "./cms-seed";
 import { BASE_CATALOG_PIECES } from "./catalog-products";
 import { applyCatalogRelease } from "./catalog-release";
 import { validateContent } from "./server/cms-store";
+import { SUPERHERO_PORTRAITS, ROVITHI_PLATES } from "./superhero-plates";
+
+test("release 20 publishes supplied art without assigning the unknown artists or Superman dimensions to other portraits", () => {
+  const old = createSeedContent(); old.catalogVersion = 19;
+  const newIds = new Set([...SUPERHERO_PORTRAITS, ...ROVITHI_PLATES].map(piece => piece.id));
+  old.pieces = old.pieces.filter(piece => !newIds.has(piece.id) || piece.id === "piece-18");
+  const original = old.pieces.find(piece => piece.id === "piece-18")!;
+  original.published = false; original.images = []; original.availability = "sold";
+  const next = applyCatalogRelease(old);
+  const superman = next.pieces.find(piece => piece.id === "piece-18")!;
+  assert.equal(superman.designer, "Carlos Gunter");
+  assert.equal(superman.dim, "101.6 × 152.4 cm");
+  assert.equal(superman.published, true);
+  assert.equal(superman.availability, "sold");
+  for (const source of SUPERHERO_PORTRAITS.slice(1)) {
+    const piece = next.pieces.find(piece => piece.id === source.id)!;
+    assert.equal(piece.designer, "");
+    assert.equal(piece.origin, "San Miguel de Allende, México");
+    assert.equal(piece.dim, "Print only: 75 × 53.5 cm; framed art: 82 × 61 cm");
+  }
+  const commissioned = next.pieces.find(piece => piece.id === "rovithi-made-to-order-plate")!;
+  assert.equal(commissioned.nameEn, "Made to Order Plate");
+  assert.match(commissioned.description[1], /custom plate/);
+  assert.equal(next.pieces.filter(piece => newIds.has(piece.id)).length, 8);
+  assert.doesNotThrow(() => validateContent(next));
+  assert.equal(applyCatalogRelease(next), next);
+});
 
 function previousCatalog() {
   const old = createSeedContent();
@@ -27,7 +54,7 @@ test("release separates headdresses, publishes missing photographs and keeps aut
   old.heroes.home.src = "/images/custom.webp";
   const next = applyCatalogRelease(old);
   assert.equal(old.pieces.length, 40);
-  assert.equal(next.pieces.length, 86);
+  assert.equal(next.pieces.length, 93);
   assert.equal(next.pieces[0].name, "An authored name");
   assert.equal(next.pieces[0].availability, "sold");
   assert.equal(next.heroes.home.src, "/images/custom.webp");
@@ -35,7 +62,7 @@ test("release separates headdresses, publishes missing photographs and keeps aut
   assert.deepEqual(next.pieces.find(p => p.id === "headdress-floral")!.images, ["/images/catalog/piece-23-02.webp"]);
   assert.equal(next.pieces.filter(p => p.cat === "acc").length, 20);
   assert.equal(next.pieces.filter(p => p.cat === "holiday").length, 4);
-  assert.equal(next.pieces.filter(p => p.designer === "Caroline Rovithi").length, 7);
+  assert.equal(next.pieces.filter(p => p.designer === "Caroline Rovithi").length, 11);
   assert.equal(next.pieces.find(p => p.id === "piece-29")!.published, true);
   assert.equal(next.pieces.find(p => p.id === "piece-31")!.published, true);
   assert.doesNotThrow(() => validateContent(next));

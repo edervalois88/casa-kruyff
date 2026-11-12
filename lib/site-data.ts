@@ -116,7 +116,7 @@ export const DESIGNERS: Designer[] = [
   { id: "d5", name: "Gaya Ceramic", origin: "Indonesia", disc: ["Cerámica contemporánea","Contemporary ceramics"] },
   { id: "d6", name: "Bord de l’Eau", origin: "No especificado", disc: ["Objetos decorativos Mati","Mati decorative objects"] },
   { id: "d7", name: "Galatiss Art Gallery", origin: "No especificado", disc: ["Objetos de cristal","Crystal objects"] },
-  { id: "d8", name: "Carlos Gunther Maier · House Armida", origin: "No especificado", disc: ["Impresión digital","Digital prints"] },
+  { id: "d8", name: "Carlos Gunter", origin: "San Miguel de Allende, México", disc: ["Impresión digital","Digital prints"] },
 ].map(designer => ({ ...designer, origin: artistOrigin(designer.name) ?? designer.origin })) as Designer[];
 
 export function langIndex(lang: Lang) {
