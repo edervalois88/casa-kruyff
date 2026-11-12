@@ -20,21 +20,21 @@ export const SUPERHERO_PORTRAITS: ManagedPiece[] = [
     cat: "arte", designer: "Carlos Gunter", origin: "San Miguel de Allende, México",
     mat: ["Impresión digital", "Digital print"], dim: "101.6 × 152.4 cm",
     description: [
-      "Retrato de un Superman de edad avanzada, con traje azul y capa roja, de Carlos Gunter. Forma parte de Super Hero Collection y procede de San Miguel de Allende, México.",
-      "A portrait of an older Superman in a blue suit and red cape by Carlos Gunter. Part of Super Hero Collection, from San Miguel de Allende, Mexico.",
+      "Un rostro de mirada firme y cabello plateado, vestido en azul y rojo, evoca la fortaleza y el paso del tiempo. Una obra de Carlos Gunter para Super Hero Collection, procedente de San Miguel de Allende, México.",
+      "A silver-haired figure with a steady gaze, dressed in blue and red, evokes strength and the passage of time. A work by Carlos Gunter for Super Hero Collection, from San Miguel de Allende, Mexico.",
     ], images: [photo("superhero-superman-elder")], published: true, availability: "on-request",
   },
   portrait("superhero-wonder-woman", "Wonder Woman", [
-    "Wonder Woman reinterpretada en un retrato de inspiración clásica, con vestido largo y marco dorado. Parte de Super Hero Collection, de San Miguel de Allende, México.",
-    "Wonder Woman reimagined in a portrait inspired by classical painting, with a flowing gown and gold-tone frame. Part of Super Hero Collection, from San Miguel de Allende, Mexico.",
+    "Un retrato femenino de porte sereno, con vestido de época y detalles dorados, evoca elegancia, fuerza y determinación. Su marco dorado complementa la composición. Parte de Super Hero Collection, de San Miguel de Allende, México.",
+    "A poised female portrait in period dress with gold-tone details evokes elegance, strength, and determination. A gold-tone frame complements the composition. Part of Super Hero Collection, from San Miguel de Allende, Mexico.",
   ]),
   portrait("superhero-batman", "Batman", [
-    "Batman aparece sentado con una gorguera y un traje de inspiración histórica, en un marco oscuro con detalles dorados. Parte de Super Hero Collection, de San Miguel de Allende, México.",
-    "Batman appears seated in a ruff collar and a costume inspired by historical portraiture, within a dark frame with gold-tone details. Part of Super Hero Collection, from San Miguel de Allende, Mexico.",
+    "Una figura sentada, de silueta oscura y gorguera clara, reúne misterio y solemnidad en un retrato de inspiración histórica. Un marco oscuro con detalles dorados realza sus tonos cálidos. Parte de Super Hero Collection, de San Miguel de Allende, México.",
+    "A seated figure in a dark silhouette and pale ruff collar brings mystery and solemnity to a portrait inspired by historical painting. A dark frame with gold-tone details enhances its warm tones. Part of Super Hero Collection, from San Miguel de Allende, Mexico.",
   ]),
   portrait("superhero-hulk", "Hulk", [
-    "Hulk reinterpretado en un retrato sentado de tonos cálidos, con gorguera y marco oscuro de detalles dorados. Parte de Super Hero Collection, de San Miguel de Allende, México.",
-    "Hulk reimagined in a seated portrait in warm tones, with a ruff collar and a dark frame with gold-tone details. Part of Super Hero Collection, from San Miguel de Allende, Mexico.",
+    "Un retrato de presencia poderosa combina una figura sentada, una gorguera y tonos terrosos. El contraste entre la fuerza de la figura y la formalidad de su atuendo aporta un matiz inesperado a la composición. Parte de Super Hero Collection, de San Miguel de Allende, México.",
+    "A commanding portrait combines a seated figure, a ruff collar, and earthy tones. The contrast between the figure’s strength and the formality of the attire brings an unexpected note to the composition. Part of Super Hero Collection, from San Miguel de Allende, Mexico.",
   ]),
 ];
 
