@@ -94,7 +94,7 @@ test("version 9 updates confirmed ORRA bags without changing media or unrelated 
   assert.equal(updated.published, false);
   assert.equal(updated.availability, "sold");
   assert.deepEqual(next.pieces.find(piece => piece.id === unrelated.id), unrelated);
-  assert.equal(next.pieces.filter(piece => piece.designer === "ORRA").length, 14);
+  assert.equal(next.pieces.filter(piece => piece.designer === "ORRA").length, 16);
   for (const id of ["accessory-05", "accessory-19"]) {
     assert.match(next.pieces.find(piece => piece.id === id)!.dim, /^H 39/);
   }
@@ -153,5 +153,17 @@ test("release 12 updates four identified ORRA bags without replacing photographs
   }
   assert.match(next.pieces.find(p => p.id === "accessory-18")!.dim, /^H 39/);
   assert.deepEqual(next.pieces.slice(-2).map(p => p.id), ["accessory-14", "accessory-15"]);
+  assert.equal(applyCatalogRelease(next), next);
+});
+
+test("release 13 identifies leather bags and places multicolor after the other bears", () => {
+  const old = createSeedContent(); old.catalogVersion = 12;
+  const next = applyCatalogRelease(old);
+  const i = next.pieces.findIndex(piece => piece.id === "piece-27");
+  assert.equal(next.pieces[i+1].id, "bear-multicolor");
+  assert.equal(next.pieces.find(p => p.id === "accessory-06")!.nameEn, "Marigold Leather Bag");
+  const black = next.pieces.find(p => p.id === "accessory-03")!;
+  assert.equal(black.mat[1], "Smooth black leather");
+  assert.equal(black.dim, "No especificadas");
   assert.equal(applyCatalogRelease(next), next);
 });

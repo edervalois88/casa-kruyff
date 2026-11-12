@@ -2,6 +2,16 @@ import type { Piece } from "./site-data";
 
 type BagDetails = Pick<Piece, "name" | "nameEn" | "mat" | "dim" | "description">;
 export const REMAINING_ORRA_BAGS: Record<string, BagDetails> = {
+  "accessory-06": {
+    name: "Marigold Leather Bag", nameEn: "Marigold Leather Bag",
+    mat: ["Piel; forro de algodón", "Leather; cotton lining"], dim: "H 21 × W 35 × D 14 cm; handle drop 16 cm; strap drop 145 cm",
+    description: ["Bolso de piel con asas circulares y panel central negro. Para llevar en la mano o cruzado, con cierre superior de cremallera, correa de piel ajustable y desmontable, bolsillo interior de cremallera y forro de algodón.", "A leather bag with circular handles and a black central panel. Designed for hand or crossbody carrying, with a top zip closure, removable adjustable leather shoulder strap, internal zip pocket and cotton lining."],
+  },
+  "accessory-03": {
+    name: "Antonia Leather Bag — Black", nameEn: "Antonia Leather Bag — Black",
+    mat: ["Piel negra lisa", "Smooth black leather"], dim: "No especificadas",
+    description: ["Bolso Antonia de piel negra lisa con silueta geométrica compacta y asas triangulares. Variante en piel lisa; medidas por confirmar.", "The Antonia handbag in smooth black leather, with a compact geometric silhouette and triangular handles. Smooth leather finish; dimensions to be confirmed."],
+  },
   "accessory-09": {
     name: "Market Raffia Croco Suede Bag", nameEn: "Market Raffia Croco Suede Bag",
     mat: ["Rafia y ante con textura croco; forro de algodón", "Raffia and croco-textured suede; cotton lining"], dim: "H 35 × W 35 × D 4 cm",
