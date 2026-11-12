@@ -1,7 +1,7 @@
 import { updateRemainingOrraBags } from "./remaining-orra-bags";
 import { updateSandraNecklaces } from "./sandra-necklaces";
 import { HOLIDAY_PRODUCTS } from "./holiday-products";
-import { separateMulticolorBear } from "./catalog-presentation-update";
+import { separateMulticolorBear, positionMulticolorBear } from "./catalog-presentation-update";
 import { DECORATIVE_TURTLE } from "./decorative-turtle";
 import type { SiteContent, ManagedPiece } from "./cms-types";
 import { CATALOG_ADDITIONS, CATALOG_NEW_PHOTOS } from "./catalog-additions";
@@ -11,7 +11,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 12;
+export const CATALOG_VERSION = 13;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -87,6 +87,10 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
     next.images.holiday ??= { src: HOLIDAY_PRODUCTS[0].images[0], credit: "", href: "" };
   }
   if ((next.catalogVersion ?? 0) < 12) next.pieces = updateRemainingOrraBags(next.pieces);
+  if ((next.catalogVersion ?? 0) < 13) {
+    next.pieces = next.pieces.map(piece => ["accessory-03", "accessory-06"].includes(piece.id) ? updateRemainingOrraBags([piece])[0] : piece);
+    next.pieces = positionMulticolorBear(next.pieces);
+  }
   next.catalogVersion = CATALOG_VERSION;
   return next;
 }

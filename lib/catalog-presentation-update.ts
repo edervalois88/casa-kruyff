@@ -36,3 +36,11 @@ export function separateMulticolorBear<T extends Piece>(pieces: T[]): T[] {
   ].includes(src));
   return next;
 }
+
+export function positionMulticolorBear<T extends Piece>(pieces: T[]): T[] {
+  const multicolor = pieces.find(piece => piece.id === "bear-multicolor");
+  if (!multicolor || !pieces.some(piece => piece.id === "piece-27")) return pieces;
+  const next = pieces.filter(piece => piece.id !== multicolor.id);
+  next.splice(next.findIndex(piece => piece.id === "piece-27") + 1, 0, multicolor);
+  return next;
+}
