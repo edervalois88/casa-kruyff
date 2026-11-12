@@ -9,7 +9,7 @@ function portrait(id: string, character: string, description: [string, string]):
     id, name: "Super Hero Collection", nameEn: "Super Hero Collection",
     cat: "arte", designer: "", origin: "San Miguel de Allende, México",
     mat: ["Impresión enmarcada", "Framed print"], dim: framedDimensions,
-    description, images: [photo(`superhero-${character.toLowerCase().replaceAll(" ", "-")}${id === "superhero-hulk" ? "" : "-studio-v2"}`)],
+    description, images: [photo(`superhero-${character.toLowerCase().replaceAll(" ", "-")}${id === "superhero-hulk" ? "" : "-studio-v3"}`)],
     published: true, availability: "on-request",
   };
 }
@@ -41,7 +41,7 @@ export const SUPERHERO_PORTRAITS: ManagedPiece[] = [
       "Un retrato de mirada firme, con gorguera clara y un atuendo de inspiración histórica, evoca fortaleza y serenidad. Los tonos cálidos y el marco oscuro con detalles dorados completan la composición. Parte de Super Hero Collection, de San Miguel de Allende, México.",
       "A portrait with a steady gaze, a pale ruff collar, and attire inspired by historical dress evokes strength and composure. Warm tones and a dark frame with gold-tone details complete the composition. Part of Super Hero Collection, from San Miguel de Allende, Mexico.",
     ]),
-    dim: "No especificadas", images: [photo("superhero-portrait-studio-v2")],
+    dim: "No especificadas", images: [photo("superhero-portrait-studio-v3")],
   },
 ];
 
