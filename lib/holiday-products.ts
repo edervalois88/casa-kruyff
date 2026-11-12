@@ -103,10 +103,10 @@ export const HOLIDAY_PRODUCTS: ManagedPiece[] = [
       "Fibra de vidrio",
       "Fiberglass"
     ],
-    "dim": "No especificadas",
+    "dim": "W × H: 65 × 187 cm / 55 × 157 cm / 65 × 132 cm",
     "description": [
-      "Selección de cascanueces blancos en tres siluetas y alturas, con distintos sombreros y bases circulares. Presentados juntos como referencia; piezas, tamaños y disponibilidad por confirmar. Elaborado en fibra de vidrio. Acabados disponibles: dorado, rojo y plateado; disponibilidad según modelo por confirmar.",
-      "A selection of white nutcrackers in three silhouettes and heights, with distinct hats and circular bases. Shown together for reference; individual pieces, sizes and availability are to be confirmed. Made from fiberglass. Available finishes: gold, red and silver; availability for each model is confirmed on request."
+      "Selección de cascanueces blancos en tres siluetas y alturas, con distintos sombreros y bases circulares. Presentados juntos como referencia; piezas y disponibilidad por confirmar. Elaborado en fibra de vidrio. Acabados disponibles: dorado, rojo y plateado; disponibilidad según modelo por confirmar.",
+      "A selection of white nutcrackers in three silhouettes and heights, with distinct hats and circular bases. Shown together for reference; individual pieces and availability are to be confirmed. Made from fiberglass. Available finishes: gold, red and silver; availability for each model is confirmed on request."
     ],
     "images": [
       "/images/catalog/holiday-white-nutcracker-trio-01.webp"

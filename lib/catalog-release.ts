@@ -11,7 +11,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 14;
+export const CATALOG_VERSION = 15;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -101,6 +101,14 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
         images: [...new Set([...updated.images, ...piece.images])] };
     });
     for (const id of retired) delete next.images[id];
+  }
+  if ((next.catalogVersion ?? 0) < 15) {
+    const whites = next.pieces.find(piece => piece.id === "holiday-white-nutcracker-trio");
+    if (whites) {
+      const source = HOLIDAY_PRODUCTS.find(piece => piece.id === whites.id)!;
+      whites.dim = source.dim;
+      whites.description = structuredClone(source.description);
+    }
   }
   next.catalogVersion = CATALOG_VERSION;
   return next;
