@@ -2,7 +2,7 @@
 
 import PieceGallery from "@/components/PieceGallery";
 import Link from "next/link";
-import { notFound, useParams } from "next/navigation";
+import { notFound, redirect, useParams } from "next/navigation";
 import { useLanguage } from "@/lib/language-context";
 import { useQuote } from "@/lib/quote-context";
 import { langIndex } from "@/lib/site-data";
@@ -16,6 +16,8 @@ export default function PiezaPage() {
   const { addPiece, hasPiece } = useQuote();
   const L = langIndex(lang);
 
+
+  if (params.id === "holiday-crowned-gold") redirect("/piezas/holiday-white-nutcracker-trio");
 
   const piece = PIECES.find((p) => p.id === params.id);
   if (!piece) notFound();
