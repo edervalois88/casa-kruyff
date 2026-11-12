@@ -12,7 +12,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 23;
+export const CATALOG_VERSION = 24;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -169,6 +169,9 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
     const source = SUPERHERO_PORTRAITS.find(piece => piece.id === "superhero-classical-portrait")!;
     const necklaces = next.pieces.findIndex(piece => piece.id === "accessory-14" || piece.id === "accessory-15");
     next.pieces.splice(necklaces < 0 ? next.pieces.length : necklaces, 0, structuredClone(source));
+  }
+  if ((next.catalogVersion ?? 0) < 24) {
+    next.images.holiday = { src: "/images/catalog/holiday-white-nutcracker-trio-01.webp", credit: "", href: "" };
   }
   next.catalogVersion = CATALOG_VERSION;
   return next;

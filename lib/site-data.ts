@@ -26,7 +26,7 @@ function localImage(name: string) {
 }
 
 export const IMG: Record<string, { src: string; credit: string; href: string }> = {
-  holiday: { src: "/images/catalog/holiday-nutcracker-gold-01.webp", credit: "", href: "" },
+  holiday: { src: "/images/catalog/holiday-white-nutcracker-trio-01.webp", credit: "", href: "" },
   esc: { src: "/images/catalog/piece-38-01.webp", credit: "", href: "" },
   cer: { src: "/images/catalog/piece-01-01.webp", credit: "", href: "" },
   arte: { src: "/images/catalog/piece-40-01.webp", credit: "", href: "" },
