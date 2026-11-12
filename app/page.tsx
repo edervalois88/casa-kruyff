@@ -96,7 +96,7 @@ export default function HomePage() {
         {COLLECTIONS.map(([id, esName, enName], i) => {
           if (id === "holiday") return <section className="ck-holiday-edit" key={id}>
             <h2>The Holiday Edit</h2>
-            <p>{lang === "en" ? "A seasonal selection, coming soon." : "Una selección de temporada, próximamente."}</p>
+            <p>{lang === "en" ? "Discover sculptural accents for the festive season." : "Descubre acentos escultóricos para la temporada festiva."}</p>
             <Link href="/colecciones?cat=holiday">{t.viewColl}</Link>
           </section>;
           const img = IMG[id];
