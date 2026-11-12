@@ -9,8 +9,8 @@ export const REMAINING_ORRA_BAGS: Record<string, BagDetails> = {
   },
   "accessory-03": {
     name: "Antonia Leather Bag — Black", nameEn: "Antonia Leather Bag — Black",
-    mat: ["Piel negra lisa", "Smooth black leather"], dim: "No especificadas",
-    description: ["Bolso Antonia de piel negra lisa con silueta geométrica compacta y asas triangulares. Variante en piel lisa; medidas por confirmar.", "The Antonia handbag in smooth black leather, with a compact geometric silhouette and triangular handles. Smooth leather finish; dimensions to be confirmed."],
+    mat: ["Piel negra lisa; forro de algodón", "Smooth black leather; cotton lining"], dim: "H 21 × W 35 × D 14 cm; handle drop 16 cm; strap drop 145 cm",
+    description: ["Bolso Antonia de piel negra lisa con silueta geométrica compacta y asas triangulares. Asa superior de piel, cierre superior de cremallera, correa de piel ajustable y desmontable para llevar cruzado, bolsillo interior de cremallera y forro de algodón.", "The Antonia handbag in smooth black leather, with a compact geometric silhouette and triangular handles. Features a leather top handle, top zip closure, removable adjustable leather crossbody strap, internal zip pocket and cotton lining."],
   },
   "accessory-09": {
     name: "Market Raffia Croco Suede Bag", nameEn: "Market Raffia Croco Suede Bag",

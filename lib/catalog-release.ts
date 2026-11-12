@@ -11,7 +11,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 15;
+export const CATALOG_VERSION = 16;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -110,6 +110,7 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
       whites.description = structuredClone(source.description);
     }
   }
+  if ((next.catalogVersion ?? 0) < 16) next.pieces = next.pieces.map(piece => piece.id === "accessory-03" ? updateRemainingOrraBags([piece])[0] : piece);
   next.catalogVersion = CATALOG_VERSION;
   return next;
 }
