@@ -32,6 +32,40 @@ export default function ContactoPage() {
   const { HERO_CONTACTO, PIECES } = useSiteData();
   const { quote, removePiece } = useQuote();
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [profile, setProfile] = useState("");
+  const [message, setMessage] = useState("");
+
+  async function submitQuote(e: React.FormEvent) {
+    e.preventDefault();
+    setSending(true);
+    setError("");
+    try {
+      const response = await fetch("/api/quote", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          phone: phone || undefined,
+          profile: profile || undefined,
+          message: message || undefined,
+          pieces: quoteItems.map((piece) => ({ id: piece.id, name: piece.nameEn || piece.name, designer: piece.designer })),
+        }),
+      });
+      if (!response.ok) throw new Error("send failed");
+      quoteItems.forEach((piece) => removePiece(piece.id));
+      setSent(true);
+    } catch {
+      setError(lang === "en" ? "Could not send. Please try again." : "No se pudo enviar. Intente de nuevo.");
+    } finally {
+      setSending(false);
+    }
+  }
 
   const quoteItems = quote
     .map((id) => PIECES.find((p) => p.id === id))
@@ -76,10 +110,7 @@ export default function ContactoPage() {
 
         {!sent ? (
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSent(true);
-            }}
+            onSubmit={submitQuote}
             style={{ display: "flex", flexDirection: "column", gap: 20 }}
           >
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,220px),1fr))", gap: 20 }}>
@@ -87,25 +118,25 @@ export default function ContactoPage() {
                 <span className="font-[family-name:var(--font-label)]" style={labelStyle}>
                   {t.fName}
                 </span>
-                <input required className="ck-field" style={fieldStyle} />
+                <input required className="ck-field" style={fieldStyle} value={name} onChange={(e) => setName(e.target.value)} />
               </label>
               <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <span className="font-[family-name:var(--font-label)]" style={labelStyle}>
                   {t.fEmail}
                 </span>
-                <input type="email" required className="ck-field" style={fieldStyle} />
+                <input type="email" required className="ck-field" style={fieldStyle} value={email} onChange={(e) => setEmail(e.target.value)} />
               </label>
               <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <span className="font-[family-name:var(--font-label)]" style={labelStyle}>
                   {t.fPhone}
                 </span>
-                <input type="tel" className="ck-field" style={fieldStyle} />
+                <input type="tel" className="ck-field" style={fieldStyle} value={phone} onChange={(e) => setPhone(e.target.value)} />
               </label>
               <label style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 <span className="font-[family-name:var(--font-label)]" style={labelStyle}>
                   {t.fProfile}
                 </span>
-                <select className="ck-field" style={fieldStyle}>
+                <select className="ck-field" style={fieldStyle} value={profile} onChange={(e) => setProfile(e.target.value)}>
                   {t.profiles.map((p) => (
                     <option key={p}>{p}</option>
                   ))}
@@ -116,10 +147,14 @@ export default function ContactoPage() {
               <span className="font-[family-name:var(--font-label)]" style={labelStyle}>
                 {t.fMsg}
               </span>
-              <textarea rows={3} className="ck-field" style={{ ...fieldStyle, resize: "vertical" }} />
+              <textarea rows={3} className="ck-field" style={{ ...fieldStyle, resize: "vertical" }} value={message} onChange={(e) => setMessage(e.target.value)} />
             </label>
+            {error && (
+              <p style={{ margin: 0, fontSize: 14, color: "#9b2c2c" }}>{error}</p>
+            )}
             <button
               type="submit"
+              disabled={sending}
               className="font-[family-name:var(--font-label)]"
               style={{
                 cursor: "pointer",
