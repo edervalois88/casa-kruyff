@@ -12,7 +12,7 @@ import { CYNTHIA_PADILLA, CYNTHIA_PRINT } from "./cynthia-padilla";
 
 import { refineCatalog } from "./catalog-refinements";
 
-export const CATALOG_VERSION = 25;
+export const CATALOG_VERSION = 26;
 
 // A version marker lets subsequent CMS deletions and edits remain intentional.
 function applyFirstRelease(document: SiteContent): SiteContent {
@@ -180,6 +180,17 @@ export function applyCatalogRelease(document: SiteContent): SiteContent {
       const source = SUPERHERO_PORTRAITS.find(source => source.id === piece.id)!;
       return { ...piece, images: [...source.images] };
     });
+  }
+  if ((next.catalogVersion ?? 0) < 26) {
+    const golf = next.pieces.find(piece => piece.id === "piece-21");
+    if (golf) {
+      golf.images = [
+        "/images/catalog/piece-21-03.webp",
+        "/images/catalog/piece-21-04.webp",
+        "/images/catalog/piece-21-05.webp",
+        "/images/catalog/piece-21-06.webp",
+      ];
+    }
   }
   next.catalogVersion = CATALOG_VERSION;
   return next;

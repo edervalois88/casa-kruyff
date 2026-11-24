@@ -221,7 +221,7 @@ const ORIGINAL_CATALOG: Piece[] = [
     description: [
       "Palo de golf intervenido a mano con chaquira en colores y patrones vibrantes. Cada detalle refleja la paciencia y habilidad del artesano; la base permite exhibir esta pieza singular de arte popular mexicano.",
       "A golf club adorned by hand with chaquira in vivid colors and patterns. Each detail reflects the artisan's patience and skill; the base displays this one-of-a-kind piece of Mexican folk art.",
-    ], images: [photo("piece-21-01"), photo("piece-21-02")],
+    ], images: [photo("piece-21-03"), photo("piece-21-04"), photo("piece-21-05"), photo("piece-21-06")],
   },
   {
     id: "piece-22", name: "Jarrón floral azul cobalto", nameEn: "Cobalt Blue Floral Vase",

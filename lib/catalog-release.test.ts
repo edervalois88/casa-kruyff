@@ -294,10 +294,29 @@ test("release 25 swaps only the Batman, Wonder Woman and classical portrait phot
   }
   const keep = structuredClone(old.pieces.filter(piece => !swapped.includes(piece.id)));
   const next = applyCatalogRelease(old);
-  assert.equal(next.catalogVersion, 25);
+  assert.equal(next.catalogVersion, 26);
   assert.deepEqual(next.pieces.find(piece => piece.id === "superhero-batman")!.images, ["/images/catalog/superhero-batman-studio-v3.webp"]);
   assert.deepEqual(next.pieces.find(piece => piece.id === "superhero-wonder-woman")!.images, ["/images/catalog/superhero-wonder-woman-studio-v3.webp"]);
   assert.deepEqual(next.pieces.find(piece => piece.id === "superhero-classical-portrait")!.images, ["/images/catalog/superhero-portrait-studio-v3.webp"]);
   assert.deepEqual(next.pieces.filter(piece => !swapped.includes(piece.id)), keep);
   assert.equal(applyCatalogRelease(next), next);
+});
+
+test("release 26 replaces the golf club photographs with the single club on its display base", () => {
+  const old = createSeedContent();
+  old.catalogVersion = 25;
+  const golf = old.pieces.find(piece => piece.id === "piece-21")!;
+  golf.images = ["/images/catalog/piece-21-01.webp", "/images/catalog/piece-21-02.webp"];
+  const keep = structuredClone(old.pieces.filter(piece => piece.id !== "piece-21"));
+  const next = applyCatalogRelease(old);
+  assert.equal(next.catalogVersion, 26);
+  assert.deepEqual(next.pieces.find(piece => piece.id === "piece-21")!.images, [
+    "/images/catalog/piece-21-03.webp",
+    "/images/catalog/piece-21-04.webp",
+    "/images/catalog/piece-21-05.webp",
+    "/images/catalog/piece-21-06.webp",
+  ]);
+  assert.deepEqual(next.pieces.filter(piece => piece.id !== "piece-21"), keep);
+  assert.equal(applyCatalogRelease(next), next);
+  assert.doesNotThrow(() => validateContent(next));
 });
